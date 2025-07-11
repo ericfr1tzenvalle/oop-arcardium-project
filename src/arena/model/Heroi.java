@@ -1,0 +1,87 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package arena.model;
+
+/**
+ *
+ * @author Eric
+ */
+public class Heroi {
+    private String nome;
+    private int hp; // saude
+    private int mp; // mana
+    private int atk; // ataque
+    private int def; // defesa
+    private int agi; // agilidade
+
+    public Heroi(String nome, int hp, int mp, int atk, int def, int agi) {
+        this.nome = nome;
+        this.hp = hp;
+        this.mp = mp;
+        this.atk = atk;
+        this.def = def;
+        this.agi = agi;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getMp() {
+        return mp;
+    }
+
+    public int getAtk() {
+        return atk;
+    }
+
+    public int getDef() {
+        return def;
+    }
+
+    public int getAgi() {
+        return agi;
+    }
+
+    private void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    private void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    private void setMp(int mp) {
+        this.mp = mp;
+    }
+
+    private void setAtk(int atk) {
+        this.atk = atk;
+    }
+
+    private void setDef(int def) {
+        this.def = def;
+    }
+
+    private void setAgi(int agi) {
+        this.agi = agi;
+    }
+    
+    public void atacar(Heroi h){
+        h.tomarDano(atk);
+    }
+    
+    public void tomarDano(int dano){
+        setHp(dano -= this.hp);
+    }
+    
+    
+    
+    
+}
