@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package arena.model;
+package arcardium.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @author Eric
  */
 //Implementar o Mago que vai ter metodos diferentes para o ataque.
-/**
+
  public class Mago extends Heroi {
     private List<Magia> magias;
 
@@ -30,8 +30,14 @@ import java.util.List;
         this.magias = magias;
     }
     
+    public void aprenderMagia(Magia m){
+        magias.add(m);
+    }
+    
+    public void lancarMagia(Magia m, Inimigo i){
+        i.tomarDano(m.getDanoBase());
+    }
     
     
     
 }
-*/

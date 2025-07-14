@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package arena.model;
+package arcardium.model;
 
 /**
  *
- * @author Eric
+ * @author Éric
  */
-public class Heroi {
+public abstract class Personagem {
     private String nome;
     private int hp; // saude
     private int mp; // mana
@@ -16,7 +16,7 @@ public class Heroi {
     private int def; // defesa
     private int agi; // agilidade
 
-    public Heroi(String nome, int hp, int mp, int atk, int def, int agi) {
+    public Personagem(String nome, int hp, int mp, int atk, int def, int agi) {
         this.nome = nome;
         this.hp = hp;
         this.mp = mp;
@@ -24,8 +24,8 @@ public class Heroi {
         this.def = def;
         this.agi = agi;
     }
-
-    public String getNome() {
+    
+     public String getNome() {
         return nome;
     }
 
@@ -77,11 +77,13 @@ public class Heroi {
         h.tomarDano(atk);
     }
     
-    public void tomarDano(int dano){
-        setHp(dano -= this.hp);
+    public void tomarDano(int dano) {
+        int danoReal = dano - this.def;
+        if (danoReal > 0) {
+            this.hp -= danoReal;
+        }
     }
     
     
-    
-    
+
 }
