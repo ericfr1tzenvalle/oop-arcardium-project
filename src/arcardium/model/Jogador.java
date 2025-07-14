@@ -12,82 +12,74 @@ import java.util.List;
  * 
  */
 public class Jogador {
-    private String nome;
-    private int xp;
-    private static final int XP_BASE = 30;
-    private int level;
-    private int vitorias;
-    private int derrotas;
-    private List<Heroi> herois;
+    private Heroi heroi; // O personagem que o jogador controla
+    private int nivel;
+    private int xpAtual;
+    private int xpParaProximoNivel;
 
-    public Jogador(String nome, int xp, int level, int vitorias, int derrotas, List herois) {
-        this.nome = nome;
-        this.xp = xp;
-        this.level = level;
-        this.vitorias = vitorias;
-        this.derrotas = derrotas;
-        this.herois = herois;
+    public Jogador(Heroi heroi) {
+        this.heroi = heroi;
+        this.nivel = 1;
+        this.xpAtual = 0;
+        this.xpParaProximoNivel = 100; // O primeiro nível requer 100 de XP
     }
 
-    public String getNome() {
-        return nome;
+    public Heroi getHeroi() {
+        return heroi;
     }
 
-    private void setNome(String nome) {
-        this.nome = nome;
+    private void setHeroi(Heroi heroi) {
+        this.heroi = heroi;
     }
 
-    public int getXp() {
-        return xp;
+    public int getNivel() {
+        return nivel;
     }
 
-    private void setXp(int xp) {
-        this.xp = xp;
+    private void setNivel(int nivel) {
+        this.nivel = nivel;
     }
 
-    public int getLevel() {
-        return level;
+    public int getXpAtual() {
+        return xpAtual;
     }
 
-    private void setLevel(int level) {
-        this.level = level;
+    private void setXpAtual(int xpAtual) {
+        this.xpAtual = xpAtual;
     }
 
-    public int getVitorias() {
-        return vitorias;
+    public int getXpParaProximoNivel() {
+        return xpParaProximoNivel;
     }
 
-    private void setVitorias(int vitorias) {
-        this.vitorias = vitorias;
-    }
-
-    public int getDerrotas() {
-        return derrotas;
-    }
-
-    private void setDerrotas(int derrotas) {
-        this.derrotas = derrotas;
-    }
-
-    public List getHerois() {
-        return herois;
-    }
-
-    private void setHerois(List herois) {
-        this.herois = herois;
-    }
-    public int getXpParaProximoNivel(){
-        return level * XP_BASE;
+    private void setXpParaProximoNivel(int xpParaProximoNivel) {
+        this.xpParaProximoNivel = xpParaProximoNivel;
     }
     
-    @Override
-    public String toString(){
-        return "Jogador: " + nome + " Level: " + level + " XP: " + xp + "/" + getXpParaProximoNivel() + " Vitorias: " + vitorias;
+    public void ganharXP(int quantidade){
+        this.xpAtual += quantidade;
+        //Testes
+        System.out.println(this.heroi.getNome() + " ganhou " + quantidade + " de XP!" );
+        if(this.xpAtual >= this.getXpParaProximoNivel()){
+            subirDeNivel();
+        }
     }
+    private void subirDeNivel(){
+        this.nivel++;
+        this.xpAtual = this.xpAtual - this.xpParaProximoNivel;
+        this.xpParaProximoNivel *= 1.5;
+        System.out.println("------------------");
+        System.out.println("LEVEL UP! Voce alcançou o nivel " + this.nivel + " !");
+        
+        this.heroi.setHp(this.heroi.getHp() + 20); 
+        this.heroi.setMp(this.heroi.getMp() + 10); 
+        this.heroi.setAtk(this.heroi.getAtk() + 2);   
+        this.heroi.setDef(this.heroi.getDef() + 1);   
     
-    
-    
-    
-    
+        System.out.println("Seus atributos foram fortalecidos!");
+        System.out.println("---------------------------------");
+                
+    }
+
     
 }

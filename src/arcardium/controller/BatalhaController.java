@@ -3,6 +3,7 @@ package arcardium.controller;
 import arcardium.model.Inimigo;
 import arcardium.model.Magia;
 import arcardium.model.Mago;
+import arcardium.model.Jogador;
 import arcardium.view.BatalhaView;
 import java.util.Scanner;
 
@@ -24,11 +25,11 @@ public class BatalhaController {
      * Inicia e executa o loop principal de uma batalha. O método só termina
      * quando um dos combatentes é derrotado.
      *
-     * @param mago O herói controlado pelo jogador.
+     * @param jogador jogador que controla o mago.
      * @param inimigo O adversário a ser enfrentado.
      */
-    public void iniciarBatalha(Mago mago, Inimigo inimigo) {
-        
+    public void iniciarBatalha(Jogador jogador, Inimigo inimigo) {
+        Mago mago = (Mago) jogador.getHeroi();
         
         Scanner sc = new Scanner(System.in);
         view.exibirInicioBatalha(mago.getNome(), inimigo.getNome());
@@ -52,6 +53,8 @@ public class BatalhaController {
         // Seção executada após o fim do loop para determinar o vencedor.
         if (mago.getHp() > 0) {
             view.exibirFimDeBatalha(mago.getNome(), true);
+            jogador.ganharXP(120);
+            
         } else {
             view.exibirFimDeBatalha(inimigo.getNome(), false);
         }

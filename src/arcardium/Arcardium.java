@@ -11,13 +11,13 @@ import arcardium.controller.BatalhaController;
  *
  * @author Eric
  */
-public class Arena {
+public class Arcardium {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       Mago nossoHeroi = new Mago("Gandalf, o Cinzento", 100, 50, 10, 5, 15);
+       Mago mago = new Mago("Gandalf, o Cinzento", 100, 50, 10, 5, 15);
        Inimigo monstro = new Inimigo("Orc de Moria", 40, 0, 12, 4, 8);
        
        Magia m1 = new Magia("Faisca", "Pequeno raio (1) Alvo", 10, 20);
@@ -26,14 +26,15 @@ public class Arena {
        Magia bolaDeFogo = new Magia("Bola de Fogo", "Uma bola de fogo que queima os inimigos.", 10, 20);
 
 
-       nossoHeroi.aprenderMagia(m1);
-       nossoHeroi.aprenderMagia(m2);
-       nossoHeroi.aprenderMagia(raioDeGelo);
-       nossoHeroi.aprenderMagia(bolaDeFogo);
+       mago.aprenderMagia(m1);
+       mago.aprenderMagia(m2);
+       mago.aprenderMagia(raioDeGelo);
+       mago.aprenderMagia(bolaDeFogo);
        
+       Jogador jogador = new Jogador(mago);
        BatalhaController bc = new BatalhaController();
        
-       bc.iniciarBatalha(nossoHeroi, monstro);
+       bc.iniciarBatalha(jogador, monstro);
        
        
     }

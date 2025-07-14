@@ -49,27 +49,27 @@ public abstract class Personagem {
         return agi;
     }
 
-    private void setNome(String nome) {
+    protected void setNome(String nome) {
         this.nome = nome;
     }
 
-    private void setHp(int hp) {
+    protected void setHp(int hp) {
         this.hp = hp;
     }
 
-    private void setMp(int mp) {
+    protected void setMp(int mp) {
         this.mp = mp;
     }
 
-    private void setAtk(int atk) {
+    protected void setAtk(int atk) {
         this.atk = atk;
     }
 
-    private void setDef(int def) {
+    protected void setDef(int def) {
         this.def = def;
     }
 
-    private void setAgi(int agi) {
+    protected void setAgi(int agi) {
         this.agi = agi;
     }
     
