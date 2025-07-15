@@ -67,22 +67,25 @@ Sobreviver aos encontros, construir seu grimório com sinergias poderosas e derr
 | 🎴 Slay the Spire  | Estrutura de mapa, sistema de feitiços e artefatos.  |
 | 🃏 Balatro         | Mini-jogos e decisões baseadas em sorte.            |
 | 💀 Dark Souls      | Atmosfera sombria e desafio constante.               |
+| 💀 BuriedBornes    | Estrutura de combate e inspiração de HUD            |
+  
 
 ---
 
 ## 🚧 Roadmap de Desenvolvimento
 
-### 🧪 Fase 1: MVP *(Foco atual)*
+### 🧪 Fase 1: MVP
 
-- [ ] Estrutura básica em Java e menu inicial  
-- [ ] Combate em turnos  
-- [ ] Um mago jogável com feitiços iniciais  
-- [ ] Mapa procedural com encontros e chefe  
-- [ ] XP e progressão  
-- [ ] Interface no terminal  
+- [X] Estrutura básica em Java e menu inicial  
+- [x] Combate em turnos  
+- [x] Um mago jogável com feitiços iniciais  
+- [X] Mapa procedural com encontros e chefe  
+- [X] XP e progressão  
+- [x] Interface no terminal  
 
-### 🔓 Fase 2: Expansão
+### 🔓 Fase 2: Expansão *Foco Atual*
 
+- [ ] Melhorias nas Magias [Efeitos]
 - [ ] Nós de Loja e Grimório  
 - [ ] Artefatos e mini-chefes  
 - [ ] Eventos (ex: Cartas de Tarô)  
@@ -91,7 +94,9 @@ Sobreviver aos encontros, construir seu grimório com sinergias poderosas e derr
 
 ### 🌟 Fase 3: Polimento
 
-- [ ] Três magos jogáveis com estilos únicos  
+- [ ] Estatísticas do Jogador
+- [ ] Salvar jogo
+- [ ] Três magos jogáveis com estilos únicos [POSSIBILIDADE] 
 - [ ] Atos 2 e 3, novos eventos e chefes  
 - [ ] Mini-jogos extras (Blackjack, Pôquer)  
 - [ ] Cores, feedback visual e sons  
