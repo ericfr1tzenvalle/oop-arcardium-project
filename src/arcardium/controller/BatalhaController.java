@@ -94,6 +94,7 @@ private void turnoDoJogador(Mago mago, Inimigo inimigo, Scanner sc) {
                     int escolha = sc.nextInt();
                     Magia magiaEscolhida = mago.getMagias().get(escolha - 1);
                     mago.lancarMagia(magiaEscolhida, inimigo);
+                    view.exibirAtaque(magiaEscolhida, mago, inimigo);
                     opcao = 0;
                     break;
                 case 2:

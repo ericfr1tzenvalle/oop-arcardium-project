@@ -5,7 +5,9 @@
 package arcardium.controller;
 
 import arcardium.model.Inimigo;
+import arcardium.model.InimigoFactory;
 import arcardium.model.Jogador;
+import arcardium.model.Magia;
 import arcardium.model.Mago;
 import arcardium.model.Sala;
 import arcardium.model.enums.TipoSala;
@@ -20,6 +22,7 @@ import java.util.Scanner;
 public class GameController {
 
     Scanner sc = new Scanner(System.in);
+    InimigoFactory inimigoFactory = new InimigoFactory();
     private final GameView view;
 
     public GameController() {
@@ -58,9 +61,21 @@ public class GameController {
         Mago mago = new Mago(nomeMago, 1, 1, 1, 1, 1);
         switch (arquetipo) {
             case 1:
+                //Mago de batalha: Alta defesa e durabilidade com dano moderado
                 mago = new Mago(nomeMago, 120, 30, 8, 10, 12);
+                Magia impactoSismico = new Magia("Impacto Sismico",
+                        "Faz o chão tremer, causando dano em área e podendo atordoar inimigos fracos.", 8, 14);
+                Magia mantoDePedra = new Magia(
+                        "Manto de Pedra",
+                        "Encobre o corpo com rochas temporárias, reduzindo parte do dano recebido por alguns turnos.",
+                        6,
+                        0 // Sem dano, efeito defensivo, ainda há implementar.
+                );
+                mago.aprenderMagia(mantoDePedra);
+                mago.aprenderMagia(impactoSismico);
                 break;
             case 2:
+                //Mago Arcano: Alto dano e mana porém fragil
                 mago = new Mago(nomeMago, 80, 80, 12, 4, 15);
                 break;
             case 3:
@@ -80,7 +95,7 @@ public class GameController {
 
         System.out.println("\n--- A JORNADA DE " + jogador.getHeroi().getNome() + " COMEÇA ---");
         List<List<Sala>> mapaGerado = mapaController.gerarMapa(5);
-        
+
         for (int i = 0; i < mapaGerado.size(); i++) {
             List<Sala> andarAtual = mapaGerado.get(i);
             System.out.println("\n--- ANDAR " + (i + 1) + " ---");
@@ -92,7 +107,7 @@ public class GameController {
 
             if (salaEscolhida.getTipo() == TipoSala.COMBATE) {
                 System.out.println("Você entrou em uma sala de combate!");
-                Inimigo novoInimigo = new Inimigo("Goblin Batedor", 50, 0, 15, 5, 10);
+                Inimigo novoInimigo = inimigoFactory.criarInimigoAleatorio(i);
                 bc.iniciarBatalha(jogador, novoInimigo);
 
                 // Verifica se o jogador morreu
@@ -107,7 +122,6 @@ public class GameController {
             }
         }
 
-       
         System.out.println("\n--- A run terminou. Retornando ao menu principal. ---\n");
     }
 

@@ -4,13 +4,9 @@
  */
 package arcardium;
 
-import arcardium.model.*;
-import arcardium.controller.BatalhaController;
+
 import arcardium.controller.GameController;
-import arcardium.controller.MapaController;
-import arcardium.model.enums.TipoSala;
-import java.util.List;
-import java.util.Scanner;
+
 
 /**
  *

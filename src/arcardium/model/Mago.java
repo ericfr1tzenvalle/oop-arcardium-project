@@ -12,14 +12,14 @@ import java.util.List;
  * @author Eric
  */
 //Implementar o Mago que vai ter metodos diferentes para o ataque.
+public class Mago extends Heroi {
 
- public class Mago extends Heroi {
     private List<Magia> magias;
 
     public Mago(String nome, int hp, int mp, int atk, int def, int agi) {
         super(nome, hp, mp, atk, def, agi);
         this.magias = new ArrayList<>();
-        
+
     }
 
     public List<Magia> getMagias() {
@@ -29,15 +29,21 @@ import java.util.List;
     public void setMagias(List<Magia> magias) {
         this.magias = magias;
     }
-    
-    public void aprenderMagia(Magia m){
+
+    public void aprenderMagia(Magia m) {
         magias.add(m);
     }
-    
-    public void lancarMagia(Magia m, Inimigo i){
-        i.tomarDano(m.getDanoBase());
+
+    public void lancarMagia(Magia m, Inimigo i) {
+        int custo = m.getCustoMana();
+        int mpAtual = super.getMp();
+
+        if (mpAtual >= custo) {
+            i.tomarDano(m.getDanoBase());
+            super.setMp(mpAtual - custo);
+        } else {
+            System.out.println("MP insuficiente para lançar " + m.getNome());
+        }
     }
-    
-    
-    
+
 }

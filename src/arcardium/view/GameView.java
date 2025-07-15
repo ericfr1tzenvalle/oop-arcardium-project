@@ -18,16 +18,17 @@ public class GameView {
     public void mostrarMenu() {
         System.out.println("1. Nova run");
         System.out.println("2. Estatistica");
-        System.out.println("3. Coleção");
+        System.out.println("3. Colecao");
         System.out.println("4. Opcoes");
         System.out.println("0. Sair");
+        System.out.print("Digite a opcao desejada: ");
         
         
 
     }
     
     public void mostrarTelaNome(){
-       System.out.println("Digite o nome do seu [MAGO]:  ");
+       System.out.print("Digite o nome do seu [MAGO]:  ");
     }  
     
     public void mostrarTelaArquetipos(){
@@ -43,6 +44,7 @@ public class GameView {
         //Ele terá que se provar
         System.out.println("3. [O escolhido]");
         System.out.println("A sorte está ao seu lado");
+        System.out.print("Qual é a sua escolha: ");
         //Posteriormente pode existir mais arquetipos sendo alguns desbloqueaveis.
         
         
