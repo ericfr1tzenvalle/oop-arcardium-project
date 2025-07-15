@@ -4,6 +4,7 @@
  */
 package arcardium.model;
 
+import arcardium.model.enums.TipoDeEfeito;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,16 +35,42 @@ public class Mago extends Heroi {
         magias.add(m);
     }
 
-    public boolean lancarMagia(Magia m, Inimigo i) {
-        int custo = m.getCustoMana();
+    public boolean lancarMagia(Magia magia, Inimigo alvo) {
+        int custo = magia.getCustoMana();
         int mpAtual = super.getMp();
+        int valor = magia.getValorEfeito();
+        int duracaoEfeito = magia.getDuracaoEfeito();
 
         if (mpAtual >= custo) {
-            i.tomarDano(m.getDanoBase());
+            TipoDeEfeito efeito = magia.getTipoEfeito();
+            switch (efeito) {
+                case BUFF_ATAQUE:
+                    //implementar aumentar o ataque do this.mago no personagem
+                    //implementar a duracao desse efeito
+                break;
+                case CURA:
+                    //implementar restaurar vida do this.mago no personagem
+                break;
+                case BUFF_DEFESA:
+                    //mesmo que ataque.
+                break;
+                case DEBUFF_ATAQUE:
+                    // Diminui o ataque do alvo por alguns turnos.
+                break;
+                case DEBUFF_DEFESA:
+                // Diminui a defesa do alvo por alguns turnos.
+                break;
+                case DANO_POR_TURNO:
+                // Causa dano contínuo (veneno/queimadura).
+                break;
+                case DANO_DIRETO:
+                alvo.tomarDano(valor);
+
+            }
             super.setMp(mpAtual - custo);
             return true;
         } else {
-            System.out.println("MP insuficiente para lançar " + m.getNome());
+            System.out.println("MP insuficiente para lançar " + magia.getNome());
             return false;
         }
     }

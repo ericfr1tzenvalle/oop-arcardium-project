@@ -1,5 +1,7 @@
 package arcardium.model;
 
+import arcardium.model.enums.TipoDeEfeito;
+
 /**
  * Representa uma magia que pode ser usada por um personagem.
  * Contém todas as informações essenciais sobre um feitiço.
@@ -11,21 +13,19 @@ public class Magia {
     private String nome;
     private String descricao;
     private int custoMana;
-    private int danoBase;
+    private final TipoDeEfeito tipoEfeito;
+    private final int valorEfeito;
+    private final int duracaoEfeito;
 
-    /**
-     * Construtor para criar uma nova magia.
-     *
-     * @param nome O nome da magia (ex: "Bola de Fogo").
-     * @param descricao Uma breve explicação do que a magia faz.
-     * @param custoMana A quantidade de mana necessária para lançá-la.
-     * @param danoBase O dano que a magia causa antes de considerar a defesa do alvo.
-     */
-    public Magia(String nome, String descricao, int custoMana, int danoBase) {
+   
+
+    public Magia(String nome, String descricao, int custoMana, TipoDeEfeito tipoEfeito, int valorEfeito, int duracaoEfeito) {
         this.nome = nome;
         this.descricao = descricao;
         this.custoMana = custoMana;
-        this.danoBase = danoBase;
+        this.tipoEfeito = tipoEfeito;
+        this.valorEfeito = valorEfeito;
+        this.duracaoEfeito = duracaoEfeito;
     }
 
     public String getNome() {
@@ -40,7 +40,31 @@ public class Magia {
         return custoMana;
     }
 
-    public int getDanoBase() {
-        return danoBase;
+    public TipoDeEfeito getTipoEfeito() {
+        return tipoEfeito;
     }
+
+    public int getValorEfeito() {
+        return valorEfeito;
+    }
+
+    public int getDuracaoEfeito() {
+        return duracaoEfeito;
+    }
+
+    private void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    private void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    private void setCustoMana(int custoMana) {
+        this.custoMana = custoMana;
+    }
+    
+    
+
+    
 }

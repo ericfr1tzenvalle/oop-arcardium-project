@@ -4,17 +4,21 @@
  */
 package arcardium.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Éric
  */
 public abstract class Personagem {
     private String nome;
-    private int hp; // saude
-    private int mp; // mana
-    private int atk; // ataque
-    private int def; // defesa
-    private int agi; // agilidade
+    private int hp;
+    private int mp; 
+    private int atk;
+    private int def; 
+    private int agi; 
+    private List<EfeitoAtivo> efeitoAtivo;
 
     public Personagem(String nome, int hp, int mp, int atk, int def, int agi) {
         this.nome = nome;
@@ -23,6 +27,7 @@ public abstract class Personagem {
         this.atk = atk;
         this.def = def;
         this.agi = agi;
+        this.efeitoAtivo = new ArrayList<>();
     }
     
      public String getNome() {

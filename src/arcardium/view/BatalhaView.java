@@ -47,7 +47,7 @@ public class BatalhaView {
         System.out.println(mago.getNome() + " [LANÇA SUA MAGIA] ");
         System.out.println("[" + magiaEscolhida.getNome().toUpperCase() + "]");
         int defesa = inimigo.getDef();
-        int dano = magiaEscolhida.getDanoBase() - defesa;
+        int dano = magiaEscolhida.getValorEfeito() - defesa;
         System.out.println("Causando " + "[" + dano + "]" + " de DANO no " + "[" + inimigo.getNome() + "]");
     }
 

@@ -64,16 +64,7 @@ public class GameController {
             case 1:
                 //Mago de batalha: Alta defesa e durabilidade com dano moderado
                 mago = new Mago(nomeMago, 120, 3000, 8, 10, 12);
-                Magia impactoSismico = new Magia("Impacto Sismico",
-                        "Faz o chão tremer, causando dano em área e podendo atordoar inimigos fracos.", 8, 14);
-                Magia mantoDePedra = new Magia(
-                        "Manto de Pedra",
-                        "Encobre o corpo com rochas temporárias, reduzindo parte do dano recebido por alguns turnos.",
-                        6,
-                        0 // Sem dano, efeito defensivo, ainda há implementar.
-                );
-                mago.aprenderMagia(mantoDePedra);
-                mago.aprenderMagia(impactoSismico);
+                //TODO: Adicionar magias para mago de batalha novas.
                 break;
             case 2:
                 //Mago Arcano: Alto dano e mana porém fragil

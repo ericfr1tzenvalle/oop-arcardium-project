@@ -14,14 +14,14 @@ public class MagiaFactory {
     public Magia criarMagiaAleatoria(){
         Random rand = new Random();
         int magia = rand.nextInt(3) + 1;
-        
+        //TODO: Adicionar novas magias pro criador de Magias.
         switch(magia){
             case 1: 
-                return new Magia("Corrente de Raios", "Atinge um inimigo e salta para outro", 18, 25);
+                
             case 2:
-                return new Magia("Barreira Mística", "Cria um escudo que absorve dano", 15, 0);
+                
             case 3:
-                return new Magia("Drenar Vida", "Causa dano e cura parte da sua vida", 20, 15);
+                
             
         }
         return null;
