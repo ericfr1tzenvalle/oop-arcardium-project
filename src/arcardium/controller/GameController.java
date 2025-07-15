@@ -8,6 +8,7 @@ import arcardium.model.Inimigo;
 import arcardium.model.InimigoFactory;
 import arcardium.model.Jogador;
 import arcardium.model.Magia;
+import arcardium.model.MagiaFactory;
 import arcardium.model.Mago;
 import arcardium.model.Sala;
 import arcardium.model.enums.TipoSala;
@@ -62,7 +63,7 @@ public class GameController {
         switch (arquetipo) {
             case 1:
                 //Mago de batalha: Alta defesa e durabilidade com dano moderado
-                mago = new Mago(nomeMago, 120, 30, 8, 10, 12);
+                mago = new Mago(nomeMago, 120, 3000, 8, 10, 12);
                 Magia impactoSismico = new Magia("Impacto Sismico",
                         "Faz o chão tremer, causando dano em área e podendo atordoar inimigos fracos.", 8, 14);
                 Magia mantoDePedra = new Magia(
@@ -92,6 +93,7 @@ public class GameController {
     public void executarRun(Jogador jogador) {
         BatalhaController bc = new BatalhaController();
         MapaController mapaController = new MapaController();
+        MagiaFactory magiaFactory = new MagiaFactory();
 
         System.out.println("\n--- A JORNADA DE " + jogador.getHeroi().getNome() + " COMEÇA ---");
         List<List<Sala>> mapaGerado = mapaController.gerarMapa(5);
@@ -108,7 +110,7 @@ public class GameController {
             if (salaEscolhida.getTipo() == TipoSala.COMBATE) {
                 System.out.println("Você entrou em uma sala de combate!");
                 Inimigo novoInimigo = inimigoFactory.criarInimigoAleatorio(i);
-                bc.iniciarBatalha(jogador, novoInimigo);
+                bc.iniciarBatalha(jogador, novoInimigo, magiaFactory);
 
                 // Verifica se o jogador morreu
                 if (jogador.getHeroi().getHp() <= 0) {
@@ -118,7 +120,7 @@ public class GameController {
             } else if (salaEscolhida.getTipo() == TipoSala.CHEFE) {
                 System.out.println("Você entrou na sala do CHEFE! Cuidado!");
                 Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12);
-                bc.iniciarBatalha(jogador, chefe);
+                bc.iniciarBatalha(jogador, chefe, magiaFactory);
             }
         }
 

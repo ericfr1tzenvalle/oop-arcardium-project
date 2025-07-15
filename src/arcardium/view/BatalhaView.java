@@ -3,6 +3,7 @@ package arcardium.view;
 import arcardium.model.Mago;
 import arcardium.model.Inimigo;
 import arcardium.model.Magia;
+import java.util.List;
 
 /**
  * Responsável por exibir todas as informações da batalha no terminal.
@@ -57,6 +58,16 @@ public class BatalhaView {
         } else {
             System.out.println(nomeVencedor + " venceu. Você foi derrotado.");
         }
+    }
+    public void exibirRecompensaMagias(List<Magia> magias){
+        System.out.println("Escolha sua magia");
+        int contador = 1;
+        for(Magia m: magias){
+            System.out.println(contador++ + "[" + m.getNome() + "]" );
+        }
+    }
+    public void exibirMagiaAprendida(Magia m){
+        System.out.println("VOCE APRENDEU A MAGIA [" + m.getNome() + "]");
     }
     
     public void exibirMensagem(String mensagem) {

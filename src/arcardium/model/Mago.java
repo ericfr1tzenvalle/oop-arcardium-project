@@ -34,15 +34,17 @@ public class Mago extends Heroi {
         magias.add(m);
     }
 
-    public void lancarMagia(Magia m, Inimigo i) {
+    public boolean lancarMagia(Magia m, Inimigo i) {
         int custo = m.getCustoMana();
         int mpAtual = super.getMp();
 
         if (mpAtual >= custo) {
             i.tomarDano(m.getDanoBase());
             super.setMp(mpAtual - custo);
+            return true;
         } else {
             System.out.println("MP insuficiente para lançar " + m.getNome());
+            return false;
         }
     }
 

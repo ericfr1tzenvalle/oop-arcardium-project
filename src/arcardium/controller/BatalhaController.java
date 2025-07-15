@@ -4,7 +4,10 @@ import arcardium.model.Inimigo;
 import arcardium.model.Magia;
 import arcardium.model.Mago;
 import arcardium.model.Jogador;
+import arcardium.model.MagiaFactory;
 import arcardium.view.BatalhaView;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -27,8 +30,9 @@ public class BatalhaController {
      *
      * @param jogador jogador que controla o mago.
      * @param inimigo O adversário a ser enfrentado.
+     * @param magiaFactory o criador de magias.
      */
-    public void iniciarBatalha(Jogador jogador, Inimigo inimigo) {
+    public void iniciarBatalha(Jogador jogador, Inimigo inimigo , MagiaFactory magiaFactory) {
         Mago mago = (Mago) jogador.getHeroi();
         
         Scanner sc = new Scanner(System.in);
@@ -54,6 +58,15 @@ public class BatalhaController {
         if (mago.getHp() > 0) {
             view.exibirFimDeBatalha(mago.getNome(), true);
             jogador.ganharXP(120);
+            List<Magia> recompensaMagica = new ArrayList<>();
+            for(int i = 0; i < 3; i++){
+                recompensaMagica.add(magiaFactory.criarMagiaAleatoria());
+            }
+            view.exibirRecompensaMagias(recompensaMagica);
+            int escolhaMagia = sc.nextInt();
+            mago.aprenderMagia(recompensaMagica.get(escolhaMagia - 1));
+            view.exibirMagiaAprendida(recompensaMagica.get(escolhaMagia - 1));
+            
             
         } else {
             view.exibirFimDeBatalha(inimigo.getNome(), false);
@@ -93,8 +106,10 @@ private void turnoDoJogador(Mago mago, Inimigo inimigo, Scanner sc) {
                     view.exibirMagias(mago);
                     int escolha = sc.nextInt();
                     Magia magiaEscolhida = mago.getMagias().get(escolha - 1);
-                    mago.lancarMagia(magiaEscolhida, inimigo);
-                    view.exibirAtaque(magiaEscolhida, mago, inimigo);
+                    if(mago.lancarMagia(magiaEscolhida, inimigo)){
+                        view.exibirAtaque(magiaEscolhida, mago, inimigo);
+                    }
+                    
                     opcao = 0;
                     break;
                 case 2:
