@@ -15,11 +15,11 @@ public class BatalhaView {
     public void exibirInicioBatalha(String nomeMago, String nomeInimigo) {
         System.out.println("Uma batalha entre " + nomeMago + " e " + nomeInimigo + " Iniciou!");
     }
-
+    
     public void exibirStatusTurno(Mago mago, Inimigo inimigo) {
         System.out.println("\n-- Novo turno -- ");
-        System.out.println("Vida do " + mago.getNome() + ": " + mago.getHp() + " | MP: " + mago.getMp());
-        System.out.println("Vida do " + inimigo.getNome() + ": " + inimigo.getHp());
+        System.out.println("Jogador: " + mago.getNome() + "\nHP: " + mago.getHp() + "/" + mago.getMaxHp() + "|" + " MP: " + mago.getMp() + "/" + mago.getMaxMp());
+        System.out.println("Vida do " + inimigo.getNome() + ": " + inimigo.getHp() + "/" + inimigo.getMaxHp());
         System.out.println("----------------------------------");
     }
 
@@ -31,6 +31,7 @@ public class BatalhaView {
         System.out.println("0. Fugir");
         System.out.print("Digite a opção desejada: ");
     }
+    
 
     public void exibirMagias(Mago mago) {
         System.out.println("Escolha sua magia:");

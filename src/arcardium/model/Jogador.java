@@ -9,10 +9,11 @@ import java.util.List;
 /**
  *
  * @author Éric
- * 
+ *
  */
 public class Jogador {
-    private Heroi heroi; // O personagem que o jogador controla
+
+    private Heroi heroi;
     private int nivel;
     private int xpAtual;
     private int xpParaProximoNivel;
@@ -55,31 +56,31 @@ public class Jogador {
     private void setXpParaProximoNivel(int xpParaProximoNivel) {
         this.xpParaProximoNivel = xpParaProximoNivel;
     }
-    
-    public void ganharXP(int quantidade){
+
+    public void ganharXP(int quantidade) {
         this.xpAtual += quantidade;
         //Testes
-        System.out.println(this.heroi.getNome() + " ganhou " + quantidade + " de XP!" );
-        if(this.xpAtual >= this.getXpParaProximoNivel()){
+        System.out.println(this.heroi.getNome() + " ganhou " + quantidade + " de XP!");
+        if (this.xpAtual >= this.getXpParaProximoNivel()) {
             subirDeNivel();
         }
     }
-    private void subirDeNivel(){
+
+    private void subirDeNivel() {
         this.nivel++;
         this.xpAtual = this.xpAtual - this.xpParaProximoNivel;
         this.xpParaProximoNivel *= 1.5;
         System.out.println("------------------");
         System.out.println("LEVEL UP! Voce alcançou o nivel " + this.nivel + " !");
-        
-        this.heroi.setHp(this.heroi.getHp() + 20); 
-        this.heroi.setMp(this.heroi.getMp() + 10); 
-        this.heroi.setAtk(this.heroi.getAtk() + 2);   
-        this.heroi.setDef(this.heroi.getDef() + 1);   
-    
+
+        this.heroi.setHp(this.heroi.getHp() + 20);
+        this.heroi.setMp(this.heroi.getMp() + 10);
+        this.heroi.setAtk(this.heroi.getAtk() + 2);
+        this.heroi.setDef(this.heroi.getDef() + 1);
+
         System.out.println("Seus atributos foram fortalecidos!");
         System.out.println("---------------------------------");
-                
+
     }
 
-    
 }

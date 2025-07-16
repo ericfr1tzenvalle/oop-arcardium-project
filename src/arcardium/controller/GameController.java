@@ -4,6 +4,8 @@
  */
 package arcardium.controller;
 
+import arcardium.model.Evento;
+import arcardium.model.EventoFactory;
 import arcardium.model.Inimigo;
 import arcardium.model.InimigoFactory;
 import arcardium.model.Jogador;
@@ -64,12 +66,13 @@ public class GameController {
         switch (arquetipo) {
             case 1:
                 //Mago de batalha: Alta defesa e durabilidade com dano moderado
+                //Para testes
                 mago = new Mago(nomeMago, 120, 3000, 8, 10, 12);
-                Magia mantoDePedra = new Magia("Manto de Pedra", 
-                        "Envolve o personagem com um manto que AUMENTA a defesa", 
+                Magia mantoDePedra = new Magia("Manto de Pedra",
+                        "Envolve o personagem com um manto que AUMENTA a defesa",
                         20, TipoDeEfeito.BUFF_DEFESA, 10, 2);
-                Magia impactoSismico = new Magia("Impacto Sismico", 
-                        "Golpeia o chão com um soco estrondoso" , 0 , TipoDeEfeito.DANO_DIRETO, 20, 0);
+                Magia impactoSismico = new Magia("Impacto Sismico",
+                        "Golpeia o chão com um soco estrondoso", 0, TipoDeEfeito.DANO_DIRETO, 20, 0);
                 mago.aprenderMagia(mantoDePedra);
                 mago.aprenderMagia(impactoSismico);
                 break;
@@ -119,7 +122,13 @@ public class GameController {
                 System.out.println("Você entrou na sala do CHEFE! Cuidado!");
                 Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12);
                 bc.iniciarBatalha(jogador, chefe, magiaFactory);
+            } else if (salaEscolhida.getTipo() == TipoSala.EVENTO) {
+                System.out.println("Encontrou um EVENTO!!!");
+                EventoFactory fc = new EventoFactory();
+                Evento e = fc.criarEventoAleatorio();
+                e.executar(jogador, magiaFactory);
             }
+
         }
 
         System.out.println("\n--- A run terminou. Retornando ao menu principal. ---\n");

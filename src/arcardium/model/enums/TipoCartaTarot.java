@@ -8,13 +8,10 @@ package arcardium.model.enums;
  *
  * @author Éric
  */
-
-//TODO: repensar salas.
-public enum TipoSala {
-    COMBATE,
-    EVENTO,
-    LOJA,
-    CHEFE,
-    DESCANSO
+public enum TipoCartaTarot {
+    SOL,
+    MAGO,
+    TORRE;
+    
     
 }

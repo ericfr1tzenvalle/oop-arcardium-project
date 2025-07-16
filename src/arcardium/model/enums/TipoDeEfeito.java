@@ -6,7 +6,7 @@ package arcardium.model.enums;
 
 /**
  *
- * @author Luísa
+ * @author Éric
  */
 public enum TipoDeEfeito {
     DANO_DIRETO,    // O que já temos: causa dano puro.

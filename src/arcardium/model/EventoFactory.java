@@ -2,19 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package arcardium.model.enums;
+package arcardium.model;
 
 /**
  *
- * @author Éric
+ * @author Luísa
  */
-
-//TODO: repensar salas.
-public enum TipoSala {
-    COMBATE,
-    EVENTO,
-    LOJA,
-    CHEFE,
-    DESCANSO
+public class EventoFactory {
     
+    public Evento criarEventoAleatorio(){
+        return new EventoTarot();
+    }
 }

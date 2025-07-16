@@ -46,24 +46,24 @@ public class Mago extends Heroi {
             switch (efeito) {
                 case BUFF_ATAQUE:
                     this.aplicarEfeito(efeito, valor, duracao);
-                break;
+                    break;
                 case CURA:
                     this.receberCura(valor);
-                break;
+                    break;
                 case BUFF_DEFESA:
                     this.aplicarEfeito(efeito, valor, duracao);
-                break;
+                    break;
                 case DEBUFF_ATAQUE:
                     alvo.aplicarEfeito(efeito, valor, duracao);
-                break;
+                    break;
                 case DEBUFF_DEFESA:
                     alvo.aplicarEfeito(efeito, valor, duracao);
-                break;
+                    break;
                 case DANO_POR_TURNO:
                     alvo.aplicarEfeito(efeito, valor, duracao);
-                break;
+                    break;
                 case DANO_DIRETO:
-                alvo.tomarDano(valor);
+                    alvo.tomarDano(valor);
 
             }
             super.setMp(mpAtual - custo);

@@ -18,7 +18,7 @@ import java.util.Scanner;
  */
 public class BatalhaController {
 
-    private final BatalhaView view; 
+    private final BatalhaView view;
 
     public BatalhaController() {
         this.view = new BatalhaView();
@@ -32,17 +32,16 @@ public class BatalhaController {
      * @param inimigo O adversário a ser enfrentado.
      * @param magiaFactory o criador de magias.
      */
-    public void iniciarBatalha(Jogador jogador, Inimigo inimigo , MagiaFactory magiaFactory) {
+    public void iniciarBatalha(Jogador jogador, Inimigo inimigo, MagiaFactory magiaFactory) {
         Mago mago = (Mago) jogador.getHeroi();
-        
+
         Scanner sc = new Scanner(System.in);
         view.exibirInicioBatalha(mago.getNome(), inimigo.getNome());
         // Loop principal da batalha, continua enquanto ambos estiverem vivos.
-        while (mago.getHp() > 0 && inimigo.getHp() > 0){
+        while (mago.getHp() > 0 && inimigo.getHp() > 0) {
             inimigo.processarEfeitosPorTurno();
             mago.processarEfeitosPorTurno();
             view.exibirStatusTurno(mago, inimigo);
-             
 
             // Executa o turno do jogador
             turnoDoJogador(mago, inimigo, sc);
@@ -61,15 +60,14 @@ public class BatalhaController {
             view.exibirFimDeBatalha(mago.getNome(), true);
             jogador.ganharXP(120);
             List<Magia> recompensaMagica = new ArrayList<>();
-            for(int i = 0; i < 3; i++){
+            for (int i = 0; i < 3; i++) {
                 recompensaMagica.add(magiaFactory.criarMagiaAleatoria());
             }
             view.exibirRecompensaMagias(recompensaMagica);
             int escolhaMagia = sc.nextInt();
             mago.aprenderMagia(recompensaMagica.get(escolhaMagia - 1));
             view.exibirMagiaAprendida(recompensaMagica.get(escolhaMagia - 1));
-            
-            
+
         } else {
             view.exibirFimDeBatalha(inimigo.getNome(), false);
         }
@@ -94,10 +92,10 @@ public class BatalhaController {
      * @param inimigo O alvo das ações do herói.
      * @param sc O objeto Scanner para ler a entrada do usuário.
      */
-private void turnoDoJogador(Mago mago, Inimigo inimigo, Scanner sc) {
+    private void turnoDoJogador(Mago mago, Inimigo inimigo, Scanner sc) {
         view.exibirMenuJogador(mago.getNome());
         int opcao = -1;
-        
+
         // Loop do menu de ações... (a lógica interna não muda)
         while (opcao != 0) {
             opcao = sc.nextInt();
@@ -108,10 +106,10 @@ private void turnoDoJogador(Mago mago, Inimigo inimigo, Scanner sc) {
                     view.exibirMagias(mago);
                     int escolha = sc.nextInt();
                     Magia magiaEscolhida = mago.getMagias().get(escolha - 1);
-                    if(mago.lancarMagia(magiaEscolhida, inimigo)){
+                    if (mago.lancarMagia(magiaEscolhida, inimigo)) {
                         view.exibirAtaque(magiaEscolhida, mago, inimigo);
                     }
-                    
+
                     opcao = 0;
                     break;
                 case 2:
