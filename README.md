@@ -85,10 +85,10 @@ Sobreviver aos encontros, construir seu grimório com sinergias poderosas e derr
 
 ### 🔓 Fase 2: Expansão *Foco Atual*
 
-- [ ] Melhorias nas Magias [Efeitos]
+- [X] Melhorias nas Magias [Efeitos]
 - [ ] Nós de Loja e Grimório  
 - [ ] Artefatos e mini-chefes  
-- [ ] Eventos (ex: Cartas de Tarô)  
+- [X] Eventos (ex: Cartas de Tarô)  
 - [ ] Variedade de inimigos e magias  
 - [ ] Balanceamento inicial  
 
