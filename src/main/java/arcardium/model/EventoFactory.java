@@ -9,7 +9,8 @@ package arcardium.model;
  * @author Luísa
  */
 public class EventoFactory {
-    
+   
+    //TODO: implementar mais eventos
     public Evento criarEventoAleatorio(){
         return new EventoTarot();
     }
