@@ -39,6 +39,8 @@ public class BatalhaController {
         view.exibirInicioBatalha(mago.getNome(), inimigo.getNome());
         // Loop principal da batalha, continua enquanto ambos estiverem vivos.
         while (mago.getHp() > 0 && inimigo.getHp() > 0){
+            inimigo.processarEfeitosPorTurno();
+            mago.processarEfeitosPorTurno();
             view.exibirStatusTurno(mago, inimigo);
              
 

@@ -11,6 +11,7 @@ import arcardium.model.Magia;
 import arcardium.model.MagiaFactory;
 import arcardium.model.Mago;
 import arcardium.model.Sala;
+import arcardium.model.enums.TipoDeEfeito;
 import arcardium.model.enums.TipoSala;
 import arcardium.view.GameView;
 import java.util.List;
@@ -64,7 +65,13 @@ public class GameController {
             case 1:
                 //Mago de batalha: Alta defesa e durabilidade com dano moderado
                 mago = new Mago(nomeMago, 120, 3000, 8, 10, 12);
-                //TODO: Adicionar magias para mago de batalha novas.
+                Magia mantoDePedra = new Magia("Manto de Pedra", 
+                        "Envolve o personagem com um manto que AUMENTA a defesa", 
+                        20, TipoDeEfeito.BUFF_DEFESA, 10, 2);
+                Magia impactoSismico = new Magia("Impacto Sismico", 
+                        "Golpeia o chão com um soco estrondoso" , 0 , TipoDeEfeito.DANO_DIRETO, 20, 0);
+                mago.aprenderMagia(mantoDePedra);
+                mago.aprenderMagia(impactoSismico);
                 break;
             case 2:
                 //Mago Arcano: Alto dano e mana porém fragil

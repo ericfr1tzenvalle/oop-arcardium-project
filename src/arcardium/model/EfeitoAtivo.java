@@ -12,13 +12,15 @@ import arcardium.model.enums.TipoDeEfeito;
  */
 public class EfeitoAtivo {
     private TipoDeEfeito tipoEfeito;
+    private int valor;
     private int duracao;
 
-    public EfeitoAtivo(TipoDeEfeito tipoEfeito, int duracao) {
+    public EfeitoAtivo(TipoDeEfeito tipoEfeito, int valor, int duracao) {
+        this.valor = valor;
         this.tipoEfeito = tipoEfeito;
         this.duracao = duracao;
     }
-
+   
     public TipoDeEfeito getTipoEfeito() {
         return tipoEfeito;
     }
@@ -34,6 +36,12 @@ public class EfeitoAtivo {
     public void setDuracao(int duracao) {
         this.duracao = duracao;
     }
+
+    public int getValor() {
+        return valor;
+    }
+    
+    
     
     
     

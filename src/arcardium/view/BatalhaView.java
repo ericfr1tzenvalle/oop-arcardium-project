@@ -3,6 +3,7 @@ package arcardium.view;
 import arcardium.model.Mago;
 import arcardium.model.Inimigo;
 import arcardium.model.Magia;
+import arcardium.model.enums.TipoDeEfeito;
 import java.util.List;
 
 /**
@@ -46,9 +47,15 @@ public class BatalhaView {
     public void exibirAtaque(Magia magiaEscolhida, Mago mago, Inimigo inimigo){
         System.out.println(mago.getNome() + " [LANÇA SUA MAGIA] ");
         System.out.println("[" + magiaEscolhida.getNome().toUpperCase() + "]");
+        System.out.println(magiaEscolhida.getDescricao());
+        if(magiaEscolhida.getTipoEfeito() == TipoDeEfeito.DANO_DIRETO || magiaEscolhida.getTipoEfeito() == TipoDeEfeito.DANO_POR_TURNO){
         int defesa = inimigo.getDef();
         int dano = magiaEscolhida.getValorEfeito() - defesa;
         System.out.println("Causando " + "[" + dano + "]" + " de DANO no " + "[" + inimigo.getNome() + "]");
+        }else{
+        System.out.println("[" + magiaEscolhida.getTipoEfeito() + "] de " + magiaEscolhida.getValorEfeito());
+        }
+        
     }
 
     public void exibirFimDeBatalha(String nomeVencedor, boolean heroiVenceu) {

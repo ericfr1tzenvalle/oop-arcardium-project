@@ -4,7 +4,9 @@
  */
 package arcardium.model;
 
+import arcardium.model.enums.TipoDeEfeito;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -14,6 +16,7 @@ import java.util.List;
 public abstract class Personagem {
     private String nome;
     private int hp;
+    private int maxHp;
     private int mp; 
     private int atk;
     private int def; 
@@ -22,6 +25,7 @@ public abstract class Personagem {
 
     public Personagem(String nome, int hp, int mp, int atk, int def, int agi) {
         this.nome = nome;
+        this.maxHp = hp;
         this.hp = hp;
         this.mp = mp;
         this.atk = atk;
@@ -43,11 +47,54 @@ public abstract class Personagem {
     }
 
     public int getAtk() {
-        return atk;
+        int ataqueTotal = this.atk;
+        for(EfeitoAtivo efeito: this.efeitoAtivo){
+            if(efeito.getTipoEfeito() == TipoDeEfeito.BUFF_ATAQUE){
+                ataqueTotal += efeito.getValor();
+            }
+            if(efeito.getTipoEfeito() == TipoDeEfeito.DEBUFF_ATAQUE){
+                ataqueTotal -= efeito.getValor();
+            }
+        }
+        return Math.max(0, ataqueTotal);
+        
     }
+    
 
     public int getDef() {
-        return def;
+        int defesaTotal = this.def;
+        for(EfeitoAtivo efeito: this.efeitoAtivo){
+            if(efeito.getTipoEfeito() == TipoDeEfeito.BUFF_DEFESA){
+                defesaTotal += efeito.getValor();
+            }
+            if(efeito.getTipoEfeito() == TipoDeEfeito.DEBUFF_DEFESA){
+                defesaTotal -= efeito.getValor();
+            }
+        }
+        return Math.max(0, defesaTotal);
+    }
+    
+    public void processarEfeitosPorTurno(){
+        //Utilizo o ITERATOR pra conseguir fazer verificacões sem dar ConcurrentModificationException.
+        Iterator<EfeitoAtivo> iterator = this.efeitoAtivo.iterator();
+        
+        while(iterator.hasNext()){
+            EfeitoAtivo efeito = iterator.next();
+            if(efeito.getTipoEfeito() == TipoDeEfeito.DANO_POR_TURNO){
+                System.out.println(this.nome + "sofreu [" + efeito.getValor() + "]" + " de dano [DANO POR TURNO]" );
+                this.tomarDano(efeito.getValor());
+            }
+            else if(efeito.getTipoEfeito() == TipoDeEfeito.CURA){
+                System.out.println(this.nome + "curou [" + efeito.getValor() + "]" + " [CURA POR TURNO]" );
+                this.receberCura(efeito.getValor());
+            }
+            efeito.setDuracao(efeito.getDuracao() - 1);
+            if(efeito.getDuracao() <= 0){
+                iterator.remove();
+            }
+            
+        }
+        
     }
 
     public int getAgi() {
@@ -89,6 +136,18 @@ public abstract class Personagem {
         }
     }
     
+    public void aplicarEfeito(TipoDeEfeito tipo, int valor, int duracao){
+        EfeitoAtivo efeito = new EfeitoAtivo(tipo,valor,duracao);
+        efeitoAtivo.add(efeito);
+        
+    }
+    
+    protected void receberCura(int valor){
+          this.hp += valor;
+          if(this.hp > this.maxHp){
+              this.hp = this.maxHp;
+          }
+    }
     
 
 }

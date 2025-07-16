@@ -39,29 +39,28 @@ public class Mago extends Heroi {
         int custo = magia.getCustoMana();
         int mpAtual = super.getMp();
         int valor = magia.getValorEfeito();
-        int duracaoEfeito = magia.getDuracaoEfeito();
+        int duracao = magia.getDuracaoEfeito();
 
         if (mpAtual >= custo) {
             TipoDeEfeito efeito = magia.getTipoEfeito();
             switch (efeito) {
                 case BUFF_ATAQUE:
-                    //implementar aumentar o ataque do this.mago no personagem
-                    //implementar a duracao desse efeito
+                    this.aplicarEfeito(efeito, valor, duracao);
                 break;
                 case CURA:
-                    //implementar restaurar vida do this.mago no personagem
+                    this.receberCura(valor);
                 break;
                 case BUFF_DEFESA:
-                    //mesmo que ataque.
+                    this.aplicarEfeito(efeito, valor, duracao);
                 break;
                 case DEBUFF_ATAQUE:
-                    // Diminui o ataque do alvo por alguns turnos.
+                    alvo.aplicarEfeito(efeito, valor, duracao);
                 break;
                 case DEBUFF_DEFESA:
-                // Diminui a defesa do alvo por alguns turnos.
+                    alvo.aplicarEfeito(efeito, valor, duracao);
                 break;
                 case DANO_POR_TURNO:
-                // Causa dano contínuo (veneno/queimadura).
+                    alvo.aplicarEfeito(efeito, valor, duracao);
                 break;
                 case DANO_DIRETO:
                 alvo.tomarDano(valor);
