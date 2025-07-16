@@ -18,6 +18,7 @@ public class Arcardium {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+       org.fusesource.jansi.AnsiConsole.systemInstall(); // Iniciando o Jansi.
        GameController game = new GameController();
        game.iniciarJogo();
 

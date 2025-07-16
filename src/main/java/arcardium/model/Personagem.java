@@ -28,6 +28,7 @@ public abstract class Personagem {
     public Personagem(String nome, int hp, int mp, int atk, int def, int agi) {
         this.nome = nome;
         this.maxHp = hp;
+        this.maxMp = mp;
         this.hp = hp;
         this.mp = mp;
         this.atk = atk;

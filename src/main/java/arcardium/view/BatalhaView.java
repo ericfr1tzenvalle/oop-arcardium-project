@@ -5,6 +5,7 @@ import arcardium.model.Inimigo;
 import arcardium.model.Magia;
 import arcardium.model.enums.TipoDeEfeito;
 import java.util.List;
+import arcadium.utils.AnsiColors;
 
 /**
  * Responsável por exibir todas as informações da batalha no terminal.
@@ -18,7 +19,7 @@ public class BatalhaView {
     
     public void exibirStatusTurno(Mago mago, Inimigo inimigo) {
         System.out.println("\n-- Novo turno -- ");
-        System.out.println("Jogador: " + mago.getNome() + "\nHP: " + mago.getHp() + "/" + mago.getMaxHp() + "|" + " MP: " + mago.getMp() + "/" + mago.getMaxMp());
+        System.out.println("Jogador: " + mago.getNome() + AnsiColors.green("\nHP: " + mago.getHp() + "/" + mago.getMaxHp()) + "|" + AnsiColors.blue(" MP: " + mago.getMp() + "/" + mago.getMaxMp()));
         System.out.println("Vida do " + inimigo.getNome() + ": " + inimigo.getHp() + "/" + inimigo.getMaxHp());
         System.out.println("----------------------------------");
     }
