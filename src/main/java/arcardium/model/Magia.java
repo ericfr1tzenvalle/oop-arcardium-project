@@ -12,15 +12,17 @@ public class Magia {
 
     private String nome;
     private String descricao;
+    private int nivel;
     private int custoMana;
     private final TipoDeEfeito tipoEfeito;
-    private final int valorEfeito;
-    private final int duracaoEfeito;
+    private int valorEfeito;
+    private int duracaoEfeito;
 
    
 
     public Magia(String nome, String descricao, int custoMana, TipoDeEfeito tipoEfeito, int valorEfeito, int duracaoEfeito) {
         this.nome = nome;
+        this.nivel = 1;
         this.descricao = descricao;
         this.custoMana = custoMana;
         this.tipoEfeito = tipoEfeito;
@@ -47,6 +49,9 @@ public class Magia {
     public int getValorEfeito() {
         return valorEfeito;
     }
+    public void setValorEfeito(int valorEfeito){
+        this.valorEfeito = valorEfeito;
+    }
 
     public int getDuracaoEfeito() {
         return duracaoEfeito;
@@ -62,6 +67,14 @@ public class Magia {
 
     private void setCustoMana(int custoMana) {
         this.custoMana = custoMana;
+    }
+    public int getNivel(){
+        return nivel;
+    }
+    public void aprimorarMagia(Magia m){
+        nivel++;
+        setCustoMana(m.getCustoMana() - 10);
+        setValorEfeito(m.getValorEfeito() + 10);
     }
     
     

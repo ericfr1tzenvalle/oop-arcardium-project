@@ -4,14 +4,29 @@
  */
 package arcardium.model;
 
+import static java.lang.Math.random;
+import java.util.Random;
+
+
+
 /**
  *
  * @author Luísa
  */
 public class EventoFactory {
    
-    //TODO: implementar mais eventos
+    
     public Evento criarEventoAleatorio(){
-        return new EventoTarot();
+        
+        Random random = new Random();
+        
+        int chance = random.nextInt(100);
+        
+        if(chance < 70){
+            return new EventoDescanso();
+        }else{
+            return new EventoTarot();
+        }
+        
     }
 }

@@ -34,6 +34,10 @@ public class Mago extends Heroi {
     public void aprenderMagia(Magia m) {
         magias.add(m);
     }
+    
+    public void aprimorarMagia(Magia m){
+        m.aprimorarMagia(m);
+    }
 
     public boolean lancarMagia(Magia magia, Inimigo alvo) {
         int custo = magia.getCustoMana();

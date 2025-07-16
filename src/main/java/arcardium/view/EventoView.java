@@ -5,6 +5,7 @@
 package arcardium.view;
 
 import arcardium.model.Magia;
+import java.util.List;
 
 /**
  *
@@ -26,8 +27,32 @@ public class EventoView {
                 System.out.println("1. SIM");
                 System.out.println("2. NAO");
                 break;
+            case "DESCANSO":
+                System.out.println("[FOGUEIRA SAGRADA]");
+                System.out.println("1. DESCANSAR [Recupere 30% de sua vida máxima]");
+                System.out.println("2. APRIMORAR MÁGIA");
+                break;
         }
 
+    }
+    public void mostrarMensagemDescanso(int escolha){
+        switch(escolha){
+            case 1:
+                System.out.println("Descansou bem e recuperou 30% da vida máxima");
+                break;
+            case 2:
+                System.out.println("Escolha uma de suas magias para receber um UPGRADE!");
+                break;
+        }
+    }
+    public void mostrarOpcoesMagias(List<Magia> magias){
+        for(Magia m: magias){
+            System.out.println(m.getNome() + " | " + m.getDescricao());
+        }
+    }
+    
+    public void mostrarMagiaAprimorada(Magia magia){
+        System.out.println("A magia [" + magia.getNome() + "]" + "para o NIVEL [" + magia.getNivel() + "]");
     }
 
     public void mostrarOpcoesTarot() {

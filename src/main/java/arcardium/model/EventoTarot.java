@@ -20,13 +20,13 @@ import java.util.Scanner;
  */
 public class EventoTarot extends Evento {
 
-    private EventoView view;
-    private Scanner sc = new Scanner(System.in);
-
     public EventoTarot() {
         super();
-        this.view = new EventoView();
     }
+
+    
+
+    
 
     //TODO: podemos implementar mais cartas de tarot e repensar um pouco nos efeitos dessas.
     public void executar(Jogador jogador, MagiaFactory magiaFactory) {
