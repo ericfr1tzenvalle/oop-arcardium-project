@@ -3,8 +3,8 @@ package arcardium.model;
 import arcardium.model.enums.TipoDeEfeito;
 
 /**
- * Representa uma magia que pode ser usada por um personagem.
- * Contém todas as informações essenciais sobre um feitiço.
+ * Representa uma magia que pode ser usada por um personagem. Contém todas as
+ * informações essenciais sobre um feitiço.
  *
  * @author Éric
  */
@@ -17,8 +17,6 @@ public class Magia {
     private final TipoDeEfeito tipoEfeito;
     private int valorEfeito;
     private int duracaoEfeito;
-
-   
 
     public Magia(String nome, String descricao, int custoMana, TipoDeEfeito tipoEfeito, int valorEfeito, int duracaoEfeito) {
         this.nome = nome;
@@ -49,7 +47,8 @@ public class Magia {
     public int getValorEfeito() {
         return valorEfeito;
     }
-    public void setValorEfeito(int valorEfeito){
+
+    public void setValorEfeito(int valorEfeito) {
         this.valorEfeito = valorEfeito;
     }
 
@@ -68,16 +67,20 @@ public class Magia {
     private void setCustoMana(int custoMana) {
         this.custoMana = custoMana;
     }
-    public int getNivel(){
+
+    public int getNivel() {
         return nivel;
     }
-    public void aprimorarMagia(Magia m){
-        nivel++;
-        setCustoMana(m.getCustoMana() - 10);
-        setValorEfeito(m.getValorEfeito() + 10);
-    }
-    
-    
+    //TODO: implementar logica pra subir de nivel apenas 3 vezes a magia.
+    public void aprimorarMagia() {
+        this.nivel++;
+        this.custoMana -= 10; 
+        this.valorEfeito += 10;
 
-    
+        
+        if (this.custoMana < 0) {
+            this.custoMana = 0;
+        }
+    }
+
 }

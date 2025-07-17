@@ -52,7 +52,12 @@ public class EventoView {
     }
     
     public void mostrarMagiaAprimorada(Magia magia){
-        System.out.println("A magia [" + magia.getNome() + "]" + "para o NIVEL [" + magia.getNivel() + "]");
+        if(magia.getNivel() < 3){
+        System.out.println("A magia [" + magia.getNome() + "]" + " para o NIVEL [" + magia.getNivel() + "]");  
+        }else{
+        System.out.println("A magia [" + magia.getNome() + "]" + " chegou ao [NIVEL MAXIMO] !");  
+        }
+        
     }
 
     public void mostrarOpcoesTarot() {

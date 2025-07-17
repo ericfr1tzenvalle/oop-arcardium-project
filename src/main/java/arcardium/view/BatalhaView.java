@@ -13,15 +13,24 @@ import arcadium.utils.AnsiColors;
  */
 public class BatalhaView {
 
-    public void exibirInicioBatalha(String nomeMago, String nomeInimigo) {
-        System.out.println("Uma batalha entre " + nomeMago + " e " + nomeInimigo + " Iniciou!");
+    public void exibirInicioBatalha(String nomeMago, int quantidade, String nomeInimigo) {
+        System.out.println("Uma batalha COMEÇA: " + nomeMago + " VS " + quantidade + "X " + nomeInimigo);
     }
     
-    public void exibirStatusTurno(Mago mago, Inimigo inimigo) {
+    public void exibirStatusTurno(Mago mago, List<Inimigo> grupoInimigos) {
         System.out.println("\n-- Novo turno -- ");
         System.out.println("Jogador: " + mago.getNome() + AnsiColors.green("\nHP: " + mago.getHp() + "/" + mago.getMaxHp()) + "|" + AnsiColors.blue(" MP: " + mago.getMp() + "/" + mago.getMaxMp()));
-        System.out.println("Vida do " + inimigo.getNome() + ": " + inimigo.getHp() + "/" + inimigo.getMaxHp());
+        for(Inimigo inimigo: grupoInimigos){
+            System.out.println(inimigo.getNome() + " HP: " + inimigo.getHp() + "/" + inimigo.getMaxHp() + " ATK: " + inimigo.getAtk() + " DEF: " + inimigo.getDef());
+        }
         System.out.println("----------------------------------");
+    }
+    public void exibirOpcoesAlvos(List<Inimigo> grupoInimigos){
+        System.out.println("Deseja atacar: ");
+        int cont = 0;
+        for(Inimigo i: grupoInimigos){
+            System.out.println(cont++ + "->" + i.getNome());
+        }
     }
 
     public void exibirMenuJogador(String nomeMago) {

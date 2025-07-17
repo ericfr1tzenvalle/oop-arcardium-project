@@ -26,6 +26,16 @@ public class Mago extends Heroi {
     public List<Magia> getMagias() {
         return magias;
     }
+    
+    public List<Magia> getMagiasAprimoraveis(){
+        List<Magia> magiasAprimoraveis = new ArrayList<>();
+        for(Magia m: magias){
+            if(m.getNivel() < 3){
+                magiasAprimoraveis.add(m);
+            }
+        }
+        return magiasAprimoraveis;
+    }
 
     public void setMagias(List<Magia> magias) {
         this.magias = magias;
@@ -36,7 +46,7 @@ public class Mago extends Heroi {
     }
     
     public void aprimorarMagia(Magia m){
-        m.aprimorarMagia(m);
+        m.aprimorarMagia();
     }
 
     public boolean lancarMagia(Magia magia, Inimigo alvo) {

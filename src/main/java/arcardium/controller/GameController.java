@@ -111,7 +111,7 @@ public class GameController {
             if (salaEscolhida.getTipo() == TipoSala.COMBATE) {
                 System.out.println("Você entrou em uma sala de combate!");
                 Inimigo novoInimigo = inimigoFactory.criarInimigoAleatorio(i);
-                bc.iniciarBatalha(jogador, novoInimigo, magiaFactory);
+                //bc.iniciarBatalha(jogador, novoInimigo, magiaFactory);
 
                 // Verifica se o jogador morreu
                 if (jogador.getHeroi().getHp() <= 0) {
@@ -121,7 +121,7 @@ public class GameController {
             } else if (salaEscolhida.getTipo() == TipoSala.CHEFE) {
                 System.out.println("Você entrou na sala do CHEFE! Cuidado!");
                 Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12);
-                bc.iniciarBatalha(jogador, chefe, magiaFactory);
+                //bc.iniciarBatalha(jogador, chefe, magiaFactory);
             } else if (salaEscolhida.getTipo() == TipoSala.EVENTO) {
                 System.out.println("Encontrou um EVENTO!!!");
                 EventoFactory fc = new EventoFactory();

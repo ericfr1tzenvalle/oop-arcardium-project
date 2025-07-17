@@ -7,6 +7,7 @@ import arcardium.model.Jogador;
 import arcardium.model.MagiaFactory;
 import arcardium.view.BatalhaView;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,27 +33,31 @@ public class BatalhaController {
      * @param inimigo O adversário a ser enfrentado.
      * @param magiaFactory o criador de magias.
      */
-    public void iniciarBatalha(Jogador jogador, Inimigo inimigo, MagiaFactory magiaFactory) {
+    public void iniciarBatalha(Jogador jogador, List<Inimigo> grupoInimigos, MagiaFactory magiaFactory) {
         Mago mago = (Mago) jogador.getHeroi();
 
         Scanner sc = new Scanner(System.in);
-        view.exibirInicioBatalha(mago.getNome(), inimigo.getNome());
+        view.exibirInicioBatalha(mago.getNome(),grupoInimigos.size(), "Inimigos");
         // Loop principal da batalha, continua enquanto ambos estiverem vivos.
-        while (mago.getHp() > 0 && inimigo.getHp() > 0) {
-            inimigo.processarEfeitosPorTurno();
+        while (mago.getHp() > 0 && !grupoInimigos.isEmpty()) {
+            
+            for(Inimigo i: grupoInimigos){
+                i.processarEfeitosPorTurno();
+            }
+            
             mago.processarEfeitosPorTurno();
-            view.exibirStatusTurno(mago, inimigo);
+            
+            view.exibirStatusTurno(mago, grupoInimigos);
 
             // Executa o turno do jogador
-            turnoDoJogador(mago, inimigo, sc);
+            turnoDoJogador(mago, grupoInimigos, sc);
 
             // Verifica se o inimigo foi derrotado antes de poder atacar
-            if (inimigo.getHp() <= 0) {
-                break;
-            }
+            Iterator inimigos = grupoInimigos.iterator();
+            
 
             // Executa o turno do inimigo
-            turnoDoInimigo(inimigo, mago);
+            //turnoDoInimigo(inimigo, mago);
         }
 
         // Seção executada após o fim do loop para determinar o vencedor.
@@ -69,7 +74,7 @@ public class BatalhaController {
             view.exibirMagiaAprendida(recompensaMagica.get(escolhaMagia - 1));
 
         } else {
-            view.exibirFimDeBatalha(inimigo.getNome(), false);
+            //view.exibirFimDeBatalha(inimigo.getNome(), false);
         }
     }
 
@@ -92,7 +97,7 @@ public class BatalhaController {
      * @param inimigo O alvo das ações do herói.
      * @param sc O objeto Scanner para ler a entrada do usuário.
      */
-    private void turnoDoJogador(Mago mago, Inimigo inimigo, Scanner sc) {
+    private void turnoDoJogador(Mago mago, List<Inimigo> grupoInimigos, Scanner sc) {
         view.exibirMenuJogador(mago.getNome());
         int opcao = -1;
 
@@ -106,6 +111,9 @@ public class BatalhaController {
                     view.exibirMagias(mago);
                     int escolha = sc.nextInt();
                     Magia magiaEscolhida = mago.getMagias().get(escolha - 1);
+                    view.exibirOpcoesAlvos(grupoInimigos);
+                    escolha = sc.nextInt();
+                    Inimigo inimigo = grupoInimigos.get(escolha - 1);
                     if (mago.lancarMagia(magiaEscolhida, inimigo)) {
                         view.exibirAtaque(magiaEscolhida, mago, inimigo);
                     }

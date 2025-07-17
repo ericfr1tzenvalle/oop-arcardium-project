@@ -27,7 +27,7 @@ public class EventoDescanso extends Evento{
             heroi.receberCura(cura);
         }else{
             Mago mago = (Mago) heroi;
-            List<Magia> magias = mago.getMagias();
+            List<Magia> magias = mago.getMagiasAprimoraveis();
             view.mostrarOpcoesMagias(magias);
             int opcaoMagia = sc.nextInt();
             Magia magiaEscolhida = magias.get(opcaoMagia - 1);
