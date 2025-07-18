@@ -5,6 +5,7 @@ import arcardium.model.Magia;
 import arcardium.model.Mago;
 import arcardium.model.Jogador;
 import arcardium.model.MagiaFactory;
+import arcardium.model.enums.TipoAlvo;
 import arcardium.view.BatalhaView;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,23 +42,30 @@ public class BatalhaController {
         // Loop principal da batalha, continua enquanto ambos estiverem vivos.
         while (mago.getHp() > 0 && !grupoInimigos.isEmpty()) {
             
-            for(Inimigo i: grupoInimigos){
-                i.processarEfeitosPorTurno();
+            //Verificamos os efeitos, VENENO, SANGRAMENTO, CURA ETC.
+            for(Inimigo inimigos: grupoInimigos){
+                inimigos.processarEfeitosPorTurno();
             }
-            
             mago.processarEfeitosPorTurno();
+            //Verificamos se algum inimigo morreu no processo dos EFEITOS
+            removerInimigosDerrotados(grupoInimigos);
+            if(grupoInimigos.isEmpty() || mago.getHp() <= 0){
+                break;
+            }
             
             view.exibirStatusTurno(mago, grupoInimigos);
 
             // Executa o turno do jogador
             turnoDoJogador(mago, grupoInimigos, sc);
 
-            // Verifica se o inimigo foi derrotado antes de poder atacar
-            Iterator inimigos = grupoInimigos.iterator();
+           removerInimigosDerrotados(grupoInimigos);
+           
+           if(!grupoInimigos.isEmpty()){
+               turnoDosInimigos(grupoInimigos,mago);
+           }
             
 
-            // Executa o turno do inimigo
-            //turnoDoInimigo(inimigo, mago);
+            
         }
 
         // Seção executada após o fim do loop para determinar o vencedor.
@@ -74,19 +82,29 @@ public class BatalhaController {
             view.exibirMagiaAprendida(recompensaMagica.get(escolhaMagia - 1));
 
         } else {
-            //view.exibirFimDeBatalha(inimigo.getNome(), false);
+            for(Inimigo i: grupoInimigos){
+                view.exibirFimDeBatalha(i.getNome(), true);
+            }
         }
     }
 
-    /**
-     * Gerencia a lógica de ataque do inimigo durante seu turno.
-     *
-     * @param inimigo O inimigo que está atacando.
-     * @param mago O alvo do ataque do inimigo.
-     */
-    private void turnoDoInimigo(Inimigo inimigo, Mago mago) {
-        view.exibirTurnoInimigo(inimigo.getNome());
-        inimigo.atacar(mago);
+    
+    private void turnoDosInimigos(List<Inimigo> grupoInimigos, Mago mago) {
+        for (Inimigo inimigo : grupoInimigos) {
+            view.exibirTurnoInimigo(inimigo.getNome());
+            inimigo.atacar(mago);
+        }
+    }
+
+    private void removerInimigosDerrotados(List<Inimigo> grupoInimigos) {
+        Iterator<Inimigo> iterator = grupoInimigos.iterator();
+        while (iterator.hasNext()) {
+            Inimigo inimigo = iterator.next();
+            if (inimigo.getHp() <= 0) {
+                view.exibirInimigoDerrotado(inimigo.getNome());
+                iterator.remove();
+            }
+        }
     }
 
     /**
@@ -111,13 +129,36 @@ public class BatalhaController {
                     view.exibirMagias(mago);
                     int escolha = sc.nextInt();
                     Magia magiaEscolhida = mago.getMagias().get(escolha - 1);
-                    view.exibirOpcoesAlvos(grupoInimigos);
-                    escolha = sc.nextInt();
-                    Inimigo inimigo = grupoInimigos.get(escolha - 1);
-                    if (mago.lancarMagia(magiaEscolhida, inimigo)) {
+                    switch(magiaEscolhida.getTipoAlvo()){
+                        case ALVO_UNICO:
+                        if(grupoInimigos.size() > 1){
+                        view.exibirOpcoesAlvos(grupoInimigos);
+                        escolha = sc.nextInt();
+                        Inimigo inimigo = grupoInimigos.get(escolha - 1);
+                        if (mago.lancarMagia(magiaEscolhida, List.of(inimigo))) {
                         view.exibirAtaque(magiaEscolhida, mago, inimigo);
+                        }
+                    }else{
+                        if (mago.lancarMagia(magiaEscolhida, List.of(grupoInimigos.getFirst()))) {
+                        view.exibirAtaque(magiaEscolhida, mago, grupoInimigos.getFirst());
+                        } 
                     }
-
+                        break;
+                        case TODOS_INIMIGOS:
+                        if(mago.lancarMagia(magiaEscolhida, grupoInimigos)){
+                            for(Inimigo i: grupoInimigos){
+                                view.exibirAtaque(magiaEscolhida,mago,i);
+                            }
+                        }
+                        break;
+                        case ALIADO:
+                        if (mago.lancarMagia(magiaEscolhida, new ArrayList<>())) { 
+                                view.exibirMagiaAliado(magiaEscolhida, mago);
+                            }
+                        break;
+                        
+                    }
+                    
                     opcao = 0;
                     break;
                 case 2:

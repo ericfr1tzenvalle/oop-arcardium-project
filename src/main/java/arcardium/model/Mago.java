@@ -49,14 +49,17 @@ public class Mago extends Heroi {
         m.aprimorarMagia();
     }
 
-    public boolean lancarMagia(Magia magia, Inimigo alvo) {
+    public boolean lancarMagia(Magia magia, List<Inimigo> alvos) {
+        
         int custo = magia.getCustoMana();
         int mpAtual = super.getMp();
         int valor = magia.getValorEfeito();
         int duracao = magia.getDuracaoEfeito();
-
         if (mpAtual >= custo) {
             TipoDeEfeito efeito = magia.getTipoEfeito();
+            for(Inimigo alvo: alvos){
+                
+            
             switch (efeito) {
                 case BUFF_ATAQUE:
                     this.aplicarEfeito(efeito, valor, duracao);
@@ -78,7 +81,9 @@ public class Mago extends Heroi {
                     break;
                 case DANO_DIRETO:
                     alvo.tomarDano(valor);
+                    
 
+            }
             }
             super.setMp(mpAtual - custo);
             return true;

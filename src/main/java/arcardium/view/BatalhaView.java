@@ -29,7 +29,7 @@ public class BatalhaView {
         System.out.println("Deseja atacar: ");
         int cont = 0;
         for(Inimigo i: grupoInimigos){
-            System.out.println(cont++ + "->" + i.getNome());
+            System.out.println(++cont + "->" + i.getNome());
         }
     }
 
@@ -67,6 +67,14 @@ public class BatalhaView {
         System.out.println("[" + magiaEscolhida.getTipoEfeito() + "] de " + magiaEscolhida.getValorEfeito());
         }
         
+    }
+    public void exibirMagiaAliado(Magia magiaEscolhida, Mago mago){
+        System.out.println(mago.getNome() + " [LANÇA SUA MAGIA] ");
+        System.out.println("[" + magiaEscolhida.getNome().toUpperCase() + "]");
+        System.out.println(magiaEscolhida.getTipoEfeito() + "|" + magiaEscolhida.getValorEfeito() + "|" + magiaEscolhida.getDuracaoEfeito() + " TURNOS");
+    }
+    public void exibirInimigoDerrotado(String nome){
+        System.out.println(nome + " foi DERROTADO!");
     }
 
     public void exibirFimDeBatalha(String nomeVencedor, boolean heroiVenceu) {

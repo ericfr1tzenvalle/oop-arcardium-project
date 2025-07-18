@@ -158,6 +158,9 @@ public abstract class Personagem {
         efeitoAtivo.add(efeito);
 
     }
+    public void resetarEfeitos(){
+        this.efeitoAtivo.clear();
+    }
 
     protected void receberCura(int valor) {
         this.hp += valor;

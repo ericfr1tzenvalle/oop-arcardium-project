@@ -1,5 +1,6 @@
 package arcardium.model;
 
+import arcardium.model.enums.TipoAlvo;
 import arcardium.model.enums.TipoDeEfeito;
 
 /**
@@ -17,8 +18,9 @@ public class Magia {
     private final TipoDeEfeito tipoEfeito;
     private int valorEfeito;
     private int duracaoEfeito;
+    private TipoAlvo tipoAlvo;
 
-    public Magia(String nome, String descricao, int custoMana, TipoDeEfeito tipoEfeito, int valorEfeito, int duracaoEfeito) {
+    public Magia(String nome, String descricao, int custoMana, TipoDeEfeito tipoEfeito, int valorEfeito, int duracaoEfeito, TipoAlvo tipoAlvo) {
         this.nome = nome;
         this.nivel = 1;
         this.descricao = descricao;
@@ -26,6 +28,7 @@ public class Magia {
         this.tipoEfeito = tipoEfeito;
         this.valorEfeito = valorEfeito;
         this.duracaoEfeito = duracaoEfeito;
+        this.tipoAlvo = tipoAlvo;
     }
 
     public String getNome() {
@@ -71,7 +74,11 @@ public class Magia {
     public int getNivel() {
         return nivel;
     }
-    //TODO: implementar logica pra subir de nivel apenas 3 vezes a magia.
+
+    public TipoAlvo getTipoAlvo() {
+        return tipoAlvo;
+    }
+    
     public void aprimorarMagia() {
         this.nivel++;
         this.custoMana -= 10; 

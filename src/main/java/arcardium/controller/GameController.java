@@ -13,6 +13,7 @@ import arcardium.model.Magia;
 import arcardium.model.MagiaFactory;
 import arcardium.model.Mago;
 import arcardium.model.Sala;
+import arcardium.model.enums.TipoAlvo;
 import arcardium.model.enums.TipoDeEfeito;
 import arcardium.model.enums.TipoSala;
 import arcardium.view.GameView;
@@ -68,11 +69,11 @@ public class GameController {
                 //Mago de batalha: Alta defesa e durabilidade com dano moderado
                 //Para testes
                 mago = new Mago(nomeMago, 120, 3000, 8, 10, 12);
-                Magia mantoDePedra = new Magia("Manto de Pedra",
-                        "Envolve o personagem com um manto que AUMENTA a defesa",
-                        20, TipoDeEfeito.BUFF_DEFESA, 10, 2);
+                Magia mantoDePedra = new Magia("Manto da força",
+                        "Envolve o personagem com um manto que AUMENTA o ATAQUE",
+                        20, TipoDeEfeito.BUFF_ATAQUE, 10, 2, TipoAlvo.ALIADO);
                 Magia impactoSismico = new Magia("Impacto Sismico",
-                        "Golpeia o chão com um soco estrondoso", 0, TipoDeEfeito.DANO_DIRETO, 20, 0);
+                        "Golpeia o chão com um soco estrondoso DA DANO EM TODOS", 0, TipoDeEfeito.DANO_DIRETO, 20, 0, TipoAlvo.TODOS_INIMIGOS);
                 mago.aprenderMagia(mantoDePedra);
                 mago.aprenderMagia(impactoSismico);
                 break;
@@ -104,14 +105,15 @@ public class GameController {
             System.out.println("\n--- ANDAR " + (i + 1) + " ---");
             System.out.println("Salas disponíveis: " + andarAtual);
             System.out.print("Qual sala deseja entrar: ");
+            jogador.getHeroi().resetarEfeitos();
 
             int escolha = sc.nextInt();
             Sala salaEscolhida = andarAtual.get(escolha - 1);
-
+            
             if (salaEscolhida.getTipo() == TipoSala.COMBATE) {
                 System.out.println("Você entrou em uma sala de combate!");
-                Inimigo novoInimigo = inimigoFactory.criarInimigoAleatorio(i);
-                //bc.iniciarBatalha(jogador, novoInimigo, magiaFactory);
+                 List<Inimigo> grupoInimigos = inimigoFactory.criarGrupoDeInimigos(i);
+                 bc.iniciarBatalha(jogador, grupoInimigos, magiaFactory);
 
                 // Verifica se o jogador morreu
                 if (jogador.getHeroi().getHp() <= 0) {
