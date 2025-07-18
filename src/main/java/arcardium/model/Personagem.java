@@ -4,6 +4,7 @@
  */
 package arcardium.model;
 
+import arcardium.model.enums.NomeEfeito;
 import arcardium.model.enums.TipoDeEfeito;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -83,10 +84,10 @@ public abstract class Personagem {
         while (iterator.hasNext()) {
             EfeitoAtivo efeito = iterator.next();
             if (efeito.getTipoEfeito() == TipoDeEfeito.DANO_POR_TURNO) {
-                System.out.println(this.nome + "sofreu [" + efeito.getValor() + "]" + " de dano [DANO POR TURNO]");
+                System.out.println(this.nome + " sofreu [" + efeito.getValor() + "]" + " de dano [DANO POR TURNO]");
                 this.tomarDano(efeito.getValor());
             } else if (efeito.getTipoEfeito() == TipoDeEfeito.CURA) {
-                System.out.println(this.nome + "curou [" + efeito.getValor() + "]" + " [CURA POR TURNO]");
+                System.out.println(this.nome + " curou [" + efeito.getValor() + "]" + " [CURA POR TURNO]");
                 this.receberCura(efeito.getValor());
             }
             efeito.setDuracao(efeito.getDuracao() - 1);
@@ -156,8 +157,8 @@ public abstract class Personagem {
     return efeitoAtivo;
 }
 
-    public void aplicarEfeito(TipoDeEfeito tipo, int valor, int duracao) {
-        EfeitoAtivo efeito = new EfeitoAtivo(tipo, valor, duracao);
+    public void aplicarEfeito(TipoDeEfeito tipo, int valor, int duracao, NomeEfeito nome) {
+        EfeitoAtivo efeito = new EfeitoAtivo(tipo, valor, duracao,nome);
         efeitoAtivo.add(efeito);
 
     }

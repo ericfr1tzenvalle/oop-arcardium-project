@@ -9,14 +9,26 @@ package arcardium.model.enums;
  * @author Luísa
  */
 public enum NomeEfeito {
-    NENHUM, // Magias que não deixam efeito
-    VENENO,
-    FOGO,
-    SANGRAMENTO,
-    MALDICAO,
-    CURA_REGENERATIVA, // poderia ser para curas por turno
-    FORCA_DO_URSO, // poderia ser para buffs de ataque
-    PELE_DE_PEDRA, // poderia ser para buffs de defesa
-    BENÇAO; // vamos implementar a bençao que sera uma magia multipla.
+    NENHUM("Nenhum"),
+    VENENO("Veneno"),
+    FOGO("Queimadura"),
+    SANGRAMENTO("Sangramento"),
+    CURA_REGENERATIVA("Regeneração"),
+    FORCA_DO_URSO("Força do Urso"),
+    PELE_DE_PEDRA("Pele de Pedra");
+    
+    private final String nome;
+
+    NomeEfeito(String nome) {
+        this.nome = nome;
+    }
+    
+    @Override
+    public String toString(){
+        return nome;
+    }
+    
+    
+    
     
 }

@@ -4,6 +4,7 @@
  */
 package arcardium.model;
 
+import arcardium.model.enums.NomeEfeito;
 import arcardium.model.enums.TipoCartaTarot;
 import arcardium.model.enums.TipoDeEfeito;
 import arcardium.view.EventoView;
@@ -52,7 +53,7 @@ public class EventoTarot extends Evento {
                     break;
                 case TORRE:
                     view.revelarCarta("A Torre", "Um mau presságio! Voce está DOENTE");
-                    heroi.aplicarEfeito(TipoDeEfeito.DANO_POR_TURNO, 10, 3);
+                    heroi.aplicarEfeito(TipoDeEfeito.DANO_POR_TURNO, 10, 3, NomeEfeito.SANGRAMENTO);
                     break;
                 case MAGO:
                     view.revelarCarta("O Mago", "O cosmo te presenteia com um novo conhecimento arcano!");

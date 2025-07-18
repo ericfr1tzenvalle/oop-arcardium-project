@@ -35,7 +35,7 @@ public class BatalhaView {
         System.out.print("   Efeitos: "); 
         
         for (EfeitoAtivo efeito : personagem.getEfeitosAtivos()) {
-            String nomeEfeito = efeito.getTipoEfeito().name();
+            String nomeEfeito = efeito.getNomeEfeito().toString();
             int valor = efeito.getValor();
             int duracao = efeito.getDuracao();
 

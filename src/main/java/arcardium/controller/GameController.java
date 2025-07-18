@@ -13,6 +13,7 @@ import arcardium.model.Magia;
 import arcardium.model.MagiaFactory;
 import arcardium.model.Mago;
 import arcardium.model.Sala;
+import arcardium.model.enums.NomeEfeito;
 import arcardium.model.enums.TipoAlvo;
 import arcardium.model.enums.TipoDeEfeito;
 import arcardium.model.enums.TipoSala;
@@ -69,11 +70,12 @@ public class GameController {
                 //Mago de batalha: Alta defesa e durabilidade com dano moderado
                 //Para testes
                 mago = new Mago(nomeMago, 120, 3000, 8, 10, 12);
-                Magia mantoDePedra = new Magia("Manto da força",
+                Magia mantoDePedra = new Magia("Força do URSO",
                         "Envolve o personagem com um manto que AUMENTA o ATAQUE",
-                        20, TipoDeEfeito.BUFF_ATAQUE, 10, 2, TipoAlvo.ALIADO);
+                        20, TipoDeEfeito.BUFF_ATAQUE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.FORCA_DO_URSO);
                 Magia impactoSismico = new Magia("Impacto Sismico",
-                        "Golpeia o chão com um soco estrondoso DA DANO EM TODOS", 0, TipoDeEfeito.DANO_DIRETO, 20, 0, TipoAlvo.TODOS_INIMIGOS);
+                        "Golpeia o chão com um soco estrondoso DA DANO EM TODOS",
+                        0, TipoDeEfeito.DANO_DIRETO, 20, 0, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM);
                 mago.aprenderMagia(mantoDePedra);
                 mago.aprenderMagia(impactoSismico);
                 break;
