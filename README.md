@@ -1,113 +1,65 @@
-# 🌌 Arcardium  
-### *Um Roguelike Arcano no Terminal*
+<div align="center">
 
-> Uma jornada sombria e estratégica onde você, um mago solitário, desvenda os mistérios de um grimório proibido.  
-> Inspirado por _Slay the Spire_, _Balatro_ e a atmosfera brutal de _Dark Souls_, **Arcardium** é uma experiência tática e mágica direto no seu terminal.
+# 🌌 Arcardium 🌌
 
----
+### _Um Roguelike Arcano no Terminal_
 
-## 📖 Sobre o Jogo
+</div>
 
-Em **Arcardium**, você assume o papel de um mago que explora caminhos ocultos em um mundo de magia e perigo.  
-Cada _run_ é única, gerada proceduralmente, onde decisões, sorte e estratégia definem seu destino.
-
-🧙‍♂️ **Sua missão:**  
-Sobreviver aos encontros, construir seu grimório com sinergias poderosas e derrotar o Guardião final.
+> Uma jornada sombria onde cada escolha molda seu poder. Inspirado pela estratégia de **Slay the Spire**, a aleatoriedade de **Balatro** e a atmosfera impiedosa de **Dark Souls**.
 
 ---
 
-## ✨ Principais Mecânicas
+### ✨ **Sobre o Jogo**
 
-- 🎲 **Roguelike em Turnos**  
-  Cada partida é diferente. Morreu? Volte mais forte e mais sábio.
-
-- 🔥 **Construção de Builds**  
-  Colete feitiços únicos e crie sinergias — fogo, ilusão, necromancia... o caminho é seu.
-
-- 🌐 **Mapa com Caminhos Ramificados**  
-  Escolha entre 2 a 5 opções por etapa. Cada nó representa um risco ou uma oportunidade.
-
-- 🧿 **Artefatos Místicos**  
-  Ganhe bônus passivos enfrentando elites. Eles podem transformar completamente sua build.
-
-- 🎰 **Eventos de Sorte e Azar**  
-  Mini-jogos inspirados em _Balatro_: tire cartas de Tarô, jogue Blackjack contra entidades arcanas e mais.
-
-- 💻 **Interface Retrô no Terminal**  
-  Sem gráficos pesados — apenas texto, estratégia e muita imaginação.
+**Arcardium** é uma experiência tática onde você, um mago solitário, explora caminhos gerados proceduralmente. Sua missão é simples: sobreviver, construir um grimório de poder inimaginável e derrotar os Guardiões que o aguardam.
 
 ---
 
-## 🕹️ Como Jogar
+### 🕹️ **Mecânicas Principais**
 
-1. **Escolha seu mago.**  
-   (Inicialmente, apenas um estará disponível.)
-
-2. **Navegue pelo mapa.**  
-   Escolha seu próximo destino: combate, evento, loja ou descanso.
-
-3. **Enfrente os desafios.**
-   - 🐍 **Combate:** Sistema de turnos. Gaste Mana, use feitiços, derrote inimigos e colete recompensas.
-   - 🎭 **Eventos:** Teste sua sorte em jogos arcanos.
-   - 🛒 **Loja:** Gaste ouro em feitiços, poções e artefatos.
-   - 📖 **Grimório:** Descanse ou aprimore magias.
-
-4. **Evolua seu personagem.**  
-   Ganhe XP, aumente sua Vida e Mana, prepare-se para o Guardião.
-
-5. **Derrote o Chefe do Ato.**  
-   É tudo ou nada. Estratégia, recursos e sangue frio.
+| Ícone | Mecânica |
+| :---: | :--- |
+| **🎲** | **Roguelike Tático:** Cada run é um novo desafio. A morte é só o começo. |
+| **🔥** | **Builds de Magia:** Combine feitiços de dano, buffs, debuffs e venenos. Crie sinergias devastadoras. |
+| **⚔️** | **Combate em Grupo:** Enfrente múltiplos inimigos. A escolha do alvo é a chave para a vitória. |
+| **🗺️** | **Exploração:** Navegue por salas de **Combate**, **Eventos** de sorte e azar, e **Repousos** estratégicos. |
+| **🃏** | **Mini-Jogos:** Teste seu destino com cartas de Tarô e outros jogos arcanos. |
 
 ---
 
-## 🧠 Inspirações
+### 🗺️ **Roadmap do Projeto**
 
-| Jogo           | Inspiração                                         |
-| -------------- | ------------------------------------------------- |
-| 🎴 Slay the Spire  | Estrutura de mapa, sistema de feitiços e artefatos.  |
-| 🃏 Balatro         | Mini-jogos e decisões baseadas em sorte.            |
-| 💀 Dark Souls      | Atmosfera sombria e desafio constante.               |
-| 💀 BuriedBornes    | Estrutura de combate e inspiração de HUD            |
-  
+#### ✅ **Concluído**
+- [x] Estrutura Base do Jogo e Menu
+- [x] Sistema de XP e Níveis
+- [x] Mapa Procedural com Encontros
+- [x] Arquétipos de Mago
+- [x] Sistema de Efeitos (Buffs/Debuffs)
+- [x] Combate em Grupo (1 vs N)
+- [x] Seleção de Alvo
+- [x] Eventos (Tarô) e Salas de Repouso
 
----
+#### 🎯 **Foco Atual**
+- [ ] Efeitos com Identidade (Veneno, Fogo, etc.)
+- [ ] IA e Habilidades para Inimigos
+- [ ] Gerenciamento do Grimório (Limite e Recompensas Únicas)
+- [ ] Sistema de Agilidade (Ordem de Turno)
+- [ ] Expansão de Conteúdo (Magias e Arquétipos)
 
-## 🚧 Roadmap de Desenvolvimento
-
-### 🧪 Fase 1: MVP
-
-- [X] Estrutura básica em Java e menu inicial  
-- [x] Combate em turnos  
-- [x] Um mago jogável com feitiços iniciais  
-- [X] Mapa procedural com encontros e chefe  
-- [X] XP e progressão  
-- [x] Interface no terminal  
-
-### 🔓 Fase 2: Expansão *Foco Atual*
-
-- [X] Melhorias nas Magias [Efeitos]
-- [ ] Nós de Loja e Grimório  
-- [ ] Artefatos e mini-chefes  
-- [X] Eventos (ex: Cartas de Tarô)  
-- [ ] Variedade de inimigos e magias  
-- [ ] Balanceamento inicial  
-
-### 🌟 Fase 3: Polimento
-
-- [ ] Estatísticas do Jogador
-- [ ] Salvar jogo
-- [ ] Três magos jogáveis com estilos únicos [POSSIBILIDADE] 
-- [ ] Atos 2 e 3, novos eventos e chefes  
-- [ ] Mini-jogos extras (Blackjack, Pôquer)  
-- [ ] Cores, feedback visual e sons  
+#### 🚀 **Futuro**
+- [ ] Loja e Sistema de Ouro
+- [ ] Mecânica de Invocação
+- [ ] Metaprogresso e Desbloqueios
+- [ ] Novos Atos, Chefes e Eventos
+- [ ] Melhorias de Interface e Polimento Visual
 
 ---
+
+<div align="center">
 
 ## 📄 Licença
 
-Este projeto está sob a licença [MIT](LICENSE). Use, modifique e compartilhe à vontade.  
-A magia é livre para todos.
+Licença [MIT](LICENSE). A magia é livre para todos.
 
----
-
-✨ Boa sorte, jovem mago! Que seus feitiços nunca falhem.
+</div>
