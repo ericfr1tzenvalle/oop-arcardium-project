@@ -152,6 +152,9 @@ public abstract class Personagem {
             this.hp -= danoReal;
         }
     }
+    public List<EfeitoAtivo> getEfeitosAtivos() {
+    return efeitoAtivo;
+}
 
     public void aplicarEfeito(TipoDeEfeito tipo, int valor, int duracao) {
         EfeitoAtivo efeito = new EfeitoAtivo(tipo, valor, duracao);

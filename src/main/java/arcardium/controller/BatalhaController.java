@@ -5,7 +5,6 @@ import arcardium.model.Magia;
 import arcardium.model.Mago;
 import arcardium.model.Jogador;
 import arcardium.model.MagiaFactory;
-import arcardium.model.enums.TipoAlvo;
 import arcardium.view.BatalhaView;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,17 +25,9 @@ public class BatalhaController {
         this.view = new BatalhaView();
     }
 
-    /**
-     * Inicia e executa o loop principal de uma batalha. O método só termina
-     * quando um dos combatentes é derrotado.
-     *
-     * @param jogador jogador que controla o mago.
-     * @param inimigo O adversário a ser enfrentado.
-     * @param magiaFactory o criador de magias.
-     */
     public void iniciarBatalha(Jogador jogador, List<Inimigo> grupoInimigos, MagiaFactory magiaFactory) {
         Mago mago = (Mago) jogador.getHeroi();
-
+        
         Scanner sc = new Scanner(System.in);
         view.exibirInicioBatalha(mago.getNome(),grupoInimigos.size(), "Inimigos");
         // Loop principal da batalha, continua enquanto ambos estiverem vivos.
@@ -68,7 +59,6 @@ public class BatalhaController {
             
         }
 
-        // Seção executada após o fim do loop para determinar o vencedor.
         if (mago.getHp() > 0) {
             view.exibirFimDeBatalha(mago.getNome(), true);
             jogador.ganharXP(120);
@@ -106,20 +96,12 @@ public class BatalhaController {
             }
         }
     }
-
-    /**
-     * Gerencia a lógica do turno do jogador, exibindo o menu de ações e
-     * processando a escolha.
-     *
-     * @param mago O herói que está realizando a ação.
-     * @param inimigo O alvo das ações do herói.
-     * @param sc O objeto Scanner para ler a entrada do usuário.
-     */
+    
     private void turnoDoJogador(Mago mago, List<Inimigo> grupoInimigos, Scanner sc) {
         view.exibirMenuJogador(mago.getNome());
         int opcao = -1;
 
-        // Loop do menu de ações... (a lógica interna não muda)
+        
         while (opcao != 0) {
             opcao = sc.nextInt();
             sc.nextLine();
@@ -158,7 +140,6 @@ public class BatalhaController {
                         break;
                         
                     }
-                    
                     opcao = 0;
                     break;
                 case 2:
@@ -166,7 +147,7 @@ public class BatalhaController {
                     break;
                 case 0:
                     view.exibirMensagem("Voce fugiu!");
-                    // Precisaremos de uma lógica para sair da batalha aqui no futuro
+                    
                     break;
                 default:
                     view.exibirMensagem("Opção inválida, tente novamente.");
