@@ -53,13 +53,13 @@ public class EventoTarot extends Evento {
                     break;
                 case TORRE:
                     view.revelarCarta("A Torre", "Um mau presságio! Voce está DOENTE");
-                    heroi.aplicarEfeito(TipoDeEfeito.DANO_POR_TURNO, 10, 3, NomeEfeito.SANGRAMENTO);
+                    heroi.aplicarEfeito(TipoDeEfeito.DANO_DIRETO, 20, 2, NomeEfeito.SANGRAMENTO);
                     break;
                 case MAGO:
                     view.revelarCarta("O Mago", "O cosmo te presenteia com um novo conhecimento arcano!");
                     if (heroi instanceof Mago) {
                         Mago mago = (Mago) heroi;
-                        Magia novaMagia = magiaFactory.criarMagiaAleatoria();
+                        Magia novaMagia = magiaFactory.criarMagiaUnica(mago.getMagias());
                         mago.aprenderMagia(novaMagia);
                         view.exibirMagiaAprendida(novaMagia);
                     }

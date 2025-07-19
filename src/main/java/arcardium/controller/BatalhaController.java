@@ -62,9 +62,12 @@ public class BatalhaController {
         if (mago.getHp() > 0) {
             view.exibirFimDeBatalha(mago.getNome(), true);
             jogador.ganharXP(120);
+            List<Magia> magiasParaEvitar = new ArrayList<>(mago.getMagias());
             List<Magia> recompensaMagica = new ArrayList<>();
             for (int i = 0; i < 3; i++) {
-                recompensaMagica.add(magiaFactory.criarMagiaAleatoria());
+                Magia novaMagiaUnica = magiaFactory.criarMagiaUnica(magiasParaEvitar);
+                recompensaMagica.add(novaMagiaUnica);
+                magiasParaEvitar.add(novaMagiaUnica);
             }
             view.exibirRecompensaMagias(recompensaMagica);
             int escolhaMagia = sc.nextInt();

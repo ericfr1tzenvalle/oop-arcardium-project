@@ -15,6 +15,7 @@ public enum NomeEfeito {
     SANGRAMENTO("Sangramento"),
     CURA_REGENERATIVA("Regeneração"),
     FORCA_DO_URSO("Força do Urso"),
+    MALDICAO("Maldição"),
     PELE_DE_PEDRA("Pele de Pedra");
     
     private final String nome;
