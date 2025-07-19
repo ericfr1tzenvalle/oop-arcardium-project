@@ -4,16 +4,20 @@
  */
 package arcardium.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Éric
  */
 public class Inimigo extends Heroi {
+    private List<Magia> habilidades;
     
     public Inimigo(String nome, int hp, int mp, int atk, int def, int agi) {
         super(nome, hp, mp, atk, def, agi);
+        this.habilidades = new ArrayList<>();
     }
     
-    //Metodos para inimigos.
     
 }

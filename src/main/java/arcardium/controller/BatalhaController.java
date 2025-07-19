@@ -70,9 +70,16 @@ public class BatalhaController {
                 magiasParaEvitar.add(novaMagiaUnica);
             }
             view.exibirRecompensaMagias(recompensaMagica);
-            int escolhaMagia = sc.nextInt();
-            mago.aprenderMagia(recompensaMagica.get(escolhaMagia - 1));
-            view.exibirMagiaAprendida(recompensaMagica.get(escolhaMagia - 1));
+            int magiaEscolhida = sc.nextInt();
+            if(mago.aprenderMagia(recompensaMagica.get(magiaEscolhida - 1))){
+                view.exibirMagiaAprendida(recompensaMagica.get(magiaEscolhida - 1));
+            }else{
+                view.exibirMagiasTroca(mago.getMagias(), recompensaMagica.get(magiaEscolhida - 1));
+                int magiaTroca = sc.nextInt();
+                mago.trocarMagia(magiaTroca, recompensaMagica.get(magiaEscolhida - 1));
+                view.exibirMagiaAprendida(recompensaMagica.get(magiaEscolhida - 1));
+            }
+            
 
         } else {
             for(Inimigo i: grupoInimigos){

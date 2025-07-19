@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 public class Mago extends Heroi {
-
+    private int tamanho_max_grimorio = 4;
     private List<Magia> magias;
 
     public Mago(String nome, int hp, int mp, int atk, int def, int agi) {
@@ -43,8 +43,18 @@ public class Mago extends Heroi {
         this.magias = magias;
     }
 
-    public void aprenderMagia(Magia m) {
-        magias.add(m);
+    public boolean aprenderMagia(Magia m) {
+        if(magias.size() < tamanho_max_grimorio){
+            magias.add(m);
+            return true;
+        }
+        return false;
+    }
+    
+    
+    public void trocarMagia(int indiceAtual, Magia nova){
+        magias.remove(indiceAtual);
+        magias.add(nova);
     }
 
     public void aprimorarMagia(Magia m) {
@@ -99,5 +109,7 @@ public class Mago extends Heroi {
             return false;
         }
     }
+    
+    
 
 }

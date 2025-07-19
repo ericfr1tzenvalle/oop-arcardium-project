@@ -22,7 +22,7 @@ public class MagiaFactory {
         Magia magiaGerada = new Magia("Nenhuma", "Não faz nada", 999, TipoDeEfeito.CURA, 0,0, TipoAlvo.ALIADO, NomeEfeito.MALDICAO);
 
         while (true) {
-            int magiaNum = rand.nextInt(9) + 1;
+            int magiaNum = rand.nextInt(10) + 1;
 
             switch (magiaNum) {
 
@@ -53,6 +53,8 @@ public class MagiaFactory {
                 case 9:
                     magiaGerada = new Magia("Toque Restaurador", "Recupera uma quantidade significativa de VIDA.", 20, TipoDeEfeito.CURA, 40, 1, TipoAlvo.ALIADO, NomeEfeito.NENHUM);
                     break;
+                case 10:
+                    magiaGerada = new Magia("Assombrar", "Todos os seres ficam assombrados devido a AURA AMENDONTRADORA fornecida PELA DEUSA LUISA", 40, TipoDeEfeito.DEBUFF_DEFESA, 40, 5, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.ASSOMBRAR);
 
             }
             if (verificaMagiaGerada(magiasExistentes, magiaGerada)) {

@@ -9,11 +9,23 @@ package arcardium.model.enums;
  * @author Éric
  */
 public enum TipoDeEfeito {
-    DANO_DIRETO,    // O que já temos: causa dano puro.
-    CURA,           // Recupera o HP do alvo.
-    BUFF_ATAQUE,    // Aumenta o ataque do alvo por alguns turnos.
-    BUFF_DEFESA,    // Aumenta a defesa do alvo por alguns turnos.
-    DEBUFF_ATAQUE,  // Diminui o ataque do alvo por alguns turnos.
-    DEBUFF_DEFESA,  // Diminui a defesa do alvo por alguns turnos.
-    DANO_POR_TURNO  // Causa dano contínuo (veneno/queimadura).
+    DANO_DIRETO("Dano"),    // O que já temos: causa dano puro.
+    CURA("Cura"),           // Recupera o HP do alvo.
+    BUFF_ATAQUE("Buff de Ataque"),    // Aumenta o ataque do alvo por alguns turnos.
+    BUFF_DEFESA("Buff de Defesa"),    // Aumenta a defesa do alvo por alguns turnos.
+    DEBUFF_ATAQUE("Debuff de ataque"),  // Diminui o ataque do alvo por alguns turnos.
+    DEBUFF_DEFESA("Debuff de defesa"),  // Diminui a defesa do alvo por alguns turnos.
+    DANO_POR_TURNO("Dano por turno"); // Causa dano contínuo (veneno/queimadura).
+    
+    private final String nome;
+    
+    TipoDeEfeito(String nome){
+        this.nome = nome;
+    }
+    
+    @Override
+    public String toString(){
+        return nome;
+    }
+    
 }

@@ -22,7 +22,7 @@ public class Magia {
     private TipoAlvo tipoAlvo;
     private NomeEfeito efeito;
 
-    public Magia(String nome, String descricao, int custoMana, TipoDeEfeito tipoEfeito, int valorEfeito, int duracaoEfeito, TipoAlvo tipoAlvo,  NomeEfeito efeito) {
+    public Magia(String nome, String descricao, int custoMana, TipoDeEfeito tipoEfeito, int valorEfeito, int duracaoEfeito, TipoAlvo tipoAlvo, NomeEfeito efeito) {
         this.nome = nome;
         this.nivel = 1;
         this.descricao = descricao;
@@ -85,17 +85,21 @@ public class Magia {
     public NomeEfeito getNomeEfeito() {
         return efeito;
     }
-    
-    
+
     public void aprimorarMagia() {
         this.nivel++;
-        this.custoMana -= 10; 
+        this.custoMana -= 10;
         this.valorEfeito += 10;
 
-        
         if (this.custoMana < 0) {
             this.custoMana = 0;
         }
+    }
+
+    @Override
+    public String toString() {
+        return String.format("[Lv.%d] %s | Mana: %d | Efeito: %s (%s %d por %d turnos) | Alvo: %s",
+                nivel, nome, custoMana, efeito, tipoEfeito, valorEfeito, duracaoEfeito, tipoAlvo);
     }
 
 }

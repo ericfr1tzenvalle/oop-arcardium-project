@@ -73,7 +73,17 @@ public class BatalhaView {
         System.out.println("Escolha sua magia:");
         for (int i = 0; i < mago.getMagias().size(); i++) {
             Magia magiaAtual = mago.getMagias().get(i);
-            System.out.println((i + 1) + ": " + magiaAtual.getNome() + " (Custo: " + magiaAtual.getCustoMana() + " MP)");
+            System.out.println((i + 1) + ": " + magiaAtual.toString());
+        }
+    }
+    
+    public void exibirMagiasTroca(List<Magia> magias, Magia magiaEscolhida){
+        System.out.println("Magia a ser adicionada: ");
+        System.out.println(magiaEscolhida.toString());
+        System.out.println("Magias atuais:");
+        int i = 0;
+        for(Magia magia: magias){
+            System.out.println(i++ + ": " + magia.toString());
         }
     }
 
