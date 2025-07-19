@@ -60,56 +60,9 @@ public class Mago extends Heroi {
     public void aprimorarMagia(Magia m) {
         m.aprimorarMagia();
     }
-
-    public boolean lancarMagia(Magia magia, List<Inimigo> alvos) {
-        int custo = magia.getCustoMana();
-        int mpAtual = super.getMp();
-        int valor = magia.getValorEfeito();
-        int duracao = magia.getDuracaoEfeito();
-        NomeEfeito nomeEfeito = magia.getNomeEfeito();
-        if (mpAtual >= custo) {
-            TipoDeEfeito efeito = magia.getTipoEfeito();
-            if (magia.getTipoAlvo() == TipoAlvo.ALIADO) {
-
-                switch (efeito) {
-                    case BUFF_ATAQUE:
-                        this.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
-                        break;
-                    case CURA:
-                        this.receberCura(valor);
-                        break;
-                    case BUFF_DEFESA:
-                        this.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
-                        break;
-
-                }
-
-            } else {
-                for (Inimigo alvo : alvos) {
-                    switch (efeito) {
-                        case DEBUFF_ATAQUE:
-                            alvo.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
-                            break;
-                        case DEBUFF_DEFESA:
-                            alvo.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
-                            break;
-                        case DANO_POR_TURNO:
-                            alvo.aplicarEfeito(efeito, valor, duracao , nomeEfeito);
-                            break;
-                        case DANO_DIRETO:
-                            alvo.tomarDano(valor);
-                    }
-                }
-
-            }
-            super.setMp(mpAtual - custo);
-            return true;
-        } else {
-            System.out.println("MP insuficiente para lançar " + magia.getNome());
-            return false;
-        }
+    public boolean lancarMagia(Magia magia, List<Personagem> alvos){
+        return this.lancarHabilidade(magia, alvos);
     }
-    
-    
 
+    
 }

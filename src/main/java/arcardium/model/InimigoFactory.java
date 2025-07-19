@@ -4,6 +4,7 @@
  */
 package arcardium.model;
 
+import arcardium.model.enums.RankInimigo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,13 +24,13 @@ public class InimigoFactory {
         // Ou o level do mago, pensando ainda...
         switch (inimigo) {
             case 1:
-                return new Inimigo("Slime Ácido", 30, 0, 10, 8, 5);
+                return new Inimigo("[D] Slime Ácido", 30, 0, 10, 8, 5, RankInimigo.D);
 
             case 2:
-                return new Inimigo("Morcego da Caverna", 25, 0, 12, 3, 18);
+                return new Inimigo("[D] Morcego da Caverna", 25, 0, 12, 3, 18, RankInimigo.D);
 
             case 3:
-                return new Inimigo("Lobo das Sombras", 40, 0, 15, 4, 15);
+                return new Inimigo("[C] Lobo das Sombras", 40, 0, 15, 4, 15, RankInimigo.C);
         }
 
         return null;

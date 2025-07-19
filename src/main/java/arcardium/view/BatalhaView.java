@@ -105,6 +105,20 @@ public class BatalhaView {
         }
 
     }
+    public void exibirAtaqueTodos(Magia magiaEscolhida, Mago mago, List<Inimigo> inimigos){
+        System.out.println(mago.getNome() + " [LANÇA SUA MAGIA] ");
+        System.out.println("[" + magiaEscolhida.getNome().toUpperCase() + "]");
+        System.out.println(magiaEscolhida.getDescricao());
+        for(Inimigo i: inimigos){
+             if (magiaEscolhida.getTipoEfeito() == TipoDeEfeito.DANO_DIRETO || magiaEscolhida.getTipoEfeito() == TipoDeEfeito.DANO_POR_TURNO) {
+            int defesa = i.getDef();
+            int dano = magiaEscolhida.getValorEfeito() - defesa;
+            System.out.println("Causando " + "[" + dano + "]" + " de DANO no " + "[" + i.getNome() + "]");
+        } else {
+            System.out.println("[" + magiaEscolhida.getTipoEfeito() + "] de " + magiaEscolhida.getValorEfeito());
+        }
+        }
+    }
 
     public void exibirMagiaAliado(Magia magiaEscolhida, Mago mago) {
         System.out.println(mago.getNome() + " [LANÇA SUA MAGIA] ");

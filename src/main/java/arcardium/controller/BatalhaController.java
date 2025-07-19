@@ -5,6 +5,7 @@ import arcardium.model.Magia;
 import arcardium.model.Mago;
 import arcardium.model.Jogador;
 import arcardium.model.MagiaFactory;
+import arcardium.model.Personagem;
 import arcardium.view.BatalhaView;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -137,10 +138,9 @@ public class BatalhaController {
                     }
                         break;
                         case TODOS_INIMIGOS:
-                        if(mago.lancarMagia(magiaEscolhida, grupoInimigos)){
-                            for(Inimigo i: grupoInimigos){
-                                view.exibirAtaque(magiaEscolhida,mago,i);
-                            }
+                        List<Personagem> grupoAlvos = new ArrayList<>(grupoInimigos);
+                        if(mago.lancarMagia(magiaEscolhida, grupoAlvos)){
+                            view.exibirAtaqueTodos(magiaEscolhida, mago, grupoInimigos);
                         }
                         break;
                         case ALIADO:
