@@ -46,8 +46,9 @@ public class EventoView {
         }
     }
     public void mostrarOpcoesMagias(List<Magia> magias){
+        int i = 1;
         for(Magia m: magias){
-            System.out.println(m.getNome() + " | " + m.getDescricao());
+            System.out.println(i++ + m.toString());
         }
     }
     

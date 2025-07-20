@@ -88,8 +88,8 @@ public class Magia {
 
     public void aprimorarMagia() {
         this.nivel++;
-        this.custoMana -= 10;
-        this.valorEfeito += 10;
+        this.custoMana -= 2;
+        this.valorEfeito += 5;
 
         if (this.custoMana < 0) {
             this.custoMana = 0;
@@ -99,7 +99,7 @@ public class Magia {
     @Override
     public String toString() {
         return String.format("[Lv.%d] %s | Custo: %d | Efeito: %s (%s %d por %d turnos) | Alvo: %s\n"
-                + "[%s]",
+                + "          [%s]       ",
                 nivel, nome, custoMana, efeito, tipoEfeito, valorEfeito, duracaoEfeito, tipoAlvo,descricao);
     }
 

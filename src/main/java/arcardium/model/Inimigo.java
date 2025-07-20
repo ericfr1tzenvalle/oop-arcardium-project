@@ -9,31 +9,52 @@ import arcardium.model.enums.RankInimigo;
 import arcardium.model.ia.Comportamento;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
  * @author Éric
  */
 public class Inimigo extends Heroi {
+
     private List<Magia> habilidades;
     private final RankInimigo rank;
     private Comportamento comportamento;
-    
+    private List<Magia> habilidadesUsadasNestaBatalha;
+    private int indiceHabilidadeSequencial;
+
     public Inimigo(String nome, int hp, int mp, int atk, int def, int agi, RankInimigo rank, Comportamento comportamento) {
         super(nome, hp, mp, atk, def, agi);
         this.habilidades = new ArrayList<>();
         this.rank = rank;
         this.comportamento = comportamento;
+        this.habilidadesUsadasNestaBatalha = new ArrayList<>();
+        this.indiceHabilidadeSequencial = 0;
     }
-    
-    public void aprenderHabilidade(Magia habilidade){
+
+    public List<Magia> getHabilidadesUsadasNestaBatalha() {
+        return habilidadesUsadasNestaBatalha;
+    }
+
+    public void setHabilidadesUsadasNestaBatalha(List<Magia> habilidadesUsadasNestaBatalha) {
+        this.habilidadesUsadasNestaBatalha = habilidadesUsadasNestaBatalha;
+    }
+
+    public int getIndiceHabilidadeSequencial() {
+        return indiceHabilidadeSequencial;
+    }
+
+    public void setIndiceHabilidadeSequencial(int indiceHabilidadeSequencial) {
+        this.indiceHabilidadeSequencial = indiceHabilidadeSequencial;
+    }
+       
+
+    public void aprenderHabilidade(Magia habilidade) {
         habilidades.add(habilidade);
     }
-    
-    public void usarHabilidade(Magia habilidade, List<Personagem> alvos){
+
+    public void usarHabilidade(Magia habilidade, List<Personagem> alvos) {
         this.lancarHabilidade(habilidade, alvos);
-        
+
     }
 
     public List<Magia> getHabilidades() {
@@ -43,31 +64,17 @@ public class Inimigo extends Heroi {
     public RankInimigo getRank() {
         return rank;
     }
-    public boolean possuiHabilidade(NomeEfeito efeito){
-        for(Magia m: habilidades){
-            if(m.getNomeEfeito() == efeito){
+    public boolean verificaMagiaUsada(NomeEfeito nome){
+        for(Magia magia: habilidadesUsadasNestaBatalha){
+            if(magia.getNomeEfeito() == nome){
                 return true;
             }
-            
         }
         return false;
     }
-    public Magia retornaMagiaEspecifica(NomeEfeito efeito){
-        for(Magia m: habilidades){
-            if(m.getNomeEfeito() == efeito){
-                return m;
-            }
-            
-        }
-        return null;
-    }
     
-    public Magia escolherAcao(Inimigo inimigo, List<Personagem> alvo){
+    public Magia escolherAcao(Inimigo inimigo, List<Personagem> alvo) {
         return this.comportamento.escolherAcao(this, alvo);
     }
-    
-    
-    
-    
-    
+
 }

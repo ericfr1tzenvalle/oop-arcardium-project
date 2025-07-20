@@ -43,6 +43,15 @@ public class Mago extends Heroi {
         this.magias = magias;
     }
 
+    public void setTamanho_max_grimorio(int tamanho_max_grimorio) {
+        this.tamanho_max_grimorio = tamanho_max_grimorio;
+    }
+
+    public int getTamanho_max_grimorio() {
+        return tamanho_max_grimorio;
+    }
+     
+
     public boolean aprenderMagia(Magia m) {
         if(magias.size() < tamanho_max_grimorio){
             magias.add(m);

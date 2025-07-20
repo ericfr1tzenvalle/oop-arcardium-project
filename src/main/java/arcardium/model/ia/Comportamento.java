@@ -15,4 +15,5 @@ import java.util.List;
  */
 public interface Comportamento {
     public Magia escolherAcao(Inimigo inimigo, List<Personagem> alvos);
+    
 }

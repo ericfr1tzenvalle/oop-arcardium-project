@@ -164,6 +164,14 @@ public abstract class Personagem {
         efeitoAtivo.add(efeito);
 
     }
+    public boolean verificaEfeitoAtivo(NomeEfeito nome){
+        for(EfeitoAtivo e: efeitoAtivo){
+            if(e.getNomeEfeito() == nome){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void resetarEfeitos() {
         this.efeitoAtivo.clear();
