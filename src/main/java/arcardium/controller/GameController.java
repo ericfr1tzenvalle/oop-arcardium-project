@@ -14,9 +14,12 @@ import arcardium.model.MagiaFactory;
 import arcardium.model.Mago;
 import arcardium.model.Sala;
 import arcardium.model.enums.NomeEfeito;
+import arcardium.model.enums.RankInimigo;
 import arcardium.model.enums.TipoAlvo;
 import arcardium.model.enums.TipoDeEfeito;
 import arcardium.model.enums.TipoSala;
+import arcardium.model.ia.Comportamento;
+import arcardium.model.ia.ComportamentoAleatorio;
 import arcardium.view.GameView;
 import java.util.List;
 import java.util.Scanner;
@@ -124,8 +127,9 @@ public class GameController {
                 }
             } else if (salaEscolhida.getTipo() == TipoSala.CHEFE) {
                 System.out.println("Você entrou na sala do CHEFE! Cuidado!");
-                Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12);
-                //bc.iniciarBatalha(jogador, chefe, magiaFactory);
+                Comportamento a = new ComportamentoAleatorio();
+                Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12, RankInimigo.B, a);
+                bc.iniciarBatalha(jogador, List.of(chefe), magiaFactory);
             } else if (salaEscolhida.getTipo() == TipoSala.EVENTO) {
                 System.out.println("Encontrou um EVENTO!!!");
                 EventoFactory fc = new EventoFactory();

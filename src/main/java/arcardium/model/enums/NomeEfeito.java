@@ -17,6 +17,7 @@ public enum NomeEfeito {
     FORCA_DO_URSO("Força do Urso"),
     MALDICAO("Maldição"),
     ASSOMBRAR("ASSOMBRAÇÃO DA DEUSA LUISA"),
+    ENFURECIDO("Enfurecido"),
     PELE_DE_PEDRA("Pele de Pedra");
     
     private final String nome;

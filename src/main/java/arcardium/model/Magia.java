@@ -98,8 +98,9 @@ public class Magia {
 
     @Override
     public String toString() {
-        return String.format("[Lv.%d] %s | Mana: %d | Efeito: %s (%s %d por %d turnos) | Alvo: %s",
-                nivel, nome, custoMana, efeito, tipoEfeito, valorEfeito, duracaoEfeito, tipoAlvo);
+        return String.format("[Lv.%d] %s | Custo: %d | Efeito: %s (%s %d por %d turnos) | Alvo: %s\n"
+                + "[%s]",
+                nivel, nome, custoMana, efeito, tipoEfeito, valorEfeito, duracaoEfeito, tipoAlvo,descricao);
     }
 
 }

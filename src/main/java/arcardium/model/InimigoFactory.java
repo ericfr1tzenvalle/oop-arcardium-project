@@ -4,7 +4,12 @@
  */
 package arcardium.model;
 
+import arcardium.model.enums.NomeEfeito;
 import arcardium.model.enums.RankInimigo;
+import arcardium.model.enums.TipoAlvo;
+import arcardium.model.enums.TipoDeEfeito;
+import arcardium.model.ia.Comportamento;
+import arcardium.model.ia.ComportamentoAleatorio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,21 +21,35 @@ import java.util.Random;
 public class InimigoFactory {
 
     public Inimigo criarInimigoAleatorio(int andar) {
+        Comportamento compAleatorio = new ComportamentoAleatorio();
+        Inimigo inimigo;
 
         Random rand = new Random();
 
-        int inimigo = rand.nextInt(3) + 1;
+        int numIni = rand.nextInt(3) + 1;
         // Posteriormente estaremos usando o andar como base também para definir inimigos mais fortes ou fracos
         // Ou o level do mago, pensando ainda...
-        switch (inimigo) {
+        switch (numIni) {
             case 1:
-                return new Inimigo("[D] Slime Ácido", 30, 0, 10, 8, 5, RankInimigo.D);
+                inimigo = new Inimigo("Slime Ácido", 30, 0, 10, 8, 5, RankInimigo.D, compAleatorio);
+                Magia guspeAcido = new Magia("Guspe acido","Gospe um acido que corroi",0,TipoDeEfeito.DANO_DIRETO,20,1,TipoAlvo.ALVO_UNICO,NomeEfeito.NENHUM);
+                inimigo.aprenderHabilidade(guspeAcido);
+                return inimigo;
+                
 
             case 2:
-                return new Inimigo("[D] Morcego da Caverna", 25, 0, 12, 3, 18, RankInimigo.D);
+                inimigo =  new Inimigo("Morcego da Caverna", 25, 0, 12, 3, 18, RankInimigo.D, compAleatorio);
+                Magia mordida = new Magia("Mordida", "Mordida que aplica dano", 0, TipoDeEfeito.DANO_DIRETO, 10, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM);
+                inimigo.aprenderHabilidade(mordida);
+                return inimigo;
 
             case 3:
-                return new Inimigo("[C] Lobo das Sombras", 40, 0, 15, 4, 15, RankInimigo.C);
+                inimigo =  new Inimigo("Lobo das Sombras", 40, 0, 15, 4, 15, RankInimigo.C, compAleatorio);
+                Magia garraDupla = new Magia("Garra Dupla", "Duplo golpe com as garras",0,TipoDeEfeito.DANO_POR_TURNO,10,4,TipoAlvo.ALVO_UNICO,NomeEfeito.SANGRAMENTO);
+                Magia enfurecer = new Magia("Enfurecer", "Se enfurece e aumenta o ATK", 0, TipoDeEfeito.BUFF_ATAQUE, 15, 2, TipoAlvo.ALIADO,NomeEfeito.ENFURECIDO);
+                inimigo.aprenderHabilidade(garraDupla);
+                inimigo.aprenderHabilidade(enfurecer);
+                return inimigo;
         }
 
         return null;

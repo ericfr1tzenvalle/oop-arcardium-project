@@ -4,9 +4,12 @@
  */
 package arcardium.model;
 
+import arcardium.model.enums.NomeEfeito;
 import arcardium.model.enums.RankInimigo;
+import arcardium.model.ia.Comportamento;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -15,11 +18,13 @@ import java.util.List;
 public class Inimigo extends Heroi {
     private List<Magia> habilidades;
     private final RankInimigo rank;
+    private Comportamento comportamento;
     
-    public Inimigo(String nome, int hp, int mp, int atk, int def, int agi, RankInimigo rank) {
+    public Inimigo(String nome, int hp, int mp, int atk, int def, int agi, RankInimigo rank, Comportamento comportamento) {
         super(nome, hp, mp, atk, def, agi);
         this.habilidades = new ArrayList<>();
         this.rank = rank;
+        this.comportamento = comportamento;
     }
     
     public void aprenderHabilidade(Magia habilidade){
@@ -38,16 +43,27 @@ public class Inimigo extends Heroi {
     public RankInimigo getRank() {
         return rank;
     }
-    
-    public void escolherAcao(){
-        
-        switch(this.rank){
-            case A:
-                //Inimigos mais inteligentes, usam debuffs precisos e buffs tambem
-                break;
-                
-                
+    public boolean possuiHabilidade(NomeEfeito efeito){
+        for(Magia m: habilidades){
+            if(m.getNomeEfeito() == efeito){
+                return true;
+            }
+            
         }
+        return false;
+    }
+    public Magia retornaMagiaEspecifica(NomeEfeito efeito){
+        for(Magia m: habilidades){
+            if(m.getNomeEfeito() == efeito){
+                return m;
+            }
+            
+        }
+        return null;
+    }
+    
+    public Magia escolherAcao(Inimigo inimigo, List<Personagem> alvo){
+        return this.comportamento.escolherAcao(this, alvo);
     }
     
     

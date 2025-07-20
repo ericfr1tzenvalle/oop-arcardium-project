@@ -8,6 +8,7 @@ package arcardium.model.enums;
  *
  * @author Luísa
  */
+//TODO: melhorar enum
 public enum TipoAlvo {
     ALVO_UNICO,
     TODOS_INIMIGOS,

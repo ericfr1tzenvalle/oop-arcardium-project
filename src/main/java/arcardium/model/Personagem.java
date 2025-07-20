@@ -154,16 +154,18 @@ public abstract class Personagem {
             this.hp -= danoReal;
         }
     }
+
     public List<EfeitoAtivo> getEfeitosAtivos() {
-    return efeitoAtivo;
-}
+        return efeitoAtivo;
+    }
 
     public void aplicarEfeito(TipoDeEfeito tipo, int valor, int duracao, NomeEfeito nome) {
-        EfeitoAtivo efeito = new EfeitoAtivo(tipo, valor, duracao,nome);
+        EfeitoAtivo efeito = new EfeitoAtivo(tipo, valor, duracao, nome);
         efeitoAtivo.add(efeito);
 
     }
-    public void resetarEfeitos(){
+
+    public void resetarEfeitos() {
         this.efeitoAtivo.clear();
     }
 
@@ -173,7 +175,7 @@ public abstract class Personagem {
             this.hp = this.maxHp;
         }
     }
-    
+
     public boolean lancarHabilidade(Magia magia, List<Personagem> alvos) {
         int custo = magia.getCustoMana();
         int mpAtual = this.getMp();
@@ -207,7 +209,7 @@ public abstract class Personagem {
                             alvo.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
                             break;
                         case DANO_POR_TURNO:
-                            alvo.aplicarEfeito(efeito, valor, duracao , nomeEfeito);
+                            alvo.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
                             break;
                         case DANO_DIRETO:
                             alvo.tomarDano(valor);
@@ -215,7 +217,7 @@ public abstract class Personagem {
                 }
 
             }
-            if(this instanceof Mago){
+            if (this instanceof Mago) {
                 this.setMp(this.getMp() - custo);
             }
             return true;

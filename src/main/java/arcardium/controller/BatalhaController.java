@@ -28,36 +28,36 @@ public class BatalhaController {
 
     public void iniciarBatalha(Jogador jogador, List<Inimigo> grupoInimigos, MagiaFactory magiaFactory) {
         Mago mago = (Mago) jogador.getHeroi();
-        
+
         Scanner sc = new Scanner(System.in);
-        view.exibirInicioBatalha(mago.getNome(),grupoInimigos.size(), "Inimigos");
+        view.exibirInicioBatalha(mago.getNome(), grupoInimigos.size(), "Inimigos");
         // Loop principal da batalha, continua enquanto ambos estiverem vivos.
         while (mago.getHp() > 0 && !grupoInimigos.isEmpty()) {
-            
+
             //Verificamos os efeitos, VENENO, SANGRAMENTO, CURA ETC.
-            for(Inimigo inimigos: grupoInimigos){
+            for (Inimigo inimigos : grupoInimigos) {
                 inimigos.processarEfeitosPorTurno();
             }
             mago.processarEfeitosPorTurno();
             //Verificamos se algum inimigo morreu no processo dos EFEITOS
             removerInimigosDerrotados(grupoInimigos);
-            if(grupoInimigos.isEmpty() || mago.getHp() <= 0){
+            if (grupoInimigos.isEmpty() || mago.getHp() <= 0) {
                 break;
             }
-            
+
             view.exibirStatusTurno(mago, grupoInimigos);
 
             // Executa o turno do jogador
             turnoDoJogador(mago, grupoInimigos, sc);
 
-           removerInimigosDerrotados(grupoInimigos);
-           
-           if(!grupoInimigos.isEmpty()){
-               turnoDosInimigos(grupoInimigos,mago);
-           }
-            
+            removerInimigosDerrotados(grupoInimigos);
 
-            
+            if (!grupoInimigos.isEmpty()) {
+                List<Personagem> alvo = new ArrayList<>();
+                alvo.add(mago);
+                turnoDosInimigos(grupoInimigos, alvo);
+            }
+
         }
 
         if (mago.getHp() > 0) {
@@ -72,28 +72,33 @@ public class BatalhaController {
             }
             view.exibirRecompensaMagias(recompensaMagica);
             int magiaEscolhida = sc.nextInt();
-            if(mago.aprenderMagia(recompensaMagica.get(magiaEscolhida - 1))){
-                view.exibirMagiaAprendida(recompensaMagica.get(magiaEscolhida - 1));
-            }else{
-                view.exibirMagiasTroca(mago.getMagias(), recompensaMagica.get(magiaEscolhida - 1));
-                int magiaTroca = sc.nextInt();
-                mago.trocarMagia(magiaTroca, recompensaMagica.get(magiaEscolhida - 1));
-                view.exibirMagiaAprendida(recompensaMagica.get(magiaEscolhida - 1));
+            if (magiaEscolhida != 4) {
+
+                if (mago.aprenderMagia(recompensaMagica.get(magiaEscolhida - 1))) {
+                    view.exibirMagiaAprendida(recompensaMagica.get(magiaEscolhida - 1));
+                } else {
+                    view.exibirMagiasTroca(mago.getMagias(), recompensaMagica.get(magiaEscolhida - 1));
+                    int magiaTroca = sc.nextInt();
+                    mago.trocarMagia(magiaTroca, recompensaMagica.get(magiaEscolhida - 1));
+                    view.exibirMagiaAprendida(recompensaMagica.get(magiaEscolhida - 1));
+                }
             }
-            
 
         } else {
-            for(Inimigo i: grupoInimigos){
+            for (Inimigo i : grupoInimigos) {
                 view.exibirFimDeBatalha(i.getNome(), true);
             }
         }
     }
 
-    
-    private void turnoDosInimigos(List<Inimigo> grupoInimigos, Mago mago) {
+    private void turnoDosInimigos(List<Inimigo> grupoInimigos, List<Personagem> alvo) {
         for (Inimigo inimigo : grupoInimigos) {
             view.exibirTurnoInimigo(inimigo.getNome());
-            inimigo.atacar(mago);
+            Magia magiaSelecionada = inimigo.escolherAcao(inimigo, alvo);
+            if (inimigo.lancarHabilidade(magiaSelecionada, alvo)) {
+                view.exibirAtaqueInimigo(magiaSelecionada, alvo, inimigo);
+            }
+
         }
     }
 
@@ -107,12 +112,11 @@ public class BatalhaController {
             }
         }
     }
-    
+
     private void turnoDoJogador(Mago mago, List<Inimigo> grupoInimigos, Scanner sc) {
         view.exibirMenuJogador(mago.getNome());
         int opcao = -1;
 
-        
         while (opcao != 0) {
             opcao = sc.nextInt();
             sc.nextLine();
@@ -122,33 +126,33 @@ public class BatalhaController {
                     view.exibirMagias(mago);
                     int escolha = sc.nextInt();
                     Magia magiaEscolhida = mago.getMagias().get(escolha - 1);
-                    switch(magiaEscolhida.getTipoAlvo()){
+                    switch (magiaEscolhida.getTipoAlvo()) {
                         case ALVO_UNICO:
-                        if(grupoInimigos.size() > 1){
-                        view.exibirOpcoesAlvos(grupoInimigos);
-                        escolha = sc.nextInt();
-                        Inimigo inimigo = grupoInimigos.get(escolha - 1);
-                        if (mago.lancarMagia(magiaEscolhida, List.of(inimigo))) {
-                        view.exibirAtaque(magiaEscolhida, mago, inimigo);
-                        }
-                    }else{
-                        if (mago.lancarMagia(magiaEscolhida, List.of(grupoInimigos.getFirst()))) {
-                        view.exibirAtaque(magiaEscolhida, mago, grupoInimigos.getFirst());
-                        } 
-                    }
-                        break;
+                            if (grupoInimigos.size() > 1) {
+                                view.exibirOpcoesAlvos(grupoInimigos);
+                                escolha = sc.nextInt();
+                                Inimigo inimigo = grupoInimigos.get(escolha - 1);
+                                if (mago.lancarMagia(magiaEscolhida, List.of(inimigo))) {
+                                    view.exibirAtaque(magiaEscolhida, mago, inimigo);
+                                }
+                            } else {
+                                if (mago.lancarMagia(magiaEscolhida, List.of(grupoInimigos.getFirst()))) {
+                                    view.exibirAtaque(magiaEscolhida, mago, grupoInimigos.getFirst());
+                                }
+                            }
+                            break;
                         case TODOS_INIMIGOS:
-                        List<Personagem> grupoAlvos = new ArrayList<>(grupoInimigos);
-                        if(mago.lancarMagia(magiaEscolhida, grupoAlvos)){
-                            view.exibirAtaqueTodos(magiaEscolhida, mago, grupoInimigos);
-                        }
-                        break;
+                            List<Personagem> grupoAlvos = new ArrayList<>(grupoInimigos);
+                            if (mago.lancarMagia(magiaEscolhida, grupoAlvos)) {
+                                view.exibirAtaqueTodos(magiaEscolhida, mago, grupoInimigos);
+                            }
+                            break;
                         case ALIADO:
-                        if (mago.lancarMagia(magiaEscolhida, new ArrayList<>())) { 
+                            if (mago.lancarMagia(magiaEscolhida, new ArrayList<>())) {
                                 view.exibirMagiaAliado(magiaEscolhida, mago);
                             }
-                        break;
-                        
+                            break;
+
                     }
                     opcao = 0;
                     break;
@@ -157,7 +161,7 @@ public class BatalhaController {
                     break;
                 case 0:
                     view.exibirMensagem("Voce fugiu!");
-                    
+
                     break;
                 default:
                     view.exibirMensagem("Opção inválida, tente novamente.");
