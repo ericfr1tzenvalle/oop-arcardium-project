@@ -15,21 +15,37 @@ import java.util.List;
  * @author Éric
  */
 public class Inimigo extends Heroi {
-
+    
+    private int recompensaXp;
+    private int recompensaOuro;
     private List<Magia> habilidades;
     private final RankInimigo rank;
     private Comportamento comportamento;
     private List<Magia> habilidadesUsadasNestaBatalha;
     private int indiceHabilidadeSequencial;
 
-    public Inimigo(String nome, int hp, int mp, int atk, int def, int agi, RankInimigo rank, Comportamento comportamento) {
+    public Inimigo(String nome, int hp, int mp, int atk, int def, int agi, RankInimigo rank, Comportamento comportamento, int recompensaXp, int recompensaOuro) {
         super(nome, hp, mp, atk, def, agi);
         this.habilidades = new ArrayList<>();
         this.rank = rank;
         this.comportamento = comportamento;
         this.habilidadesUsadasNestaBatalha = new ArrayList<>();
         this.indiceHabilidadeSequencial = 0;
+        this.recompensaOuro = recompensaOuro;
+        this.recompensaXp = recompensaXp;
     }
+
+    public int getRecompensaXp() {
+        return recompensaXp;
+    }
+
+    public int getRecompensaOuro() {
+        return recompensaOuro;
+    }
+
+    
+    
+   
 
     public List<Magia> getHabilidadesUsadasNestaBatalha() {
         return habilidadesUsadasNestaBatalha;

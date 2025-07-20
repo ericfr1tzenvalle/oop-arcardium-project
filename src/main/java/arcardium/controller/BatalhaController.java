@@ -31,6 +31,11 @@ public class BatalhaController {
 
         Scanner sc = new Scanner(System.in);
         view.exibirInicioBatalha(mago.getNome(), grupoInimigos.size(), "Inimigos");
+        int recompensaGold = 0; int recompensaXp = 0;
+        for(Inimigo i: grupoInimigos){
+            recompensaGold += i.getRecompensaOuro();
+            recompensaXp += i.getRecompensaXp();
+        }
         // Loop principal da batalha, continua enquanto ambos estiverem vivos.
         while (mago.getHp() > 0 && !grupoInimigos.isEmpty()) {
 
@@ -62,7 +67,7 @@ public class BatalhaController {
 
         if (mago.getHp() > 0) {
             view.exibirFimDeBatalha(mago.getNome(), true);
-            jogador.ganharXP(120);
+            jogador.ganharXP(recompensaXp, mago);
             List<Magia> magiasParaEvitar = new ArrayList<>(mago.getMagias());
             List<Magia> recompensaMagica = new ArrayList<>();
             for (int i = 0; i < 3; i++) {
@@ -72,7 +77,7 @@ public class BatalhaController {
             }
             view.exibirRecompensaMagias(recompensaMagica);
             int magiaEscolhida = sc.nextInt();
-            if (magiaEscolhida != 4) {
+            if (magiaEscolhida < 4) {
 
                 if (mago.aprenderMagia(recompensaMagica.get(magiaEscolhida - 1))) {
                     view.exibirMagiaAprendida(recompensaMagica.get(magiaEscolhida - 1));

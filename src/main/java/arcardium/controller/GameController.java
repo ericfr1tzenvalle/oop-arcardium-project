@@ -20,6 +20,7 @@ import arcardium.model.enums.TipoDeEfeito;
 import arcardium.model.enums.TipoSala;
 import arcardium.model.ia.Comportamento;
 import arcardium.model.ia.ComportamentoAleatorio;
+import arcardium.model.ia.ComportamentoSequencial;
 import arcardium.view.GameView;
 import java.util.List;
 import java.util.Scanner;
@@ -128,7 +129,7 @@ public class GameController {
             } else if (salaEscolhida.getTipo() == TipoSala.CHEFE) {
                 System.out.println("Você entrou na sala do CHEFE! Cuidado!");
                 Comportamento a = new ComportamentoAleatorio();
-                Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12, RankInimigo.B, a);
+                Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12, RankInimigo.B,new ComportamentoSequencial(),200, 300);
                 bc.iniciarBatalha(jogador, List.of(chefe), magiaFactory);
             } else if (salaEscolhida.getTipo() == TipoSala.EVENTO) {
                 System.out.println("Encontrou um EVENTO!!!");

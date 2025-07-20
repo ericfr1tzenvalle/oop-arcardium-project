@@ -57,26 +57,36 @@ public class Jogador {
         this.xpParaProximoNivel = xpParaProximoNivel;
     }
 
-    public void ganharXP(int quantidade) {
+    public void ganharXP(int quantidade, Personagem alvo) {
         this.xpAtual += quantidade;
         //Testes
         System.out.println(this.heroi.getNome() + " ganhou " + quantidade + " de XP!");
         if (this.xpAtual >= this.getXpParaProximoNivel()) {
-            subirDeNivel();
+            subirDeNivel(alvo);
         }
     }
 
-    private void subirDeNivel() {
+    private void subirDeNivel(Personagem alvo) {
         this.nivel++;
         this.xpAtual = this.xpAtual - this.xpParaProximoNivel;
         this.xpParaProximoNivel *= 1.5;
         System.out.println("------------------");
         System.out.println("LEVEL UP! Voce alcançou o nivel " + this.nivel + " !");
-
-        this.heroi.setHp(this.heroi.getHp() + 20);
-        this.heroi.setMp(this.heroi.getMp() + 10);
-        this.heroi.setAtk(this.heroi.getAtk() + 2);
-        this.heroi.setDef(this.heroi.getDef() + 1);
+        alvo.setHp(alvo.getHp()+ 20);
+        alvo.setMaxHp(alvo.getMaxHp() + 5);
+        if(alvo.getHp() > alvo.getMaxHp()){
+            alvo.setHp(alvo.getMaxHp());
+        }
+        alvo.setMp(alvo.getMp() + 30);
+        alvo.setMaxMp(alvo.getMaxHp() + 10);
+        if(alvo.getMp() > alvo.getMaxMp()){
+            alvo.setMp(alvo.getMaxMp());
+        }
+        alvo.setDef(alvo.getDef() + 1);
+        alvo.setAtk(alvo.getAtk() + 2);
+        
+        
+       
 
         System.out.println("Seus atributos foram fortalecidos!");
         System.out.println("---------------------------------");
