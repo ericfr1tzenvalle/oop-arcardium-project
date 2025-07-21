@@ -149,10 +149,14 @@ public abstract class Personagem {
     }
 
     public void tomarDano(int dano) {
-        int danoReal = dano - this.def;
-        if (danoReal > 0) {
-            this.hp -= danoReal;
+        int defesaTotal = this.getDef();
+        int danoReal = (int) (dano *(100.0 / (100.0 + defesaTotal)));
+        
+        if(dano > 0 && danoReal < 1){
+            danoReal = 1;
         }
+        this.hp -= danoReal;
+        
     }
 
     public List<EfeitoAtivo> getEfeitosAtivos() {

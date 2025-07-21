@@ -104,7 +104,7 @@ public class GameController {
         MagiaFactory magiaFactory = new MagiaFactory();
 
         System.out.println("\n--- A JORNADA DE " + jogador.getHeroi().getNome() + " COMEÇA ---");
-        List<List<Sala>> mapaGerado = mapaController.gerarMapa(5);
+        List<List<Sala>> mapaGerado = mapaController.gerarMapa(20);
 
         for (int i = 0; i < mapaGerado.size(); i++) {
             List<Sala> andarAtual = mapaGerado.get(i);
@@ -129,7 +129,7 @@ public class GameController {
             } else if (salaEscolhida.getTipo() == TipoSala.CHEFE) {
                 System.out.println("Você entrou na sala do CHEFE! Cuidado!");
                 Comportamento a = new ComportamentoAleatorio();
-                Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12, RankInimigo.B,new ComportamentoSequencial(),200, 300);
+                Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12, RankInimigo.B,new ComportamentoSequencial());
                 bc.iniciarBatalha(jogador, List.of(chefe), magiaFactory);
             } else if (salaEscolhida.getTipo() == TipoSala.EVENTO) {
                 System.out.println("Encontrou um EVENTO!!!");

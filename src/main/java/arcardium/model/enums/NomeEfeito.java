@@ -16,9 +16,13 @@ public enum NomeEfeito {
     CURA_REGENERATIVA("Regeneração"),
     FORCA_DO_URSO("Força do Urso"),
     MALDICAO("Maldição"),
+    AMENDONTRAR("Amendontrar"),
     ASSOMBRAR("ASSOMBRAÇÃO DA DEUSA LUISA"),
     ENFURECIDO("Enfurecido"),
-    PELE_DE_PEDRA("Pele de Pedra");
+    PELE_DE_PEDRA("Pele de Pedra"),
+    RESISTENTE("Resistente"),
+    AGIL("Agil"),
+    INFECTADO("Infectado");
     
     private final String nome;
 
