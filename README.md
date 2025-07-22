@@ -41,10 +41,10 @@
 - [x] Eventos (Tarô) e Salas de Repouso
 
 #### 🎯 **Foco Atual**
-- [ ] Efeitos com Identidade (Veneno, Fogo, etc.)
-- [ ] IA e Habilidades para Inimigos
-- [ ] Gerenciamento do Grimório (Limite e Recompensas Únicas)
-- [ ] Sistema de Agilidade (Ordem de Turno)
+- [X] Efeitos com Identidade (Veneno, Fogo, etc.)
+- [x] IA e Habilidades para Inimigos
+- [x] Gerenciamento do Grimório (Limite e Recompensas Únicas)
+- [x] Sistema de Agilidade (Ordem de Turno)
 - [ ] Expansão de Conteúdo (Magias e Arquétipos)
 
 #### 🚀 **Futuro**
