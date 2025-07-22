@@ -68,12 +68,12 @@ public class GameController {
     }
 
     public Mago criarMagoPorArquetipo(String nomeMago, int arquetipo) {
-        Mago mago = new Mago(nomeMago, 1, 1, 1, 1, 1);
+        Mago mago = new Mago(nomeMago, 1, 1, 1, 1, 1,10,10);
         switch (arquetipo) {
             case 1:
                 //Mago de batalha: Alta defesa e durabilidade com dano moderado
                 //Para testes
-                mago = new Mago(nomeMago, 120, 3000, 8, 10, 12);
+                mago = new Mago(nomeMago, 120, 3000, 8, 10, 12,10,8);
                 Magia mantoDePedra = new Magia("Força do URSO",
                         "Envolve o personagem com um manto que AUMENTA o ATAQUE",
                         20, TipoDeEfeito.BUFF_ATAQUE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.FORCA_DO_URSO);
@@ -85,10 +85,12 @@ public class GameController {
                 break;
             case 2:
                 //Mago Arcano: Alto dano e mana porém fragil
-                mago = new Mago(nomeMago, 80, 80, 12, 4, 15);
+                mago = new Mago(nomeMago, 80, 80, 12, 4, 15,15,12);
                 break;
             case 3:
-                mago = new Mago(nomeMago, 100, 50, 10, 5, 15);
+                mago = new Mago(nomeMago, 100, 50, 10, 5, 15,20,20);
+                Magia proteçãoDivina = new Magia("Proteção Divina", "Envolve numa aura que te torna quase inatingivel", 0, TipoDeEfeito.BUFF_EVASAO, 100000, 3, TipoAlvo.ALIADO, NomeEfeito.AGIL);
+                mago.aprenderMagia(proteçãoDivina);
                 break;
             default:
                 System.out.println("Opção Inválida");
@@ -129,7 +131,7 @@ public class GameController {
             } else if (salaEscolhida.getTipo() == TipoSala.CHEFE) {
                 System.out.println("Você entrou na sala do CHEFE! Cuidado!");
                 Comportamento a = new ComportamentoAleatorio();
-                Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12, RankInimigo.B,new ComportamentoSequencial());
+                Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12,20,0, RankInimigo.B,new ComportamentoSequencial());
                 bc.iniciarBatalha(jogador, List.of(chefe), magiaFactory);
             } else if (salaEscolhida.getTipo() == TipoSala.EVENTO) {
                 System.out.println("Encontrou um EVENTO!!!");

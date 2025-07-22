@@ -3,10 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package arcardium.model;
-
-import arcardium.model.enums.NomeEfeito;
-import arcardium.model.enums.TipoAlvo;
-import arcardium.model.enums.TipoDeEfeito;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +15,8 @@ public class Mago extends Heroi {
     private int tamanho_max_grimorio = 4;
     private List<Magia> magias;
 
-    public Mago(String nome, int hp, int mp, int atk, int def, int agi) {
-        super(nome, hp, mp, atk, def, agi);
+    public Mago(String nome, int hp, int mp, int atk, int def, int agi, int pre, int eva) {
+        super(nome, hp, mp, atk, def, agi, pre, eva);
         this.magias = new ArrayList<>();
 
     }
@@ -63,7 +59,7 @@ public class Mago extends Heroi {
     
     public void trocarMagia(int indiceAtual, Magia nova){
         magias.remove(indiceAtual);
-        magias.add(nova);
+        magias.add(indiceAtual, nova);
     }
 
     public void aprimorarMagia(Magia m) {

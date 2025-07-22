@@ -8,6 +8,7 @@ import arcardium.model.MagiaFactory;
 import arcardium.model.Personagem;
 import arcardium.view.BatalhaView;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -27,42 +28,60 @@ public class BatalhaController {
     }
 
     public void iniciarBatalha(Jogador jogador, List<Inimigo> grupoInimigos, MagiaFactory magiaFactory) {
+       
+        List<Personagem> filaDeTurnos = new ArrayList<>();
         Mago mago = (Mago) jogador.getHeroi();
-
+        filaDeTurnos.add(mago);
+        for (Inimigo inimigo : grupoInimigos) {
+            filaDeTurnos.add(inimigo);
+        }
+        filaDeTurnos.sort(Comparator.comparingInt(Personagem::getAgi).reversed());
         Scanner sc = new Scanner(System.in);
         view.exibirInicioBatalha(mago.getNome(), grupoInimigos.size(), "Inimigos");
-        int recompensaGold = 0; int recompensaXp = 0;
-        for(Inimigo i: grupoInimigos){
+        int recompensaGold = 0;
+        int recompensaXp = 0;
+        for (Inimigo i : grupoInimigos) {
             recompensaGold += i.getRecompensaOuro();
             recompensaXp += i.getRecompensaXp();
         }
         // Loop principal da batalha, continua enquanto ambos estiverem vivos.
         while (mago.getHp() > 0 && !grupoInimigos.isEmpty()) {
-
-            //Verificamos os efeitos, VENENO, SANGRAMENTO, CURA ETC.
-            for (Inimigo inimigos : grupoInimigos) {
-                inimigos.processarEfeitosPorTurno();
+            
+            
+            System.out.println("<---Inicio da rodada--->");
+            view.exibirOrdemDosTurnos(filaDeTurnos);
+            
+            for (Personagem personagemDaVez : filaDeTurnos) {
+                
+                if(personagemDaVez.getHp() <= 0){
+                    continue;
+                }
+                personagemDaVez.processarEfeitosPorTurno();
+                if(personagemDaVez.getHp() <= 0){
+                  removerInimigosDerrotados(grupoInimigos);
+                  continue;
+                }
+                view.exibirStatusTurno(mago, grupoInimigos);
+                
+                if (personagemDaVez instanceof Mago) {
+                    turnoDoJogador(mago, grupoInimigos, sc);
+                } else if(personagemDaVez instanceof Inimigo){
+                    Inimigo inimigoAtivo = (Inimigo) personagemDaVez;
+                    List<Personagem> alvo = new ArrayList<>();
+                    alvo.add(mago);
+                    
+                    view.exibirTurnoInimigo(inimigoAtivo.getNome());
+                    Magia magiaSelecionada = inimigoAtivo.escolherAcao(inimigoAtivo, alvo);
+                    if (inimigoAtivo.lancarHabilidade(magiaSelecionada, alvo)) {
+                        view.exibirAtaqueInimigo(magiaSelecionada, alvo, inimigoAtivo);
+                    }
+                }
+              
             }
-            mago.processarEfeitosPorTurno();
-            //Verificamos se algum inimigo morreu no processo dos EFEITOS
-            removerInimigosDerrotados(grupoInimigos);
+            removerInimigosDerrotados(grupoInimigos);  
             if (grupoInimigos.isEmpty() || mago.getHp() <= 0) {
                 break;
             }
-
-            view.exibirStatusTurno(mago, grupoInimigos);
-
-            // Executa o turno do jogador
-            turnoDoJogador(mago, grupoInimigos, sc);
-
-            removerInimigosDerrotados(grupoInimigos);
-
-            if (!grupoInimigos.isEmpty()) {
-                List<Personagem> alvo = new ArrayList<>();
-                alvo.add(mago);
-                turnoDosInimigos(grupoInimigos, alvo);
-            }
-
         }
 
         if (mago.getHp() > 0) {
@@ -84,9 +103,11 @@ public class BatalhaController {
                 } else {
                     view.exibirMagiasTroca(mago.getMagias(), recompensaMagica.get(magiaEscolhida - 1));
                     int magiaTroca = sc.nextInt();
-                    mago.trocarMagia(magiaTroca, recompensaMagica.get(magiaEscolhida - 1));
+                    mago.trocarMagia(magiaTroca - 1, recompensaMagica.get(magiaEscolhida - 1));
                     view.exibirMagiaAprendida(recompensaMagica.get(magiaEscolhida - 1));
                 }
+            }else{
+                System.out.println("Pulou");
             }
 
         } else {
@@ -95,18 +116,7 @@ public class BatalhaController {
             }
         }
     }
-
-    private void turnoDosInimigos(List<Inimigo> grupoInimigos, List<Personagem> alvo) {
-        for (Inimigo inimigo : grupoInimigos) {
-            view.exibirTurnoInimigo(inimigo.getNome());
-            Magia magiaSelecionada = inimigo.escolherAcao(inimigo, alvo);
-            if (inimigo.lancarHabilidade(magiaSelecionada, alvo)) {
-                view.exibirAtaqueInimigo(magiaSelecionada, alvo, inimigo);
-            }
-
-        }
-    }
-
+    
     private void removerInimigosDerrotados(List<Inimigo> grupoInimigos) {
         Iterator<Inimigo> iterator = grupoInimigos.iterator();
         while (iterator.hasNext()) {
@@ -174,4 +184,6 @@ public class BatalhaController {
             }
         }
     }
+
+    
 }

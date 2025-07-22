@@ -10,6 +10,7 @@ import arcardium.model.enums.TipoDeEfeito;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -25,9 +26,11 @@ public abstract class Personagem {
     private int atk;
     private int def;
     private int agi;
+    private int precisao;
+    private int evasao;
     private List<EfeitoAtivo> efeitoAtivo;
 
-    public Personagem(String nome, int hp, int mp, int atk, int def, int agi) {
+    public Personagem(String nome, int hp, int mp, int atk, int def, int agi, int precisao, int evasao) {
         this.nome = nome;
         this.maxHp = hp;
         this.maxMp = mp;
@@ -36,6 +39,8 @@ public abstract class Personagem {
         this.atk = atk;
         this.def = def;
         this.agi = agi;
+        this.precisao = precisao;
+        this.evasao = evasao;
         this.efeitoAtivo = new ArrayList<>();
     }
 
@@ -49,6 +54,20 @@ public abstract class Personagem {
 
     public int getMp() {
         return mp;
+    }
+
+    public int getPrecisao() {
+        return precisao;
+    }
+
+    public int getEvasao() {
+        int evasaoTotal = this.evasao;
+        for(EfeitoAtivo efeito: this.efeitoAtivo){
+            if(efeito.getTipoEfeito() == TipoDeEfeito.BUFF_EVASAO){
+                evasaoTotal += efeito.getValor();
+            }
+        }
+        return evasaoTotal;
     }
 
     public int getAtk() {
@@ -101,7 +120,16 @@ public abstract class Personagem {
     }
 
     public int getAgi() {
-        return agi;
+        int agiTotal = this.agi;
+        for (EfeitoAtivo e : this.efeitoAtivo) {
+            if (e.getTipoEfeito() == TipoDeEfeito.BUFF_AGILIDADE) {
+                agiTotal += e.getValor();
+            }
+            if (e.getTipoEfeito() == TipoDeEfeito.DEBUFF_AGILIDADE) {
+                agiTotal -= e.getValor();
+            }
+        }
+        return Math.max(0, agiTotal);
     }
 
     protected void setNome(String nome) {
@@ -150,13 +178,13 @@ public abstract class Personagem {
 
     public void tomarDano(int dano) {
         int defesaTotal = this.getDef();
-        int danoReal = (int) (dano *(100.0 / (100.0 + defesaTotal)));
-        
-        if(dano > 0 && danoReal < 1){
+        int danoReal = (int) (dano * (100.0 / (100.0 + defesaTotal)));
+
+        if (dano > 0 && danoReal < 1) {
             danoReal = 1;
         }
         this.hp -= danoReal;
-        
+
     }
 
     public List<EfeitoAtivo> getEfeitosAtivos() {
@@ -168,9 +196,10 @@ public abstract class Personagem {
         efeitoAtivo.add(efeito);
 
     }
-    public boolean verificaEfeitoAtivo(NomeEfeito nome){
-        for(EfeitoAtivo e: efeitoAtivo){
-            if(e.getNomeEfeito() == nome){
+
+    public boolean verificaEfeitoAtivo(NomeEfeito nome) {
+        for (EfeitoAtivo e : efeitoAtivo) {
+            if (e.getNomeEfeito() == nome) {
                 return true;
             }
         }
@@ -189,6 +218,7 @@ public abstract class Personagem {
     }
 
     public boolean lancarHabilidade(Magia magia, List<Personagem> alvos) {
+        
         int custo = magia.getCustoMana();
         int mpAtual = this.getMp();
         int valor = magia.getValorEfeito();
@@ -197,22 +227,29 @@ public abstract class Personagem {
         if (mpAtual >= custo) {
             TipoDeEfeito efeito = magia.getTipoEfeito();
             if (magia.getTipoAlvo() == TipoAlvo.ALIADO) {
-
                 switch (efeito) {
+                    case BUFF_EVASAO:
+                    case BUFF_DEFESA:
+                    case BUFF_AGILIDADE:
                     case BUFF_ATAQUE:
                         this.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
                         break;
                     case CURA:
+                        this.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
                         this.receberCura(valor);
                         break;
-                    case BUFF_DEFESA:
-                        this.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
-                        break;
-
                 }
 
             } else {
                 for (Personagem alvo : alvos) {
+                    if (efeito == TipoDeEfeito.DANO_DIRETO || efeito == TipoDeEfeito.DANO_POR_TURNO) {
+                        int chanceDeAcerto = 85 + (this.getPrecisao() - alvo.getEvasao());
+                        if (new Random().nextInt(100) >= chanceDeAcerto) {
+                            alvo.aplicarEfeito(TipoDeEfeito.BUFF_DEFESA, 0, 1, NomeEfeito.ESQUIVOU);
+                            continue; 
+                        }
+                    }
+                    
                     switch (efeito) {
                         case DEBUFF_ATAQUE:
                             alvo.aplicarEfeito(efeito, valor, duracao, nomeEfeito);

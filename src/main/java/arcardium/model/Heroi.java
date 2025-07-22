@@ -9,20 +9,7 @@ package arcardium.model;
  * @author Eric
  */
 public class Heroi extends Personagem {
-    private String nome;
-    private int hp; // saude
-    private int mp; // mana
-    private int atk; // ataque
-    private int def; // defesa
-    private int agi; // agilidade
-
-    public Heroi(String nome, int hp, int mp, int atk, int def, int agi) {
-        super(nome,hp,mp,atk,def,agi);
-    }
-    
-    //Metodos para heroi
-
-   
-    
-    
+    public Heroi(String nome, int hp, int mp, int atk, int def, int agi, int pre, int eva) {
+        super(nome,hp,mp,atk,def,agi,pre,eva);
+    } 
 }

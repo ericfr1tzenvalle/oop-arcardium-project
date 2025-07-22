@@ -15,7 +15,7 @@ import java.util.List;
  * @author Éric
  */
 public class Inimigo extends Heroi {
-    
+
     private int recompensaXp;
     private int recompensaOuro;
     private List<Magia> habilidades;
@@ -24,22 +24,22 @@ public class Inimigo extends Heroi {
     private List<Magia> habilidadesUsadasNestaBatalha;
     private int indiceHabilidadeSequencial;
 
-    public Inimigo(String nome, int hp, int mp, int atk, int def, int agi, RankInimigo rank, Comportamento comportamento) {
-        super(nome, hp, mp, atk, def, agi);
+    public Inimigo(String nome, int hp, int mp, int atk, int def, int agi, int pre, int eva, RankInimigo rank, Comportamento comportamento) {
+        super(nome, hp, mp, atk, def, agi, pre, eva);
         this.habilidades = new ArrayList<>();
         this.rank = rank;
         this.comportamento = comportamento;
         this.habilidadesUsadasNestaBatalha = new ArrayList<>();
         this.indiceHabilidadeSequencial = 0;
-        
+
     }
-    
-    public void setRecompensaXp(int valor){
+
+    public void setRecompensaXp(int valor) {
         this.recompensaXp = valor;
-        
+
     }
-    
-    public void setRecompensaOuro(int valor){
+
+    public void setRecompensaOuro(int valor) {
         this.recompensaOuro = valor;
     }
 
@@ -50,10 +50,6 @@ public class Inimigo extends Heroi {
     public int getRecompensaOuro() {
         return recompensaOuro;
     }
-
-    
-    
-   
 
     public List<Magia> getHabilidadesUsadasNestaBatalha() {
         return habilidadesUsadasNestaBatalha;
@@ -70,7 +66,6 @@ public class Inimigo extends Heroi {
     public void setIndiceHabilidadeSequencial(int indiceHabilidadeSequencial) {
         this.indiceHabilidadeSequencial = indiceHabilidadeSequencial;
     }
-       
 
     public void aprenderHabilidade(Magia habilidade) {
         habilidades.add(habilidade);
@@ -88,17 +83,23 @@ public class Inimigo extends Heroi {
     public RankInimigo getRank() {
         return rank;
     }
-    public boolean verificaMagiaUsada(NomeEfeito nome){
-        for(Magia magia: habilidadesUsadasNestaBatalha){
-            if(magia.getNomeEfeito() == nome){
+
+    public boolean verificaMagiaUsada(NomeEfeito nome) {
+        for (Magia magia : habilidadesUsadasNestaBatalha) {
+            if (magia.getNomeEfeito() == nome) {
                 return true;
             }
         }
         return false;
     }
-    
+
     public Magia escolherAcao(Inimigo inimigo, List<Personagem> alvo) {
         return this.comportamento.escolherAcao(this, alvo);
+    }
+    
+    @Override
+    public String toString(){
+        return  "[" + super.getNome() + "]";
     }
 
 }
