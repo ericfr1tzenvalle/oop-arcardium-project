@@ -6,6 +6,7 @@ import arcardium.model.enums.TipoAlvo;
 import arcardium.model.enums.TipoDeEfeito;
 import arcardium.model.ia.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -32,16 +33,17 @@ public class InimigoFactory {
                 break;
             case B:
                 inimigo = criarMonstroRankB();
+                break;
 
         }
-        definirRecompensar(inimigo);
+        definirRecompensas(inimigo);
         aplicarEscalamento(inimigo, andar);
 
         return inimigo;
 
     }
 
-    private void definirRecompensar(Inimigo inimigo) {
+    private void definirRecompensas(Inimigo inimigo) {
         switch (inimigo.getRank()) {
             case S:
                 inimigo.setRecompensaXp(200);
@@ -115,22 +117,26 @@ public class InimigoFactory {
         int numMonstro = rand.nextInt(2) + 1;
         switch (numMonstro) {
             case 1:
-                Inimigo slime = new Inimigo("Slime Ácido", 50, 0, 10, 8, 5, 5, 0, RankInimigo.D, compAleatorio,5,80);
-                slime.aprenderHabilidade(new Magia("Cuspe Ácido", "cospe um ácido que corrói", 0, TipoDeEfeito.DANO_DIRETO, 10, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM));
+                Inimigo slime = new Inimigo("Slime Ácido", 50, 0, 10, 8, 5, 5, 0, RankInimigo.D, compAleatorio);
+                slime.aprenderHabilidade(new Magia("Cuspe Ácido", "cospe um ácido que corrói", 0, TipoDeEfeito.DANO_DIRETO, 10, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.DANO, TagMagia.ALVO_UNICO)));
                 return slime;
             case 2:
-                Inimigo morcego = new Inimigo("Morcego da Caverna", 25, 0, 12, 3, 18, 10, 20, RankInimigo.D, compAleatorio,5,80);
-                morcego.aprenderHabilidade(new Magia("Mordida", "morde o alvo", 0, TipoDeEfeito.DANO_DIRETO, 12, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM));
+                Inimigo morcego = new Inimigo("Morcego da Caverna", 25, 0, 12, 3, 18, 10, 20, RankInimigo.D, compAleatorio);
+                morcego.aprenderHabilidade(new Magia("Mordida", "morde o alvo", 0, TipoDeEfeito.DANO_DIRETO, 12, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.DANO, TagMagia.ALVO_UNICO)));
                 return morcego;
+            default:
+                Inimigo aranhaPequena = new Inimigo("Aranha da Cripta", 22, 0, 10, 4, 16,10,20,RankInimigo.D, compAleatorio);
+                aranhaPequena.aprenderHabilidade(new Magia("Picada Venenosa", "Uma picada que injeta veneno", 0, TipoDeEfeito.DANO_POR_TURNO, 4, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.VENENO,List.of(TagMagia.DANO,TagMagia.ALVO_UNICO,TagMagia.VENENO)));
+                return aranhaPequena;
         }
 
-        return null;
+        
     }
 
     private Inimigo criarMonstroRankC() {
-        Inimigo lobo = new Inimigo("Lobo das Sombras", 40, 0, 15, 4, 15, 15, 25, RankInimigo.C, compBerserker,30,80);
-        lobo.aprenderHabilidade(new Magia("Garra Dilacerante", "golpe com as garras que causa sangramento", 0, TipoDeEfeito.DANO_POR_TURNO, 5, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.SANGRAMENTO));
-        lobo.aprenderHabilidade(new Magia("Enfurecer", "se enfurece e aumenta o ATK", 0, TipoDeEfeito.BUFF_ATAQUE, 10, 3, TipoAlvo.ALIADO, NomeEfeito.ENFURECIDO));
+        Inimigo lobo = new Inimigo("Lobo das Sombras", 40, 0, 15, 4, 15, 15, 25, RankInimigo.C, compBerserker);
+        lobo.aprenderHabilidade(new Magia("Garra Dilacerante", "golpe com as garras que causa sangramento", 0, TipoDeEfeito.DANO_POR_TURNO, 5, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.SANGRAMENTO, List.of(TagMagia.DANO,TagMagia.ALVO_UNICO,TagMagia.SANGRAMENTO)));
+        lobo.aprenderHabilidade(new Magia("Enfurecer", "se enfurece e aumenta o ATK", 0, TipoDeEfeito.BUFF_ATAQUE, 10, 3, TipoAlvo.ALIADO, NomeEfeito.ENFURECIDO, List.of(TagMagia.BUFF, TagMagia.ALVO_UNICO)));
         return lobo;
 
     }
@@ -139,23 +145,23 @@ public class InimigoFactory {
         int numMonstro = rand.nextInt(2) + 1;
         switch (numMonstro) {
             case 0:
-                Inimigo fantasma = new Inimigo("Fantasma", 80, 0, 22, 12, 8, 5, 20, RankInimigo.B, compSequencial,10,135);
-                fantasma.aprenderHabilidade(new Magia("Susto fantasmagorico", "surpreende o alvo com um susto DIMUNUINDO defesa",0,TipoDeEfeito.DEBUFF_DEFESA,20,3,TipoAlvo.TODOS_INIMIGOS,NomeEfeito.AMENDONTRAR));
-                fantasma.aprenderHabilidade(new Magia("Toque espectral", "segura você e engole sua ESSÊNCIA vital", 0, TipoDeEfeito.DANO_POR_TURNO, 10, 4, TipoAlvo.ALVO_UNICO, NomeEfeito.DEMENTAR));
-                fantasma.aprenderHabilidade(new Magia("Surto de Açao", "aumenta a AGILIDADE", 0, TipoDeEfeito.BUFF_AGILIDADE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.AGIL));
+                Inimigo fantasma = new Inimigo("Fantasma", 80, 0, 22, 12, 8, 5, 20, RankInimigo.B, compSequencial);
+                fantasma.aprenderHabilidade(new Magia("Susto fantasmagorico", "surpreende o alvo com um susto DIMUNUINDO defesa",0,TipoDeEfeito.DEBUFF_DEFESA,20,3,TipoAlvo.TODOS_INIMIGOS,NomeEfeito.AMENDONTRAR, List.of(TagMagia.SOMBRA,TagMagia.DEBUFF,TagMagia.AREA,TagMagia.MALDIÇÃO)));
+                fantasma.aprenderHabilidade(new Magia("Toque espectral", "segura você e engole sua ESSÊNCIA vital", 0, TipoDeEfeito.DANO_POR_TURNO, 10, 4, TipoAlvo.ALVO_UNICO, NomeEfeito.DEMENTAR, List.of(TagMagia.SOMBRA,TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.MALDIÇÃO)));
+                fantasma.aprenderHabilidade(new Magia("Surto de Açao", "aumenta a AGILIDADE", 0, TipoDeEfeito.BUFF_AGILIDADE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.AGIL, List.of(TagMagia.BUFF,TagMagia.ALVO_UNICO)));
                 return fantasma;
 
             case 1:
-                Inimigo zumbi = new Inimigo("Zumbi", 70, 0, 24, 2, 10, 0, 0 , RankInimigo.B, compSequencial,10,135);
-                zumbi.aprenderHabilidade(new Magia("Mordida infecciosa", "corre em direção ao alvo e morde, infectando-o", 0, TipoDeEfeito.DANO_POR_TURNO, 7, 5, TipoAlvo.ALVO_UNICO, NomeEfeito.INFECTADO));
-                zumbi.aprenderHabilidade(new Magia("Corredor", "aumenta a AGILIDADE", 0, TipoDeEfeito.BUFF_AGILIDADE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.AGIL));
-                zumbi.aprenderHabilidade(new Magia("Vomito acido", "vomita a frente dando dano a todos os alvos", 0, TipoDeEfeito.DANO_DIRETO, 20, 0, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.INFECTADO));
+                Inimigo zumbi = new Inimigo("Zumbi", 70, 0, 24, 2, 10, 0, 0 , RankInimigo.B, compSequencial);
+                zumbi.aprenderHabilidade(new Magia("Mordida infecciosa", "corre em direção ao alvo e morde, infectando-o", 0, TipoDeEfeito.DANO_POR_TURNO, 7, 5, TipoAlvo.ALVO_UNICO, NomeEfeito.INFECTADO, List.of(TagMagia.DANO,TagMagia.ALVO_UNICO,TagMagia.VENENO)));
+                zumbi.aprenderHabilidade(new Magia("Resiliencia Morto-Vivo", "recupera vida", 0, TipoDeEfeito.CURA, 30, 0, TipoAlvo.ALIADO, NomeEfeito.NENHUM, List.of(TagMagia.CURA,TagMagia.ALVO_UNICO)));
+                zumbi.aprenderHabilidade(new Magia("Vomito acido", "vomita a frente dando dano a todos os alvos", 0, TipoDeEfeito.DANO_DIRETO, 20, 0, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.INFECTADO, List.of(TagMagia.DANO,TagMagia.AREA,TagMagia.VENENO)));
                 return zumbi;
             case 2:
-                Inimigo cavaleiroZumbi = new Inimigo("Cavaleiro Fantasma", 120, 0, 20, 15, 5, 10, 5, RankInimigo.B, compSequencial,10,135); 
-                cavaleiroZumbi.aprenderHabilidade(new Magia("Lâmina Espectral", "um corte sombrio que causa dano e tem chance de aplicar medo", 0, TipoDeEfeito.DANO_DIRETO, 25, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.AMENDONTRAR));
-                cavaleiroZumbi.aprenderHabilidade(new Magia("Aura Sombria", "envolve-se em sombras, reduzindo o dano recebido por 2 turnos", 0, TipoDeEfeito.BUFF_DEFESA, 15, 2, TipoAlvo.ALIADO, NomeEfeito.RESISTENTE)); 
-                cavaleiroZumbi.aprenderHabilidade(new Magia("Chamado dos Condenados", "invoca almas perdidas que causam dano em todos os inimigos", 0, TipoDeEfeito.DANO_DIRETO, 20, 5, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM)); 
+                Inimigo cavaleiroZumbi = new Inimigo("Cavaleiro Fantasma", 120, 0, 20, 15, 5, 10, 5, RankInimigo.B, compSequencial); 
+                cavaleiroZumbi.aprenderHabilidade(new Magia("Lâmina Espectral", "um corte sombrio que causa dano e tem chance de aplicar medo", 0, TipoDeEfeito.DANO_DIRETO, 25, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.AMENDONTRAR, List.of(TagMagia.SOMBRA,TagMagia.DANO,TagMagia.ALVO_UNICO,TagMagia.MALDIÇÃO,TagMagia.CONTROLE)));
+                cavaleiroZumbi.aprenderHabilidade(new Magia("Aura Sombria", "envolve-se em sombras, reduzindo o dano recebido por 2 turnos", 0, TipoDeEfeito.BUFF_DEFESA, 15, 2, TipoAlvo.ALIADO, NomeEfeito.RESISTENTE, List.of(TagMagia.SOMBRA, TagMagia.BUFF,TagMagia.ALVO_UNICO))); 
+                cavaleiroZumbi.aprenderHabilidade(new Magia("Chamado dos Condenados", "invoca almas perdidas que causam dano em todos os inimigos", 0, TipoDeEfeito.DANO_DIRETO, 20, 5, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM, List.of(TagMagia.SOMBRA,TagMagia.DANO,TagMagia.AREA))); 
                 return cavaleiroZumbi;
 
                 

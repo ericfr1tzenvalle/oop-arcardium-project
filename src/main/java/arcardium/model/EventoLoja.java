@@ -4,11 +4,15 @@
  */
 package arcardium.model;
 
+import java.util.List;
+
 /**
  *
  * @author Luísa
  */
 public class EventoLoja extends Evento {
+    
+    //private List<Item> itens;
 
     public EventoLoja() {
         super();

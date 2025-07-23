@@ -3,6 +3,8 @@ package arcardium.model;
 import arcardium.model.enums.NomeEfeito;
 import arcardium.model.enums.TipoAlvo;
 import arcardium.model.enums.TipoDeEfeito;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Representa uma magia que pode ser usada por um personagem. Contém todas as
@@ -21,8 +23,9 @@ public class Magia {
     private int duracaoEfeito;
     private TipoAlvo tipoAlvo;
     private NomeEfeito efeito;
+    private List<TagMagia> tags; 
 
-    public Magia(String nome, String descricao, int custoMana, TipoDeEfeito tipoEfeito, int valorEfeito, int duracaoEfeito, TipoAlvo tipoAlvo, NomeEfeito efeito) {
+    public Magia(String nome, String descricao, int custoMana, TipoDeEfeito tipoEfeito, int valorEfeito, int duracaoEfeito, TipoAlvo tipoAlvo, NomeEfeito efeito, List<TagMagia> tags) {
         this.nome = nome;
         this.nivel = 1;
         this.descricao = descricao;
@@ -32,11 +35,18 @@ public class Magia {
         this.duracaoEfeito = duracaoEfeito;
         this.tipoAlvo = tipoAlvo;
         this.efeito = efeito;
+        this.tags = new ArrayList<>();
     }
 
     public String getNome() {
         return nome;
     }
+
+    public List<TagMagia> getTags() {
+        return tags;
+    }
+    
+    
 
     public String getDescricao() {
         return descricao;

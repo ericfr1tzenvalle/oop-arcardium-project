@@ -24,7 +24,7 @@ public class Inimigo extends Heroi {
     private List<Magia> habilidadesUsadasNestaBatalha;
     private int indiceHabilidadeSequencial;
 
-    public Inimigo(String nome, int hp, int mp, int atk, int def, int agi, int pre, int eva, RankInimigo rank, Comportamento comportamento, int chanceDeCrit, int danoCrit) {
+    public Inimigo(String nome, int hp, int mp, int atk, int def, int agi, int pre, int eva, RankInimigo rank, Comportamento comportamento) {
         super(nome, hp, mp, atk, def, agi, pre, eva);
         this.habilidades = new ArrayList<>();
         this.rank = rank;

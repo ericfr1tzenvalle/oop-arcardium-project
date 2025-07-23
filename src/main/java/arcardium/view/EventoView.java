@@ -38,9 +38,6 @@ public class EventoView {
         }
 
     }
-    public void mostrarItens(List<Item> item){
-        
-    }
     public void mostrarMensagemDescanso(int escolha){
         switch(escolha){
             case 1:
