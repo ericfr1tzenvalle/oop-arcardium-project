@@ -10,6 +10,7 @@ package arcardium.model.enums;
  */
 public enum NomeEfeito {
     NENHUM("Nenhum"),
+    //CRITICO("CRITICO"),
     VENENO("Veneno"),
     FOGO("Queimadura"),
     SANGRAMENTO("Sangrando"),

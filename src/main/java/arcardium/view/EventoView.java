@@ -32,8 +32,14 @@ public class EventoView {
                 System.out.println("1. DESCANSAR [Recupere 30% de sua vida máxima]");
                 System.out.println("2. APRIMORAR MÁGIA");
                 break;
+            case "LOJA":
+                System.out.println("[LOJA]");
+                
         }
 
+    }
+    public void mostrarItens(List<Item> item){
+        
     }
     public void mostrarMensagemDescanso(int escolha){
         switch(escolha){
@@ -48,7 +54,7 @@ public class EventoView {
     public void mostrarOpcoesMagias(List<Magia> magias){
         int i = 1;
         for(Magia m: magias){
-            System.out.println(i++ + m.toString());
+            System.out.println(i++ + ": " + m.toString());
         }
     }
     

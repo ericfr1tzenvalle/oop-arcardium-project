@@ -84,7 +84,6 @@ public class GameController {
                 mago.aprenderMagia(impactoSismico);
                 break;
             case 2:
-                //Mago Arcano: Alto dano e mana porém fragil
                 mago = new Mago(nomeMago, 80, 80, 12, 4, 15,15,12);
                 break;
             case 3:
@@ -119,7 +118,6 @@ public class GameController {
             Sala salaEscolhida = andarAtual.get(escolha - 1);
             
             if (salaEscolhida.getTipo() == TipoSala.COMBATE) {
-                System.out.println("Você entrou em uma sala de combate!");
                  List<Inimigo> grupoInimigos = inimigoFactory.criarGrupoDeInimigos(i);
                  bc.iniciarBatalha(jogador, grupoInimigos, magiaFactory);
 
@@ -129,12 +127,10 @@ public class GameController {
                     break;
                 }
             } else if (salaEscolhida.getTipo() == TipoSala.CHEFE) {
-                System.out.println("Você entrou na sala do CHEFE! Cuidado!");
                 Comportamento a = new ComportamentoAleatorio();
-                Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12,20,0, RankInimigo.B,new ComportamentoSequencial());
+                Inimigo chefe = new Inimigo("O Grande Orc", 200, 0, 25, 10, 12,20,0, RankInimigo.B,new ComportamentoSequencial(),30,200);
                 bc.iniciarBatalha(jogador, List.of(chefe), magiaFactory);
             } else if (salaEscolhida.getTipo() == TipoSala.EVENTO) {
-                System.out.println("Encontrou um EVENTO!!!");
                 EventoFactory fc = new EventoFactory();
                 Evento e = fc.criarEventoAleatorio();
                 e.executar(jogador, magiaFactory);

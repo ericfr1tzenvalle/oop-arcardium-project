@@ -17,17 +17,28 @@ public class Jogador {
     private int nivel;
     private int xpAtual;
     private int xpParaProximoNivel;
+    private int ouro;
 
     public Jogador(Heroi heroi) {
         this.heroi = heroi;
         this.nivel = 1;
         this.xpAtual = 0;
+        this.ouro = 0;
         this.xpParaProximoNivel = 100; // O primeiro nível requer 100 de XP
     }
 
     public Heroi getHeroi() {
         return heroi;
     }
+
+    public int getOuro() {
+        return ouro;
+    }
+
+    public void setOuro(int ouro) {
+        this.ouro = ouro;
+    }
+    
 
     private void setHeroi(Heroi heroi) {
         this.heroi = heroi;
@@ -60,10 +71,23 @@ public class Jogador {
     public void ganharXP(int quantidade, Personagem alvo) {
         this.xpAtual += quantidade;
         //Testes
-        System.out.println(this.heroi.getNome() + " ganhou " + quantidade + " de XP!");
+        System.out.println(this.heroi.getNome() + " ganhou [++" + quantidade + "] de XP!");
         if (this.xpAtual >= this.getXpParaProximoNivel()) {
             subirDeNivel(alvo);
         }
+    }
+    
+    public void ganharOuro(int quantidade){
+        this.ouro += quantidade;
+        System.out.println(" ganhou [++" + quantidade + "] de OURO!");
+    }
+    
+    public boolean gastarOuro(int quantidade){
+        if(quantidade <= this.ouro){
+            this.ouro -= quantidade;
+            return true;
+        }
+        return false;
     }
 
     private void subirDeNivel(Personagem alvo) {
