@@ -25,7 +25,7 @@ public class MapaController {
         for (int i = 0; i < profundidade; i++) {
             List<Sala> andar = new ArrayList<>();
             //Em cada andar pode haver de 2 a 5 salas disponives
-            int numeroDeSalasNoAndar = random.nextInt(3) + 2;
+            int numeroDeSalasNoAndar = 3;
             //No atual momento temos só de COMBATE
             for (int j = 0; j < numeroDeSalasNoAndar; j++) {
                 andar.add(new Sala(gerarTipoSalaAleatoria()));
@@ -38,8 +38,6 @@ public class MapaController {
         List<Sala> ultimoAndar = new ArrayList<>();
         ultimoAndar.add(new Sala(TipoSala.CHEFE));
         mapa.add(ultimoAndar);
-
-        System.out.println("Mapa gerado com " + mapa.size() + " andares.");
         return mapa;
     }
 
@@ -48,6 +46,7 @@ public class MapaController {
         int chance = random.nextInt(100);
 
         if (chance < 70) {
+            chance = random.nextInt(100);
             return TipoSala.COMBATE;
         } else {
             return TipoSala.EVENTO;

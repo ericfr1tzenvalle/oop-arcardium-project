@@ -13,7 +13,7 @@ import arcardium.model.Magia;
 import arcardium.model.MagiaFactory;
 import arcardium.model.Mago;
 import arcardium.model.Sala;
-import arcardium.model.TagMagia;
+import arcardium.model.enums.TagMagia;
 import arcardium.model.enums.NomeEfeito;
 import arcardium.model.enums.RankInimigo;
 import arcardium.model.enums.TipoAlvo;
@@ -22,6 +22,7 @@ import arcardium.model.enums.TipoSala;
 import arcardium.model.ia.Comportamento;
 import arcardium.model.ia.ComportamentoAleatorio;
 import arcardium.model.ia.ComportamentoSequencial;
+import arcardium.utils.ConsoleUtils;
 import arcardium.view.GameView;
 import java.util.List;
 import java.util.Scanner;
@@ -72,8 +73,7 @@ public class GameController {
         Mago mago = new Mago(nomeMago, 1, 1, 1, 1, 1,10,10);
         switch (arquetipo) {
             case 1:
-                //Mago de batalha: Alta defesa e durabilidade com dano moderado
-                //Para testes
+
                 mago = new Mago(nomeMago, 120, 3000, 8, 10, 12,10,8);
                 Magia mantoDePedra = new Magia("Força do URSO",
                         "Envolve o personagem com um manto que AUMENTA o ATAQUE",
@@ -102,15 +102,23 @@ public class GameController {
         BatalhaController bc = new BatalhaController();
         MapaController mapaController = new MapaController();
         MagiaFactory magiaFactory = new MagiaFactory();
-
-        System.out.println("\n--- A JORNADA DE " + jogador.getHeroi().getNome() + " COMEÇA ---");
         List<List<Sala>> mapaGerado = mapaController.gerarMapa(20);
+        Mago mago = (Mago) jogador.getHeroi();
+        String mensagem = "Os portões se fecharam atrás de você, " + mago.getNome() + ". O único caminho é em frente. Sobreviva.";
+        ConsoleUtils.digitar(mensagem, 70);
+        ConsoleUtils.pausar(1000);
+
 
         for (int i = 0; i < mapaGerado.size(); i++) {
             List<Sala> andarAtual = mapaGerado.get(i);
-            System.out.println("\n--- ANDAR " + (i + 1) + " ---");
-            System.out.println("Salas disponíveis: " + andarAtual);
-            System.out.print("Qual sala deseja entrar: ");
+            ConsoleUtils.limparTela();
+
+            System.out.println("\n          ANDAR [" + (i + 1) + "]");
+            System.out.println("==========MASMORRA==========");
+            System.out.println("      Salas disponíveis");
+            System.out.println(">" + andarAtual + "<");
+            System.out.println("============Escolha===========");
+            System.out.print("> ");
             jogador.getHeroi().resetarEfeitos();
 
             int escolha = sc.nextInt();
@@ -119,10 +127,10 @@ public class GameController {
             if (salaEscolhida.getTipo() == TipoSala.COMBATE) {
                  List<Inimigo> grupoInimigos = inimigoFactory.criarGrupoDeInimigos(i);
                  bc.iniciarBatalha(jogador, grupoInimigos, magiaFactory);
-
-                // Verifica se o jogador morreu
                 if (jogador.getHeroi().getHp() <= 0) {
-                    System.out.println("Sua jornada termina aqui...");
+                    String msgDerrota = "Sua visão escurece... Seu grimório cai no chão, aberto, esperando pelo próximo tolo corajoso o suficiente para tentar.";
+                    ConsoleUtils.digitar(msgDerrota, 120);
+                    System.out.println("X===========[MORTE]==========X");
                     break;
                 }
             } else if (salaEscolhida.getTipo() == TipoSala.CHEFE) {

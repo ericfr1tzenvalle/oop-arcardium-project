@@ -4,6 +4,8 @@
  */
 package arcardium.model;
 
+import arcardium.utils.ConsoleUtils;
+
 import java.util.List;
 
 /**
@@ -18,17 +20,30 @@ public class Jogador {
     private int xpAtual;
     private int xpParaProximoNivel;
     private int ouro;
+    private int pontuacao;
 
     public Jogador(Heroi heroi) {
         this.heroi = heroi;
         this.nivel = 1;
         this.xpAtual = 0;
         this.ouro = 0;
+        this.pontuacao = 0;
         this.xpParaProximoNivel = 100; // O primeiro nível requer 100 de XP
     }
 
     public Heroi getHeroi() {
         return heroi;
+    }
+
+    public int getPontuacao() {
+        return pontuacao;
+    }
+
+    private void setPontuacao(int pontuacao) {
+        this.pontuacao = pontuacao;
+    }
+    public void addPontuacao(int valor){
+        this.pontuacao += valor;
     }
 
     public int getOuro() {
@@ -68,18 +83,16 @@ public class Jogador {
         this.xpParaProximoNivel = xpParaProximoNivel;
     }
 
-    public void ganharXP(int quantidade, Personagem alvo) {
+    public void ganharXP(int quantidade) {
         this.xpAtual += quantidade;
-        //Testes
-        System.out.println(this.heroi.getNome() + " ganhou [++" + quantidade + "] de XP!");
         if (this.xpAtual >= this.getXpParaProximoNivel()) {
-            subirDeNivel(alvo);
+            subirDeNivel(this.heroi);
         }
     }
     
     public void ganharOuro(int quantidade){
         this.ouro += quantidade;
-        System.out.println(" ganhou [++" + quantidade + "] de OURO!");
+
     }
     
     public boolean gastarOuro(int quantidade){
@@ -92,29 +105,38 @@ public class Jogador {
 
     private void subirDeNivel(Personagem alvo) {
         this.nivel++;
-        this.xpAtual = this.xpAtual - this.xpParaProximoNivel;
-        this.xpParaProximoNivel *= 1.5;
-        System.out.println("------------------");
-        System.out.println("LEVEL UP! Voce alcançou o nivel " + this.nivel + " !");
-        alvo.setHp(alvo.getHp()+ 20);
-        alvo.setMaxHp(alvo.getMaxHp() + 5);
-        if(alvo.getHp() > alvo.getMaxHp()){
-            alvo.setHp(alvo.getMaxHp());
-        }
-        alvo.setMp(alvo.getMp() + 30);
-        alvo.setMaxMp(alvo.getMaxHp() + 10);
-        if(alvo.getMp() > alvo.getMaxMp()){
-            alvo.setMp(alvo.getMaxMp());
-        }
-        alvo.setDef(alvo.getDef() + 1);
-        alvo.setAtk(alvo.getAtk() + 2);
-        
-        
-       
+        this.xpAtual -= this.xpParaProximoNivel;
+        this.xpParaProximoNivel *= 1.2;
 
-        System.out.println("Seus atributos foram fortalecidos!");
-        System.out.println("---------------------------------");
+        // Ganhos base + um pequeno bônus que escala com o nível atual
+        int ganhoMaxHp = 10 + (this.nivel * 2); // Ex: No Nv 2 ganha 14, no Nv 10 ganha 30
+        int ganhoMaxMp = 5 + this.nivel;      // Ex: No Nv 2 ganha 7, no Nv 10 ganha 15
+        int ganhoAtk = 2;
+        int ganhoDef = 1;
 
+        // Bonus ao mago a cada 5 níveis.
+        if (this.nivel % 5 == 0) {
+            ganhoAtk += 3;
+        }
+        System.out.println("<<<<<<<<<<< [LEVEL UP! >>>>>>>>>>>>");
+        System.out.println("Você alcançou o Nível [" +  this.nivel + "]!");
+
+        System.out.printf("HP Máximo: %d > %d (+%d)%n", alvo.getMaxHp(), alvo.getMaxHp() + ganhoMaxHp, ganhoMaxHp);
+        System.out.printf("MP Máximo: %d > %d (+%d)%n", alvo.getMaxMp(), alvo.getMaxMp() + ganhoMaxMp, ganhoMaxMp);
+        System.out.printf("ATK: %d > %d (+%d)%n", alvo.getAtk(), alvo.getAtk() + ganhoAtk, ganhoAtk);
+        System.out.printf("DEF: %d > %d (+%d)%n", alvo.getDef(), alvo.getDef() + ganhoDef, ganhoDef);
+        System.out.println("====================================");
+        ConsoleUtils.aguardarEnter();
+
+        
+        alvo.setMaxHp(alvo.getMaxHp() + ganhoMaxHp);
+        alvo.setMaxMp(alvo.getMaxMp() + ganhoMaxMp);
+
+        alvo.setHp(alvo.getMaxHp());
+        alvo.setMp(alvo.getMaxMp());
+
+        alvo.setAtk(alvo.getAtk() + ganhoAtk);
+        alvo.setDef(alvo.getDef() + ganhoDef);
     }
 
 }

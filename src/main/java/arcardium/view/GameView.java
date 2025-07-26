@@ -4,7 +4,8 @@
  */
 package arcardium.view;
 
-import arcardium.model.Mago;
+import arcardium.utils.AnsiColors;
+import arcardium.utils.ConsoleUtils;
 import java.util.Scanner;
 
 /**
@@ -12,47 +13,38 @@ import java.util.Scanner;
  * @author Éric
  */
 public class GameView {
-    
+
     Scanner sc = new Scanner(System.in);
 
-    public void mostrarMenu() {
-        System.out.println("1. Nova run");
-        System.out.println("2. Estatistica");
-        System.out.println("3. Colecao");
-        System.out.println("4. Opcoes");
-        System.out.println("0. Sair");
-        System.out.print("Digite a opcao desejada: ");
-        
-        
+    public void mostrarMenu() {       
+        System.out.println("=========Arcardium[RPG]=========");
+        System.out.println("[1] Startar run");
+        System.out.println("[2] Estatistica");
+        System.out.println("[3] Colecao");
+        System.out.println("[4] Opcoes");
+        System.out.println("[0] Sair");
+        System.out.println("=========Arcardium[RPG]=========");
+        System.out.print("> ");
 
     }
-    
-    public void mostrarTelaNome(){
-       System.out.print("Digite o nome do seu [MAGO]:  ");
-    }  
-    
-    public void mostrarTelaArquetipos(){
-        //Possivel ideia ter arquetipo inicial mas pensando ainda se é interresante.
-        System.out.println("Escolha um arquétipo");
-        //Vai ter os atributos com mais saúde focado em um mago que resiste mais.
-        System.out.println("1. [Mago de batalha]");
-        System.out.println("Duro e resistente");
-        //Vai ter uma defesa baixa mas a mana e o atk bem altos
-        System.out.println("2. [Mago Arcano]");
-        System.out.println("Pura magia");
-        //O escolhido vai ter uma sorte maior e dois feitiços iniciais mas atributos bem base.
-        //Ele terá que se provar
-        System.out.println("3. [O escolhido]");
-        System.out.println("A sorte está ao seu lado");
-        System.out.print("Qual é a sua escolha: ");
-        //Posteriormente pode existir mais arquetipos sendo alguns desbloqueaveis.
-        
-        
-        //Implementar geração de opção 3 feitiços.
+
+    public void mostrarTelaNome() {
+        ConsoleUtils.limparTela();
+        ConsoleUtils.digitar("Iniciando run...", 100);
+        System.out.println("\nDigite o nome do seu [MAGO]");
+        System.out.print("> ");
     }
-    
-    // Talvez implementar uma mensagem pra cada arquetipo. 
-    
-    
+
+    public void mostrarTelaArquetipos() {
+        System.out.println("===========Arquétipo===========");
+        System.out.println("[1] Mago de batalha");
+        System.out.println("  x Resistente e bruto");
+        System.out.println("[2] Mago Arcano");
+        System.out.println("  x Magia pura");
+        System.out.println("[3] O escolhido");
+        System.out.println("  x Que a sorte lhe ajude");
+        System.out.println("============Escolha===========");
+        System.out.print("> ");
+    }
 
 }

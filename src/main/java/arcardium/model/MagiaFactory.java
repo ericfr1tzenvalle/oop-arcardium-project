@@ -1,6 +1,7 @@
 package arcardium.model;
 
 import arcardium.model.enums.NomeEfeito;
+import arcardium.model.enums.TagMagia;
 import arcardium.model.enums.TipoAlvo;
 import arcardium.model.enums.TipoDeEfeito;
 import java.util.List;
@@ -15,7 +16,7 @@ public class MagiaFactory {
         Magia magiaGerada = criarMagiaBase("Nenhuma", "Não faz nada", 999, TipoDeEfeito.CURA, 0, 0, TipoAlvo.ALIADO, NomeEfeito.MALDICAO, List.of(TagMagia.CURA));
 
         while (true) {
-            int magiaNum = rand.nextInt(10) + 1;
+            int magiaNum = rand.nextInt(20) + 1;
 
             switch (magiaNum) {
                 case 1:
@@ -58,6 +59,47 @@ public class MagiaFactory {
                     magiaGerada = criarMagiaBase("Assombrar", "Todos os seres ficam assombrados devido a AURA AMEDONTRADORA fornecida PELA DEUSA LUISA", 40, TipoDeEfeito.DEBUFF_DEFESA, 40, 5, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.ASSOMBRAR,
                             Arrays.asList(TagMagia.SOMBRA, TagMagia.DEBUFF, TagMagia.CONTROLE, TagMagia.AREA));
                     break;
+                case 11:
+                    magiaGerada = criarMagiaBase("Chamas Vivas", "Causa queimadura contínua.", 14, TipoDeEfeito.DANO_POR_TURNO, 6, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.FOGO,
+                            Arrays.asList(TagMagia.FOGO, TagMagia.DANO, TagMagia.VENENO));
+                    break;
+                case 12:
+                    magiaGerada = criarMagiaBase("Explosão Ígnea", "Explosão de fogo em área.", 20, TipoDeEfeito.DANO_DIRETO, 18, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.FOGO,
+                            Arrays.asList(TagMagia.FOGO, TagMagia.DANO, TagMagia.AREA));
+                    break;
+                case 13:
+                    magiaGerada = criarMagiaBase("Geada Cortante", "Reduz agilidade do inimigo.", 12, TipoDeEfeito.DEBUFF_AGILIDADE, 5, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.AMENDONTRAR,
+                            Arrays.asList(TagMagia.GELO, TagMagia.DEBUFF));
+                    break;
+                case 14:
+                    magiaGerada = criarMagiaBase("Tempestade Glacial", "Dano em todos os inimigos.", 22, TipoDeEfeito.DANO_DIRETO, 16, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.FOGO,
+                            Arrays.asList(TagMagia.GELO, TagMagia.DANO, TagMagia.AREA));
+                    break;
+                case 15:
+                    magiaGerada = criarMagiaBase("Barreira de Gelo", "Aumenta defesa do aliado.", 10, TipoDeEfeito.BUFF_DEFESA, 12, 2, TipoAlvo.ALIADO, NomeEfeito.PELE_DE_PEDRA,
+                            Arrays.asList(TagMagia.GELO, TagMagia.BUFF));
+                    break;
+                case 16:
+                    magiaGerada = criarMagiaBase("Raio Concentrado", "Dano alto em único inimigo.", 18, TipoDeEfeito.DANO_DIRETO, 30, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM,
+                            Arrays.asList(TagMagia.RAIO, TagMagia.DANO, TagMagia.ALVO_UNICO));
+                    break;
+                case 17:
+                    magiaGerada = criarMagiaBase("Campo Estático", "Reduz agilidade de todos os inimigos.", 15, TipoDeEfeito.DEBUFF_AGILIDADE, 7, 2, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.DEMENTAR,
+                            Arrays.asList(TagMagia.RAIO, TagMagia.DEBUFF, TagMagia.AREA));
+                    break;
+                case 18:
+                    magiaGerada = criarMagiaBase("Impulso Elétrico", "Buff de agilidade no aliado.", 12, TipoDeEfeito.BUFF_AGILIDADE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.AGIL,
+                            Arrays.asList(TagMagia.RAIO, TagMagia.BUFF));
+                    break;
+                case 19:
+                    magiaGerada = criarMagiaBase("Raízes Restritivas", "Reduz evasão do inimigo.", 10, TipoDeEfeito.DEBUFF_DEFESA, 6, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.MALDICAO,
+                            Arrays.asList(TagMagia.NATUREZA, TagMagia.DEBUFF));
+                    break;
+                case 20:
+                    magiaGerada = criarMagiaBase("Cura Natural", "Recupera HP de um aliado.", 15, TipoDeEfeito.CURA, 35, 1, TipoAlvo.ALIADO, NomeEfeito.CURA_REGENERATIVA,
+                            Arrays.asList(TagMagia.NATUREZA, TagMagia.CURA));
+                    break;
+               
             }
 
             if (verificaMagiaGerada(magiasExistentes, magiaGerada)) {

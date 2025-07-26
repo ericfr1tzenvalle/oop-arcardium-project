@@ -61,21 +61,16 @@ public abstract class Personagem {
     public void setEstaDefendendo(boolean estaDefendendo) {
         this.estaDefendendo = estaDefendendo;
     }
-    
-    
 
     public int getHp() {
         return hp;
     }
-
     public int getMp() {
         return mp;
     }
-
     public int getPrecisao() {
         return precisao;
     }
-    
     public int getEvasao() {
         int evasaoTotal = this.evasao;
         for (EfeitoAtivo efeito : this.efeitoAtivo) {
@@ -120,7 +115,7 @@ public abstract class Personagem {
             if (efeito.getTipoEfeito() == TipoDeEfeito.DANO_POR_TURNO) {
                 System.out.println(this.nome + " sofreu [" + efeito.getValor() + "]" + " de dano [DANO POR TURNO]");
                 this.tomarDano(efeito.getValor());
-            } else if (efeito.getTipoEfeito() == TipoDeEfeito.CURA) { // Consistência de nome
+            } else if (efeito.getTipoEfeito() == TipoDeEfeito.CURA) {
                 System.out.println(this.nome + " curou [" + efeito.getValor() + "]" + " [CURA POR TURNO]");
                 this.receberCura(efeito.getValor());
             }
@@ -224,6 +219,14 @@ public abstract class Personagem {
             this.hp = this.maxHp;
         }
     }
+    public void removerEfeito(NomeEfeito efeito){
+        Iterator<EfeitoAtivo> iterator = this.efeitoAtivo.iterator();
+        while(iterator.hasNext()){
+            if(iterator.next().getNomeEfeito() == efeito){
+                iterator.remove();
+            }
+        }
+    }
 
     public boolean lancarHabilidade(Magia magia, List<Personagem> alvos) {
         int custo = magia.getCustoMana();
@@ -257,7 +260,7 @@ public abstract class Personagem {
             for (Personagem alvo : alvos) {
                 int chanceDeAcerto = 85 + (this.getPrecisao() - alvo.getEvasao());
                 if (new Random().nextInt(100) >= chanceDeAcerto) {
-                    alvo.aplicarEfeito(TipoDeEfeito.BUFF_DEFESA, 0, 1, NomeEfeito.ESQUIVOU);
+                    alvo.aplicarEfeito(TipoDeEfeito.BUFF_DEFESA, 0, 0, NomeEfeito.ESQUIVOU);
                     continue;
                 }
                 switch (efeito) {

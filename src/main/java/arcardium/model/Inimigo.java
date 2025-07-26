@@ -7,6 +7,7 @@ package arcardium.model;
 import arcardium.model.enums.NomeEfeito;
 import arcardium.model.enums.RankInimigo;
 import arcardium.model.ia.Comportamento;
+import arcardium.utils.AnsiColors;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,7 +100,7 @@ public class Inimigo extends Heroi {
     
     @Override
     public String toString(){
-        return  "[" + super.getNome() + "]";
+        return  AnsiColors.red("[" + super.getNome() + "]");
     }
 
 }

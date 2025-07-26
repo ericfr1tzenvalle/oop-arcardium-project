@@ -9,10 +9,24 @@ package arcardium.model.enums;
  * @author Éric
  */
 public enum TipoSala {
-    COMBATE,
-    EVENTO,
-    LOJA,
-    CHEFE,
-    DESCANSO
+    COMBATE("Combate"),
+    EVENTO("Evento"),
+    LOJA("Loja"),
+    CHEFE("Chefe"),
+    DESCANSO("Descanso");
+
+    private String nome;
+
+    TipoSala(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+    @Override
+    public String toString() {
+        return "[" + nome + "]";
+    }
     
 }

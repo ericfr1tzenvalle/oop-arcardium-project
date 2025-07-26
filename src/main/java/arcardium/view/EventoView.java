@@ -5,6 +5,8 @@
 package arcardium.view;
 
 import arcardium.model.Magia;
+import arcardium.utils.AnsiColors;
+import arcardium.utils.ConsoleUtils;
 import java.util.List;
 
 /**
@@ -16,55 +18,63 @@ public class EventoView {
     public void mostrarEvento(String evento) {
         switch (evento) {
             case "TAROT":
+                System.out.println("============ [ TAROT ] =============");
                 System.out.println("Você quer tirar sua [SORTE]");
                 System.out.println("1. SIM");
                 System.out.println("2. NAO");
+                System.out.println("============ [ TAROT ] =============");
+                System.out.print("> ");
                 break;
-
-            //TODO: Implementar BLACKJACK simples ou alguma outra ideia pensando...
             case "BLACKJACK":
+                System.out.println("========== [ BLACKJACK ] ===========");
                 System.out.println("Que tal um jogar um [JOGUINHO]");
                 System.out.println("1. SIM");
                 System.out.println("2. NAO");
+                System.out.println("========== [ BLACKJACK ] ===========");
+                System.out.print("> ");
                 break;
             case "DESCANSO":
+                System.out.println("=========== [ FOGUEIRA ] ===========");
                 System.out.println("[FOGUEIRA SAGRADA]");
                 System.out.println("1. DESCANSAR [Recupere 30% de sua vida máxima]");
                 System.out.println("2. APRIMORAR MÁGIA");
+                System.out.println("============ [ SAGRADA ] ===========");
+                System.out.print("> ");
                 break;
             case "LOJA":
                 System.out.println("[LOJA]");
+                break;
                 
         }
 
     }
-    public void mostrarMensagemDescanso(int escolha){
-        switch(escolha){
-            case 1:
-                System.out.println("Descansou bem e recuperou 30% da vida máxima");
-                break;
-            case 2:
-                System.out.println("Escolha uma de suas magias para receber um UPGRADE!");
-                break;
-        }
-    }
+
     public void mostrarOpcoesMagias(List<Magia> magias){
+        System.out.println("======= [ APRIMORAR MAGIA ] ========");
         int i = 1;
+        System.out.println("Suas magias:");
         for(Magia m: magias){
             System.out.println(i++ + ": " + m.toString());
         }
+        System.out.println("=========== [ ESCOLHA ] ============");
+        System.out.print("> ");
+        
     }
     
     public void mostrarMagiaAprimorada(Magia magia){
         if(magia.getNivel() < 3){
-        System.out.println("A magia [" + magia.getNome() + "]" + " para o NIVEL [" + magia.getNivel() + "]");  
+        System.out.println("======== [ SUBIU DE NIVEL ] =========");
+        System.out.println("> Magia [" + magia.getNome() + "]" + " foi aprimorada " + AnsiColors.yellow("[" +magia.getNivel() + "]"));
+        ConsoleUtils.pausar(2000);
         }else{
-        System.out.println("A magia [" + magia.getNome() + "]" + " chegou ao [NIVEL MAXIMO] !");  
+        System.out.println("> Magia [" + magia.getNome() + "]" + " chegou ao "+ AnsiColors.yellow("[NIVEL MAXIMO]"));
+        ConsoleUtils.pausar(2000);
         }
         
     }
 
     public void mostrarOpcoesTarot() {
+        System.out.println("============ [ TAROT ] =============");
         System.out.println("\nSobre a mesa, três cartas emanam uma aura misteriosa.");
         System.out.println("1. A Carta da Esquerda");
         System.out.println("2. A Carta do Meio");
@@ -75,14 +85,17 @@ public class EventoView {
     public void revelarCarta(String nomeCarta, String descricao) {
         System.out.println("\nVocê vira a carta... É **" + nomeCarta.toUpperCase() + "**!");
         System.out.println(descricao);
+        ConsoleUtils.pausar(2000);
     }
 
     public void exibirMagiaAprendida(Magia m) {
-        System.out.println("VOCÊ APRENDEU A MAGIA [" + m.getNome().toUpperCase() + "]");
+        System.out.println("MAGIA [" + m.getNome().toUpperCase() + "] APRENDIDA");
+        ConsoleUtils.pausar(2000);
 
     }
 
     public void pularEvento() {
-        System.out.println("[ABANDONOU O EVENTO]");
+        System.out.println("X==== [ ABANDONOU O EVENTO ] ======X");
+        ConsoleUtils.aguardarEnter();
     }
 }

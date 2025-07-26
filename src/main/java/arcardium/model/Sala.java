@@ -12,30 +12,16 @@ import arcardium.model.enums.TipoSala;
  */
 public class Sala {
     private final TipoSala tipo;
-    private boolean visitada;
 
     public Sala(TipoSala tipo) {
         this.tipo = tipo;
-        this.visitada = false;
+
     }
 
-    public boolean isVisitada() {
-        return visitada;
-    }
-
-    public void setVisitada(boolean visitada) {
-        this.visitada = visitada;
-    }
-    
-    public TipoSala getTipo(){
-        return tipo;
-        
-    }
+    public TipoSala getTipo(){return tipo;}
     
      @Override
-    public String toString() {
-        return "[" + tipo.name() + "]";
-    }
+    public String toString() {return tipo.getNome();}
     
     
 }

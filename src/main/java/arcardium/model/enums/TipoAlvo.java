@@ -4,15 +4,31 @@
  */
 package arcardium.model.enums;
 
+
 /**
- *
+ * Representa os tipos de alvo que uma magia pode atingir.
+ * Agora com nome personalizado.
+ * 
  * @author Luísa
  */
-//TODO: melhorar enum
 public enum TipoAlvo {
-    ALVO_UNICO,
-    TODOS_INIMIGOS,
-    ALEATORIO,
-    ALIADO  
-    
+    ALVO_UNICO("Alvo Único"),
+    TODOS_INIMIGOS("Todos os Inimigos"),
+    ALEATORIO("Alvo Aleatório"),
+    ALIADO("Aliado");
+
+    private final String nome;
+
+    TipoAlvo(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
 }

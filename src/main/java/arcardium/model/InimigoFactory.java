@@ -1,12 +1,8 @@
 package arcardium.model;
 
-import arcardium.model.enums.NomeEfeito;
-import arcardium.model.enums.RankInimigo;
-import arcardium.model.enums.TipoAlvo;
-import arcardium.model.enums.TipoDeEfeito;
+import arcardium.model.enums.*;
 import arcardium.model.ia.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -142,7 +138,7 @@ public class InimigoFactory {
     }
 
     private Inimigo criarMonstroRankB() {
-        int numMonstro = rand.nextInt(2) + 1;
+        int numMonstro = rand.nextInt(3);
         switch (numMonstro) {
             case 0:
                 Inimigo fantasma = new Inimigo("Fantasma", 80, 0, 22, 12, 8, 5, 20, RankInimigo.B, compSequencial);
