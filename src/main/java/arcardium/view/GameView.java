@@ -35,6 +35,9 @@ public class GameView {
         ConsoleUtils.digitar("\nDigite o nome do seu [MAGO]\n", 100);
         System.out.print("> ");
     }
+     public void exibirMensagem(String mensagem) {
+        System.out.println(mensagem);
+    }
 
     public void mostrarTelaArquetipos() {
         ConsoleUtils.limparTela();
@@ -48,5 +51,5 @@ public class GameView {
         System.out.println("============Escolha===========");
         System.out.print("> ");
     }
-
+    
 }

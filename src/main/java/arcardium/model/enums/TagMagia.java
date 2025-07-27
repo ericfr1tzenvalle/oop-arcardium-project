@@ -4,6 +4,8 @@
  */
 package arcardium.model.enums;
 
+import java.util.Random;
+
 /**
  *
  * @author Luísa
@@ -17,9 +19,14 @@ public enum TagMagia {
     ALVO_UNICO, AREA,
  //  EFEITOS:
     VENENO, MALDIÇÃO, SANGRAMENTO;
+    
+    
+   
 
     @Override
     public String toString() {
         return "[" + name() + "]";
-    }  
+    }
+    
+   
 }

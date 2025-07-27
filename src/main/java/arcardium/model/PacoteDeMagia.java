@@ -1,0 +1,62 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package arcardium.model;
+
+import arcardium.model.enums.TagMagia;
+
+/**
+ *
+ * @author Luísa
+ */
+public class PacoteDeMagia {
+    private String nome;
+    private String descricao;
+    private int custo;
+    private TagMagia tags;
+
+    public PacoteDeMagia(String nome, String descricao, int custo, TagMagia tags) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.custo = custo;
+        this.tags = tags;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public int getCusto() {
+        return custo;
+    }
+
+    public void setCusto(int custo) {
+        this.custo = custo;
+    }
+
+    public TagMagia getTagDoPacote() {
+        return tags;
+    }
+
+    public void setTags(TagMagia tags) {
+        this.tags = tags;
+    }
+    
+    
+    
+    
+    
+}

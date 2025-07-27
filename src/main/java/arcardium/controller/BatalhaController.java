@@ -44,7 +44,8 @@ public class BatalhaController {
         int recompensaXp = grupoInimigos.stream().mapToInt(Inimigo::getRecompensaXp).sum();
         int turno = 1;
         boolean fugiu = false;
-        ConsoleUtils.limparTela();
+        view.exibirInimigosCombate(mago,grupoInimigos);
+        ConsoleUtils.aguardarEnter();
         while (mago.getHp() > 0 && !grupoInimigos.isEmpty()) {
             ConsoleUtils.limparTela();
             verificarOrdemCombate(filaDeTurnos);
@@ -73,6 +74,7 @@ public class BatalhaController {
                     view.exibirOrdemDosTurnos(filaDeTurnos);
                     view.exibirMensagem("=========== [" + AnsiColors.red("SEU TURNO") + "] ============");
                     turnoDoJogador(mago, jogador, grupoInimigos, sc, magiaFactory);
+                    System.out.println("-> Turno de [" + mago.getNome() + "]");
                     if(personagemDaVez.verificaEfeitoAtivo(NomeEfeito.ACAO_EXTRA)){
                         System.out.println("========== [AÇÃO EXTRA] ==========");
                         personagemDaVez.removerEfeito(NomeEfeito.ACAO_EXTRA);

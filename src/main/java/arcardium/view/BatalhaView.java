@@ -148,7 +148,7 @@ public class BatalhaView {
 
     public void exibirAtaque(Magia magiaEscolhida, Mago personagem, List<Inimigo> inimigos) {
         System.out.print("-> " + personagem.getNome() + " LANÇA SUA MAGIA ");
-        System.out.print("[" + AnsiColors.magenta(magiaEscolhida.getNome().toUpperCase()) + "]");
+        System.out.print("[" + AnsiColors.magenta(magiaEscolhida.getNome().toUpperCase()) + "]\n");
         System.out.print(" " + magiaEscolhida.getDescricao() + " \n");
         for (Inimigo alvo : inimigos) {
             if (alvo.verificaEfeitoAtivo(NomeEfeito.ESQUIVOU)) {
@@ -232,5 +232,18 @@ public class BatalhaView {
         System.out.println("======== [ FIM DO COMBATE ] ========");
         System.out.println("> Sem recompensas.");
         System.out.println("======== [      FUGIU     ] ========");
+    }
+
+    public void exibirInimigosCombate(Mago mago, List<Inimigo> grupoInimigos) {
+        System.out.println("============ [INICIO DO COMBATE] =============");
+        System.out.println("           " + mago.getNome());
+        System.out.println("                     VS");
+        for(Inimigo inimigo: grupoInimigos){
+        System.out.println("        " + inimigo.getNome());
+        }
+        ConsoleUtils.aguardarEnter();
+        
+        
+        
     }
 }

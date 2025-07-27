@@ -6,116 +6,72 @@ import arcardium.model.enums.TipoAlvo;
 import arcardium.model.enums.TipoDeEfeito;
 import java.util.List;
 import java.util.Random;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class MagiaFactory {
 
     private final Random rand = new Random();
 
+    private static final List<Magia> TODAS_AS_MAGIAS = List.of(
+        new Magia("Sugada Nervosa", "Suga vitalidade dos inimigos a cada turno", 20, TipoDeEfeito.DANO_POR_TURNO, 7, 3, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.SANGRAMENTO, List.of(TagMagia.SOMBRA, TagMagia.DANO, TagMagia.SANGRAMENTO, TagMagia.AREA)),
+        new Magia("Força do Urso", "Reúne a força da natureza para si", 15, TipoDeEfeito.BUFF_ATAQUE, 10, 3, TipoAlvo.ALIADO, NomeEfeito.FORCA_DO_URSO, List.of(TagMagia.NATUREZA, TagMagia.BUFF)),
+        new Magia("Pele de Pedra", "Enrijece toda a sua pele", 15, TipoDeEfeito.BUFF_DEFESA, 12, 3, TipoAlvo.ALIADO, NomeEfeito.PELE_DE_PEDRA, List.of(TagMagia.NATUREZA, TagMagia.BUFF)),
+        new Magia("Seta de Gelo", "Lança um fragmento de seta de gelo", 10, TipoDeEfeito.DANO_DIRETO, 25, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.GELO, TagMagia.DANO, TagMagia.ALVO_UNICO)),
+        new Magia("Chuva de Meteoros", "Uma chuva de meteoros de fogo", 25, TipoDeEfeito.DANO_DIRETO, 18, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM, List.of(TagMagia.FOGO, TagMagia.DANO, TagMagia.AREA)),
+        new Magia("Toque Nocivo", "Aplica VENENO em um único alvo", 17, TipoDeEfeito.DANO_POR_TURNO, 8, 4, TipoAlvo.ALVO_UNICO, NomeEfeito.VENENO, List.of(TagMagia.SOMBRA, TagMagia.VENENO, TagMagia.CONTROLE)),
+        new Magia("Imagem Espelhada", "Aumenta sua EVASÃO por 2 turnos.", 12, TipoDeEfeito.BUFF_EVASAO, 15, 2, TipoAlvo.ALIADO, NomeEfeito.AGIL, List.of(TagMagia.ARCANA, TagMagia.BUFF)),
+        new Magia("Maldição da Fraqueza", "Reduz o ATAQUE de um inimigo.", 18, TipoDeEfeito.DEBUFF_ATAQUE, 8, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.MALDICAO, List.of(TagMagia.SOMBRA, TagMagia.DEBUFF, TagMagia.CONTROLE)),
+        new Magia("Toque Restaurador", "Recupera uma quantidade significativa de VIDA.", 20, TipoDeEfeito.CURA, 50, 1, TipoAlvo.ALIADO, NomeEfeito.NENHUM, List.of(TagMagia.LUZ, TagMagia.CURA)),
+        new Magia("Assombrar", "Todos os inimigos ficam assombrados, reduzindo sua DEFESA.", 30, TipoDeEfeito.DEBUFF_DEFESA, 10, 3, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.ASSOMBRAR, List.of(TagMagia.SOMBRA, TagMagia.DEBUFF, TagMagia.AREA)),
+        new Magia("MAGIA FOGO 1", "Uma chuva de meteoros de fogo", 25, TipoDeEfeito.DANO_DIRETO, 18, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM, List.of(TagMagia.FOGO)),
+        new Magia("MAGIA FOGO 2", "Uma chuva de meteoros de fogo", 25, TipoDeEfeito.DANO_DIRETO, 18, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM, List.of(TagMagia.FOGO)),
+        new Magia("MAGIA FOGO 3", "Uma chuva de meteoros de fogo", 25, TipoDeEfeito.DANO_DIRETO, 18, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM, List.of(TagMagia.FOGO))
+        // Vou adicionar mais 40 magias aqui, e essas serão reformuladas provavelmente
+    );
+
+    /**
+     * Gera uma magia aleatória de uma tag específica que o jogador ainda não possui.
+     */
+    public Magia criarMagiaUnicaPorTag(List<Magia> magiasExistentes, TagMagia tagDesejada) {
+        
+        // 1. Filtra o catálogo mestre para pegar apenas as magias da tag desejada.
+        List<Magia> magiasComTag = TODAS_AS_MAGIAS.stream()
+                .filter(m -> m.getTags().contains(tagDesejada))
+                .collect(Collectors.toList());
+
+        // 2. Remove dessa lista filtrada as magias que o jogador já possui
+        magiasComTag.removeIf(magia -> !verificaMagiaGerada(magiasExistentes, magia));
+
+        // 3. Se não sobrar nenhuma magia nova, retorna uma magia aleatória qualquer que o mago tem
+        if (magiasComTag.isEmpty()) {
+            return criarMagiaUnica(magiasExistentes);
+        }
+
+        // 4. Sorteia uma da lista final
+        return magiasComTag.get(rand.nextInt(magiasComTag.size()));
+    }
+
+    /**
+     * Gera uma magia aleatória de qualquer tipo que o jogador ainda não possui
+     */
+    
     public Magia criarMagiaUnica(List<Magia> magiasExistentes) {
-        Magia magiaGerada = criarMagiaBase("Nenhuma", "Não faz nada", 999, TipoDeEfeito.CURA, 0, 0, TipoAlvo.ALIADO, NomeEfeito.MALDICAO, List.of(TagMagia.CURA));
-
+        Magia magiaGerada;
         while (true) {
-            int magiaNum = rand.nextInt(20) + 1;
-
-            switch (magiaNum) {
-                case 1:
-                    magiaGerada = criarMagiaBase("Sugada Nervosa", "Sugando a vitalidade dos inimigos a cada turno", 20, TipoDeEfeito.DANO_POR_TURNO, 20, 2, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.SANGRAMENTO,
-                            Arrays.asList(TagMagia.SOMBRA, TagMagia.DANO, TagMagia.SANGRAMENTO, TagMagia.AREA));
-                    break;
-                case 2:
-                    magiaGerada = criarMagiaBase("Força do URSO", "Reunindo a força da natureza", 20, TipoDeEfeito.BUFF_ATAQUE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.FORCA_DO_URSO,
-                            Arrays.asList(TagMagia.NATUREZA, TagMagia.BUFF));
-                    break;
-                case 3:
-                    magiaGerada = criarMagiaBase("Pele de PEDRA", "Enrijecendo toda sua pele", 15, TipoDeEfeito.BUFF_DEFESA, 30, 3, TipoAlvo.ALIADO, NomeEfeito.PELE_DE_PEDRA,
-                            Arrays.asList(TagMagia.NATUREZA, TagMagia.BUFF));
-                    break;
-                case 4:
-                    magiaGerada = criarMagiaBase("Seta de Gelo", "Lança um fragmento de seta de gelo", 15, TipoDeEfeito.DANO_DIRETO, 30, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM,
-                            Arrays.asList(TagMagia.GELO, TagMagia.DANO, TagMagia.ALVO_UNICO));
-                    break;
-                case 5:
-                    magiaGerada = criarMagiaBase("Chuva de Meteoros", "Caem sobre o terreno uma chuva de meteoros de fogo", 25, TipoDeEfeito.DANO_DIRETO, 15, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM,
-                            Arrays.asList(TagMagia.FOGO, TagMagia.DANO, TagMagia.AREA));
-                    break;
-                case 6:
-                    magiaGerada = criarMagiaBase("Toque Nocivo", "Aplica VENENO em um único alvo por 3 turnos.", 17, TipoDeEfeito.DANO_POR_TURNO, 12, 4, TipoAlvo.ALVO_UNICO, NomeEfeito.VENENO,
-                            Arrays.asList(TagMagia.SOMBRA, TagMagia.VENENO, TagMagia.CONTROLE, TagMagia.ALVO_UNICO));
-                    break;
-                case 7:
-                    magiaGerada = criarMagiaBase("Imagem Espelhada", "Aumenta sua DEFESA por 2 turnos.", 12, TipoDeEfeito.BUFF_DEFESA, 10, 2, TipoAlvo.ALIADO, NomeEfeito.PELE_DE_PEDRA,
-                            Arrays.asList(TagMagia.ARCANA, TagMagia.BUFF));
-                    break;
-                case 8:
-                    magiaGerada = criarMagiaBase("Maldição da Fraqueza", "Reduz o ATAQUE de um inimigo por 2 turnos.", 18, TipoDeEfeito.DEBUFF_ATAQUE, 5, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.MALDICAO,
-                            Arrays.asList(TagMagia.SOMBRA, TagMagia.DEBUFF, TagMagia.CONTROLE));
-                    break;
-                case 9:
-                    magiaGerada = criarMagiaBase("Toque Restaurador", "Recupera uma quantidade significativa de VIDA.", 20, TipoDeEfeito.CURA, 40, 1, TipoAlvo.ALIADO, NomeEfeito.NENHUM,
-                            Arrays.asList(TagMagia.LUZ, TagMagia.CURA));
-                    break;
-                case 10:
-                    magiaGerada = criarMagiaBase("Assombrar", "Todos os seres ficam assombrados devido a AURA AMEDONTRADORA fornecida PELA DEUSA LUISA", 40, TipoDeEfeito.DEBUFF_DEFESA, 40, 5, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.ASSOMBRAR,
-                            Arrays.asList(TagMagia.SOMBRA, TagMagia.DEBUFF, TagMagia.CONTROLE, TagMagia.AREA));
-                    break;
-                case 11:
-                    magiaGerada = criarMagiaBase("Chamas Vivas", "Causa queimadura contínua.", 14, TipoDeEfeito.DANO_POR_TURNO, 6, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.FOGO,
-                            Arrays.asList(TagMagia.FOGO, TagMagia.DANO, TagMagia.VENENO));
-                    break;
-                case 12:
-                    magiaGerada = criarMagiaBase("Explosão Ígnea", "Explosão de fogo em área.", 20, TipoDeEfeito.DANO_DIRETO, 18, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.FOGO,
-                            Arrays.asList(TagMagia.FOGO, TagMagia.DANO, TagMagia.AREA));
-                    break;
-                case 13:
-                    magiaGerada = criarMagiaBase("Geada Cortante", "Reduz agilidade do inimigo.", 12, TipoDeEfeito.DEBUFF_AGILIDADE, 5, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.AMENDONTRAR,
-                            Arrays.asList(TagMagia.GELO, TagMagia.DEBUFF));
-                    break;
-                case 14:
-                    magiaGerada = criarMagiaBase("Tempestade Glacial", "Dano em todos os inimigos.", 22, TipoDeEfeito.DANO_DIRETO, 16, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.FOGO,
-                            Arrays.asList(TagMagia.GELO, TagMagia.DANO, TagMagia.AREA));
-                    break;
-                case 15:
-                    magiaGerada = criarMagiaBase("Barreira de Gelo", "Aumenta defesa do aliado.", 10, TipoDeEfeito.BUFF_DEFESA, 12, 2, TipoAlvo.ALIADO, NomeEfeito.PELE_DE_PEDRA,
-                            Arrays.asList(TagMagia.GELO, TagMagia.BUFF));
-                    break;
-                case 16:
-                    magiaGerada = criarMagiaBase("Raio Concentrado", "Dano alto em único inimigo.", 18, TipoDeEfeito.DANO_DIRETO, 30, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM,
-                            Arrays.asList(TagMagia.RAIO, TagMagia.DANO, TagMagia.ALVO_UNICO));
-                    break;
-                case 17:
-                    magiaGerada = criarMagiaBase("Campo Estático", "Reduz agilidade de todos os inimigos.", 15, TipoDeEfeito.DEBUFF_AGILIDADE, 7, 2, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.DEMENTAR,
-                            Arrays.asList(TagMagia.RAIO, TagMagia.DEBUFF, TagMagia.AREA));
-                    break;
-                case 18:
-                    magiaGerada = criarMagiaBase("Impulso Elétrico", "Buff de agilidade no aliado.", 12, TipoDeEfeito.BUFF_AGILIDADE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.AGIL,
-                            Arrays.asList(TagMagia.RAIO, TagMagia.BUFF));
-                    break;
-                case 19:
-                    magiaGerada = criarMagiaBase("Raízes Restritivas", "Reduz evasão do inimigo.", 10, TipoDeEfeito.DEBUFF_DEFESA, 6, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.MALDICAO,
-                            Arrays.asList(TagMagia.NATUREZA, TagMagia.DEBUFF));
-                    break;
-                case 20:
-                    magiaGerada = criarMagiaBase("Cura Natural", "Recupera HP de um aliado.", 15, TipoDeEfeito.CURA, 35, 1, TipoAlvo.ALIADO, NomeEfeito.CURA_REGENERATIVA,
-                            Arrays.asList(TagMagia.NATUREZA, TagMagia.CURA));
-                    break;
-               
-            }
-
+            // Sorteia uma magia aleatória do nosso catálogo mestre
+            magiaGerada = TODAS_AS_MAGIAS.get(rand.nextInt(TODAS_AS_MAGIAS.size()));
+            
             if (verificaMagiaGerada(magiasExistentes, magiaGerada)) {
-                return magiaGerada;
+                return magiaGerada; // Se for nova, entrega.
             }
+            // Se não, o loop tenta de novo.
         }
     }
 
-    private Magia criarMagiaBase(String nome, String descricao, int custoMana, TipoDeEfeito tipoEfeito,
-            int valorEfeito, int duracao, TipoAlvo tipoAlvo, NomeEfeito efeito,
-            List<TagMagia> tags) {
-        Magia magia = new Magia(nome, descricao, custoMana, tipoEfeito, valorEfeito, duracao, tipoAlvo, efeito, null);
-        magia.getTags().addAll(tags);
-        return magia;
-    }
-
+    /**
+     * Verifica se uma magia gerada já existe em uma lista
+     */
     public boolean verificaMagiaGerada(List<Magia> magias, Magia magiaGerada) {
         for (Magia magia : magias) {
             if (magia.getNome().equals(magiaGerada.getNome())) {

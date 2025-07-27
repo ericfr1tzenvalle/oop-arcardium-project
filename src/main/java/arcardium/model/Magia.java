@@ -38,7 +38,7 @@ public class Magia {
         this.duracaoEfeito = duracaoEfeito;
         this.tipoAlvo = tipoAlvo;
         this.efeito = efeito;
-        this.tags = new ArrayList<>();
+        this.tags = tags;
     }
 
     public String getNome() {
