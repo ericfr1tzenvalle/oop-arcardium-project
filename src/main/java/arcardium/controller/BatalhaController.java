@@ -7,12 +7,15 @@ import arcardium.model.Mago;
 import arcardium.model.Jogador;
 import arcardium.model.MagiaFactory;
 import arcardium.model.Personagem;
+import arcardium.model.enums.NomeEfeito;
+import arcardium.model.enums.TipoDeEfeito;
 import arcardium.utils.AnsiColors;
 import arcardium.view.BatalhaView;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -40,13 +43,18 @@ public class BatalhaController {
         int recompensaGold = grupoInimigos.stream().mapToInt(Inimigo::getRecompensaOuro).sum();
         int recompensaXp = grupoInimigos.stream().mapToInt(Inimigo::getRecompensaXp).sum();
         int turno = 1;
+        boolean fugiu = false;
         ConsoleUtils.limparTela();
         while (mago.getHp() > 0 && !grupoInimigos.isEmpty()) {
             ConsoleUtils.limparTela();
+            verificarOrdemCombate(filaDeTurnos);
             view.exbirHeaderCombate(turno, jogador);
+            if(turno == 1 && filaDeTurnos.getFirst() instanceof Inimigo){
+                view.exibirOrdemDosTurnos(filaDeTurnos);
+            }
             turno++;
             for (Personagem personagemDaVez : filaDeTurnos) {
-                if (personagemDaVez.getHp() <= 0) {
+                if (personagemDaVez.getHp() <= 0 || personagemDaVez.verificaEfeitoAtivo(NomeEfeito.ATORDOADO)) {
                     continue;
                 }
 
@@ -63,9 +71,20 @@ public class BatalhaController {
 
                 if (personagemDaVez instanceof Mago) {
                     view.exibirOrdemDosTurnos(filaDeTurnos);
-                    System.out.println("=========== [" + AnsiColors.red("SEU TURNO") + "] ============");
-                    turnoDoJogador(mago, grupoInimigos, sc);
+                    view.exibirMensagem("=========== [" + AnsiColors.red("SEU TURNO") + "] ============");
+                    turnoDoJogador(mago, jogador, grupoInimigos, sc, magiaFactory);
+                    if(personagemDaVez.verificaEfeitoAtivo(NomeEfeito.ACAO_EXTRA)){
+                        System.out.println("========== [AÇÃO EXTRA] ==========");
+                        personagemDaVez.removerEfeito(NomeEfeito.ACAO_EXTRA);
+                        turnoDoJogador(mago, jogador, grupoInimigos, sc, magiaFactory);
+                        
+                    }
                     ConsoleUtils.aguardarEnter();
+                    if(personagemDaVez.verificaEfeitoAtivo(NomeEfeito.FUGA)){
+                        personagemDaVez.removerEfeito(NomeEfeito.FUGA);
+                        fugiu = true;
+                        break;
+                    }
 
                 } else if (personagemDaVez instanceof Inimigo) {
                     Inimigo inimigo = (Inimigo) personagemDaVez;
@@ -79,14 +98,26 @@ public class BatalhaController {
                     }
                 }
             }
-
-            removerInimigosDerrotados(grupoInimigos,filaDeTurnos);
+            
+            removerInimigosDerrotados(grupoInimigos,filaDeTurnos);   
+            
+           
         }
-
-        processarFimDeCombate(mago, jogador, recompensaXp, recompensaGold, magiaFactory, sc, grupoInimigos);
+        if(fugiu == false){
+          processarFimDeCombate(mago, jogador, recompensaXp, recompensaGold, magiaFactory, sc, grupoInimigos);   
+        }
+       
+    }
+    private void verificarOrdemCombate(List<Personagem> filaDeTurnos){
+        filaDeTurnos.sort(Comparator.comparingInt(Personagem::getAgi).reversed());
     }
 
     private void processarFimDeCombate(Mago mago, Jogador jogador, int xp, int ouro, MagiaFactory magiaFactory, Scanner sc, List<Inimigo> grupoInimigos) {
+        //Se fugir não recebe recompensas.
+        if(xp == 0 && ouro == 0){
+           view.exibirFuga();
+           return;
+        }else{
         if (mago.getHp() > 0) {
             view.exibirFimDeBatalha(mago.getNome(), true);
             view.exibirEspolios(xp, ouro, mago);
@@ -121,11 +152,11 @@ public class BatalhaController {
                         }
                         break;
                     } else if (escolha == 0) {
-                        view.exibirMensagem("Você optou por não aprender nenhuma magia.");
+                        view.exibirMensagem("> Você optou por não aprender nenhuma magia.");
                         break;
                     }
                 } catch (Exception e) {
-                    view.exibirMensagem("Entrada inválida, tente novamente.");
+                    view.exibirMensagem("> Entrada inválida, tente novamente.");
                     sc.nextLine();
                 }
             }
@@ -134,6 +165,7 @@ public class BatalhaController {
             for (Inimigo inimigo : grupoInimigos) {
                 view.exibirFimDeBatalha(inimigo.getNome(), true);
             }
+        }
         }
     }
 
@@ -148,10 +180,18 @@ public class BatalhaController {
             }
         }
     }
+    private boolean tentarFugir(){
+        Random rand = new Random();
+        if(rand.nextInt(100) < 40){
+            return true;
+        }
+        return false;
+    }
 
-    private void turnoDoJogador(Mago mago, List<Inimigo> inimigos, Scanner sc) {
+    private void turnoDoJogador(Mago mago, Jogador jogador, List<Inimigo> inimigos, Scanner sc, MagiaFactory magiaFactory) {
         view.exibirMenuJogador(mago.getNome());
         int opcao = -1;
+        Random rand = new Random();
 
         while (opcao != 0) {
             try {
@@ -202,12 +242,25 @@ public class BatalhaController {
                         opcao = 0;
                     }
                     case 2 -> {
-                        view.exibirMensagem("Você usou seu [TURNO] para [DEFENDER]");
+                        view.exibirMensagem("> " + mago.getNome() + " usou seu [TURNO] para [DEFENDER]");
                         mago.setEstaDefendendo(true);
                         opcao = 0;
                     }
-                    case 0 ->
-                        view.exibirMensagem("Você fugiu!");
+                    
+                    case 0 ->{
+                        if(!tentarFugir()){
+                        view.exibirMensagem("X======= [  FUGA FALHOU  ] ========X");  
+                        opcao = 0;
+                        }else{
+                            inimigos.clear();
+                            mago.aplicarEfeito(TipoDeEfeito.BUFF_AGILIDADE, 0, 1, NomeEfeito.FUGA);
+                            processarFimDeCombate(mago, jogador, 0, 0, magiaFactory, sc, inimigos);
+                        }
+                    }
+                      
+                        
+                        
+                        
                     default ->
                         view.exibirMensagem("Opção inválida, tente novamente.");
                 }

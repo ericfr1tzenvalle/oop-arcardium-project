@@ -20,27 +20,27 @@ public class MagiaFactory {
 
             switch (magiaNum) {
                 case 1:
-                    magiaGerada = criarMagiaBase("Sugada Nervosa", "Suga vitalidade dos inimigos a cada turno", 10, TipoDeEfeito.DANO_POR_TURNO, 5, 4, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.SANGRAMENTO,
+                    magiaGerada = criarMagiaBase("Sugada Nervosa", "Sugando a vitalidade dos inimigos a cada turno", 20, TipoDeEfeito.DANO_POR_TURNO, 20, 2, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.SANGRAMENTO,
                             Arrays.asList(TagMagia.SOMBRA, TagMagia.DANO, TagMagia.SANGRAMENTO, TagMagia.AREA));
                     break;
                 case 2:
-                    magiaGerada = criarMagiaBase("Força do URSO", "Voce reune a FORÇA da natureza pra si", 10, TipoDeEfeito.BUFF_ATAQUE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.FORCA_DO_URSO,
+                    magiaGerada = criarMagiaBase("Força do URSO", "Reunindo a força da natureza", 20, TipoDeEfeito.BUFF_ATAQUE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.FORCA_DO_URSO,
                             Arrays.asList(TagMagia.NATUREZA, TagMagia.BUFF));
                     break;
                 case 3:
-                    magiaGerada = criarMagiaBase("Pele de PEDRA", "Voce reune a DEFESA da natureza pra si", 10, TipoDeEfeito.BUFF_DEFESA, 5, 3, TipoAlvo.ALIADO, NomeEfeito.PELE_DE_PEDRA,
+                    magiaGerada = criarMagiaBase("Pele de PEDRA", "Enrijecendo toda sua pele", 15, TipoDeEfeito.BUFF_DEFESA, 30, 3, TipoAlvo.ALIADO, NomeEfeito.PELE_DE_PEDRA,
                             Arrays.asList(TagMagia.NATUREZA, TagMagia.BUFF));
                     break;
                 case 4:
-                    magiaGerada = criarMagiaBase("Seta de Gelo", "Lança uma farpa de gelo em um único alvo.", 10, TipoDeEfeito.DANO_DIRETO, 25, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM,
+                    magiaGerada = criarMagiaBase("Seta de Gelo", "Lança um fragmento de seta de gelo", 15, TipoDeEfeito.DANO_DIRETO, 30, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM,
                             Arrays.asList(TagMagia.GELO, TagMagia.DANO, TagMagia.ALVO_UNICO));
                     break;
                 case 5:
-                    magiaGerada = criarMagiaBase("Chuva de Meteoros", "Atinge todos os inimigos com fragmentos cósmicos.", 25, TipoDeEfeito.DANO_DIRETO, 15, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM,
+                    magiaGerada = criarMagiaBase("Chuva de Meteoros", "Caem sobre o terreno uma chuva de meteoros de fogo", 25, TipoDeEfeito.DANO_DIRETO, 15, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM,
                             Arrays.asList(TagMagia.FOGO, TagMagia.DANO, TagMagia.AREA));
                     break;
                 case 6:
-                    magiaGerada = criarMagiaBase("Toque Nocivo", "Aplica VENENO em um único alvo por 3 turnos.", 15, TipoDeEfeito.DANO_POR_TURNO, 8, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.VENENO,
+                    magiaGerada = criarMagiaBase("Toque Nocivo", "Aplica VENENO em um único alvo por 3 turnos.", 17, TipoDeEfeito.DANO_POR_TURNO, 12, 4, TipoAlvo.ALVO_UNICO, NomeEfeito.VENENO,
                             Arrays.asList(TagMagia.SOMBRA, TagMagia.VENENO, TagMagia.CONTROLE, TagMagia.ALVO_UNICO));
                     break;
                 case 7:

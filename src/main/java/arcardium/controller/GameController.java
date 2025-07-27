@@ -62,6 +62,15 @@ public class GameController {
                     Jogador jogador = new Jogador(magoEscolhido);
                     executarRun(jogador);
                     break;
+                case 2:
+                case 3:
+                case 4:
+                    System.out.println("> Não implementado.");
+                    break;
+                case 0:
+                    ConsoleUtils.digitar("Saindo...", 100);
+                    
+                    
 
             }
 
@@ -73,8 +82,8 @@ public class GameController {
         Mago mago = new Mago(nomeMago, 1, 1, 1, 1, 1,10,10);
         switch (arquetipo) {
             case 1:
-
                 mago = new Mago(nomeMago, 120, 3000, 8, 10, 12,10,8);
+                Magia agilidadeZero = new Magia("Agilidade zero", "Deixa o alvo sem nada de agilidade", 20, TipoDeEfeito.DEBUFF_AGILIDADE,1000,2,TipoAlvo.ALVO_UNICO, NomeEfeito.AMENDONTRAR, List.of(TagMagia.CONTROLE));
                 Magia mantoDePedra = new Magia("Força do URSO",
                         "Envolve o personagem com um manto que AUMENTA o ATAQUE",
                         20, TipoDeEfeito.BUFF_ATAQUE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.FORCA_DO_URSO, List.of(TagMagia.NATUREZA, TagMagia.BUFF, TagMagia.ALVO_UNICO));
@@ -91,7 +100,12 @@ public class GameController {
                 mago = new Mago(nomeMago, 100, 50, 10, 5, 15,20,20);
                 break;
             default:
-                System.out.println("Opção Inválida");
+                 System.out.println("====404===== [ERRO] =====404====");
+                 System.out.println("> ARQUÉTIPO INEXISTENTE");
+                 ConsoleUtils.aguardarEnter();
+                 view.mostrarTelaArquetipos();
+                 int arquetipoErro = sc.nextInt();
+                 criarMagoPorArquetipo(nomeMago,arquetipoErro);
 
         }
         return mago;
@@ -112,12 +126,12 @@ public class GameController {
         for (int i = 0; i < mapaGerado.size(); i++) {
             List<Sala> andarAtual = mapaGerado.get(i);
             ConsoleUtils.limparTela();
-
-            System.out.println("\n          ANDAR [" + (i + 1) + "]");
-            System.out.println("==========MASMORRA==========");
-            System.out.println("      Salas disponíveis");
-            System.out.println(">" + andarAtual + "<");
-            System.out.println("============Escolha===========");
+            System.out.println("=========Arcardium[RPG]=========");
+            System.out.println("            ANDAR [" + (i + 1) + "]");
+            System.out.println("==========  MASMORRA  ==========");
+            System.out.println("        Salas disponíveis");
+            System.out.println("  >" + andarAtual + "<");
+            System.out.println("===== 1 ======= 2 ====== 3 =====");
             System.out.print("> ");
             jogador.getHeroi().resetarEfeitos();
 
@@ -131,6 +145,7 @@ public class GameController {
                     String msgDerrota = "Sua visão escurece... Seu grimório cai no chão, aberto, esperando pelo próximo tolo corajoso o suficiente para tentar.";
                     ConsoleUtils.digitar(msgDerrota, 120);
                     System.out.println("X===========[MORTE]==========X");
+                    
                     break;
                 }
             } else if (salaEscolhida.getTipo() == TipoSala.CHEFE) {

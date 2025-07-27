@@ -30,12 +30,14 @@ public class GameView {
 
     public void mostrarTelaNome() {
         ConsoleUtils.limparTela();
+        System.out.println("=========Arcardium[RPG]=========");
         ConsoleUtils.digitar("Iniciando run...", 100);
-        System.out.println("\nDigite o nome do seu [MAGO]");
+        ConsoleUtils.digitar("\nDigite o nome do seu [MAGO]\n", 100);
         System.out.print("> ");
     }
 
     public void mostrarTelaArquetipos() {
+        ConsoleUtils.limparTela();
         System.out.println("===========Arquétipo===========");
         System.out.println("[1] Mago de batalha");
         System.out.println("  x Resistente e bruto");

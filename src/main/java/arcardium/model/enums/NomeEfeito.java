@@ -25,7 +25,9 @@ public enum NomeEfeito {
     PELE_DE_PEDRA("Pele de Pedra"),
     RESISTENTE("Resistencia"),
     AGIL("Agil"),
-    INFECTADO("Infectado");
+    INFECTADO("Infectado"), 
+    FUGA("Fugindo"), 
+    ATORDOADO("Atordoado"), ACAO_EXTRA("Celeridade");
     
     private final String nome;
 

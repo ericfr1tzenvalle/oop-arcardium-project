@@ -21,9 +21,5 @@ public enum TagMagia {
     @Override
     public String toString() {
         return "[" + name() + "]";
-    }
-    
-    
-    
-    
+    }  
 }

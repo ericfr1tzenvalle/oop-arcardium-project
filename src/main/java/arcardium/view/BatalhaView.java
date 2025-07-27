@@ -112,7 +112,7 @@ public class BatalhaView {
     }
 
     public void exibirTurnoInimigo(String nomeInimigo) {
-        System.out.println("\n-> Turno de [" + nomeInimigo + "]");
+        System.out.println("-> Turno de [" + nomeInimigo + "]");
     }
 
     public void exibirOrdemDosTurnos(List<Personagem> fila) {
@@ -149,8 +149,7 @@ public class BatalhaView {
     public void exibirAtaque(Magia magiaEscolhida, Mago personagem, List<Inimigo> inimigos) {
         System.out.print("-> " + personagem.getNome() + " LANÇA SUA MAGIA ");
         System.out.print("[" + AnsiColors.magenta(magiaEscolhida.getNome().toUpperCase()) + "]");
-
-        System.out.println(magiaEscolhida.getDescricao());
+        System.out.print(" " + magiaEscolhida.getDescricao() + " \n");
         for (Inimigo alvo : inimigos) {
             if (alvo.verificaEfeitoAtivo(NomeEfeito.ESQUIVOU)) {
                 System.out.println("> [" + alvo.getNome() + "] SE ESQUIVOU!");
@@ -216,7 +215,7 @@ public class BatalhaView {
     }
 
     public void exbirHeaderCombate(int turno, Jogador jogador) {
-        System.out.println("============ ["+AnsiColors.red("COMBATE")+"] =============");
+        System.out.println("============ [" + AnsiColors.red("COMBATE") + "] =============");
         System.out.println("[TURNO " + turno++ + "]                  [OURO:" + jogador.getOuro() + "]");
 
     }
@@ -227,5 +226,11 @@ public class BatalhaView {
         System.out.println("> " + mago.getNome() + " ganhou " + ouro + " OURO!");
         System.out.println("====================================");
         ConsoleUtils.aguardarEnter();
+    }
+
+    public void exibirFuga() {
+        System.out.println("======== [ FIM DO COMBATE ] ========");
+        System.out.println("> Sem recompensas.");
+        System.out.println("======== [      FUGIU     ] ========");
     }
 }

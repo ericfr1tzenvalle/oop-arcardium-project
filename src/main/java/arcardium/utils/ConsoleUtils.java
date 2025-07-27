@@ -56,7 +56,7 @@ public class ConsoleUtils {
 
     public static void aguardarEnter() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("\n(...)");
+        System.out.println("(Enter...)");
         sc.nextLine();
     }
     
