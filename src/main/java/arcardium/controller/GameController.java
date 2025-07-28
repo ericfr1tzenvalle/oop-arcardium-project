@@ -109,13 +109,13 @@ public class GameController {
         LojaController lojaController = new LojaController();
         MagiaFactory magiaFactory = new MagiaFactory();
         int ato = 1;
-        List<List<Sala>> mapaGerado = mapaController.gerarMapa(3 * ato);
+        List<List<Sala>> mapaGerado = mapaController.gerarMapa(5 * ato);
         Mago mago = (Mago) jogador.getHeroi();
         String mensagem = "Os portões se fecharam atrás de você, " + mago.getNome() + ". O único caminho é em frente. Sobreviva.";
         ConsoleUtils.digitar(mensagem, 70);
         ConsoleUtils.pausar(1000);
 
-
+        int andar = 1;
         while(mago.getHp() > 0){
         for (int i = 0; i < mapaGerado.size(); i++) {
             List<Sala> andarAtual = mapaGerado.get(i);
@@ -142,7 +142,7 @@ public class GameController {
             Sala salaEscolhida = andarAtual.get(escolha - 1);
 
             if (salaEscolhida.getTipo() == TipoSala.COMBATE) {
-                 List<Inimigo> grupoInimigos = inimigoFactory.criarGrupoDeInimigos(i);
+                 List<Inimigo> grupoInimigos = inimigoFactory.criarGrupoDeInimigos(andar);
                 ConsoleUtils.limparTela();
                  bc.iniciarBatalha(jogador, grupoInimigos, magiaFactory);
                 if (jogador.getHeroi().getHp() <= 0) {
@@ -154,17 +154,18 @@ public class GameController {
                 }
             } else if (salaEscolhida.getTipo() == TipoSala.CHEFE) {
                 Comportamento a = new ComportamentoAleatorio();
-                List<Inimigo> chefe = inimigoFactory.criarChefe(ato);
+                List<Inimigo> chefe = inimigoFactory.criarChefe(ato, andar);
                 bc.iniciarBatalha(jogador, chefe, magiaFactory);
             } else if (salaEscolhida.getTipo() == TipoSala.EVENTO) {
                 EventoFactory fc = new EventoFactory();
                 Evento e = fc.criarEventoAleatorio();
                 e.executar(jogador, magiaFactory);
             }
+            andar++;
 
 
         }
-        ato++;
+
         
         }
 

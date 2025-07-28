@@ -91,13 +91,13 @@ public class InimigoFactory {
         int chance = rand.nextInt(100);
         if (andar < 3) {
             return RankInimigo.D;
-        } else if (andar < 7) {
+        } else if (andar < 5) {
             return (chance < 70) ? RankInimigo.D : RankInimigo.C;
-        } else if (andar < 14) {
+        } else if (andar < 10) {
             return (chance < 40) ? RankInimigo.D : RankInimigo.C;
-        } else if (andar < 20) {
+        } else if (andar < 12) {
             return (chance < 20) ? RankInimigo.D : RankInimigo.C;
-        } else if (andar < 24) {
+        } else if (andar < 15) {
             return (chance < 70) ? RankInimigo.C : RankInimigo.B;
         } else if (andar < 27) {
             return (chance < 40) ? RankInimigo.C : RankInimigo.B;
@@ -165,11 +165,12 @@ public class InimigoFactory {
         return null;
     }
 
-    public List<Inimigo> criarChefe(int ato){
+    public List<Inimigo> criarChefe(int ato, int andar){
         List<Inimigo> inimigo = new ArrayList<>();
         switch (ato){
             case 1:
                 Inimigo chefe = new Inimigo("Durak, o Orc Superior", 200, 0, 25, 20, 12,30,0, RankInimigo.B,new ComportamentoSequencial());
+                aplicarEscalamento(chefe,andar);
                 inimigo.add(chefe);
                 chefe.aprenderHabilidade(new Magia("Dominância do mais forte", "Emana uma aura tão forte que deixa todos paralizados", 0,  TipoDeEfeito.PARALIZANTE, 0, 1,  TipoAlvo.TODOS_INIMIGOS, NomeEfeito.PARALIZAR, List.of(TagMagia.CHEFE, TagMagia.AREA, TagMagia.CONTROLE)));
                 chefe.aprenderHabilidade(new Magia("Fatiar", "Avançando contra o alvo desferindo um ataque brutal", 0, TipoDeEfeito.DANO_DIRETO, 40, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.CHEFE, TagMagia.DANO, TagMagia.ALVO_UNICO)));
