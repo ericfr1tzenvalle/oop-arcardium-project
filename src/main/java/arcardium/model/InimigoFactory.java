@@ -64,6 +64,7 @@ public class InimigoFactory {
                 break;
         }
     }
+
     private void aplicarEscalamento(Inimigo inimigo, int andar) {
         double fatorEscalaHp;
         double fatorEscalaAtk;
@@ -121,17 +122,16 @@ public class InimigoFactory {
                 morcego.aprenderHabilidade(new Magia("Mordida", "morde o alvo", 0, TipoDeEfeito.DANO_DIRETO, 12, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.DANO, TagMagia.ALVO_UNICO)));
                 return morcego;
             default:
-                Inimigo aranhaPequena = new Inimigo("Aranha da Cripta", 22, 0, 10, 4, 16,10,20,RankInimigo.D, compAleatorio);
-                aranhaPequena.aprenderHabilidade(new Magia("Picada Venenosa", "Uma picada que injeta veneno", 0, TipoDeEfeito.DANO_POR_TURNO, 4, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.VENENO,List.of(TagMagia.DANO,TagMagia.ALVO_UNICO,TagMagia.VENENO)));
+                Inimigo aranhaPequena = new Inimigo("Aranha da Cripta", 22, 0, 10, 4, 16, 10, 20, RankInimigo.D, compAleatorio);
+                aranhaPequena.aprenderHabilidade(new Magia("Picada Venenosa", "Uma picada que injeta veneno", 0, TipoDeEfeito.DANO_POR_TURNO, 4, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.VENENO, List.of(TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.VENENO)));
                 return aranhaPequena;
         }
 
-        
     }
 
     private Inimigo criarMonstroRankC() {
         Inimigo lobo = new Inimigo("Lobo das Sombras", 40, 0, 15, 4, 15, 15, 25, RankInimigo.C, compBerserker);
-        lobo.aprenderHabilidade(new Magia("Garra Dilacerante", "golpe com as garras que causa sangramento", 0, TipoDeEfeito.DANO_POR_TURNO, 5, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.SANGRAMENTO, List.of(TagMagia.DANO,TagMagia.ALVO_UNICO,TagMagia.SANGRAMENTO)));
+        lobo.aprenderHabilidade(new Magia("Garra Dilacerante", "golpe com as garras que causa sangramento", 0, TipoDeEfeito.DANO_POR_TURNO, 5, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.SANGRAMENTO, List.of(TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.SANGRAMENTO)));
         lobo.aprenderHabilidade(new Magia("Enfurecer", "se enfurece e aumenta o ATK", 0, TipoDeEfeito.BUFF_ATAQUE, 10, 3, TipoAlvo.ALIADO, NomeEfeito.ENFURECIDO, List.of(TagMagia.BUFF, TagMagia.ALVO_UNICO)));
         return lobo;
 
@@ -142,40 +142,41 @@ public class InimigoFactory {
         switch (numMonstro) {
             case 0:
                 Inimigo fantasma = new Inimigo("Fantasma", 80, 0, 22, 12, 8, 5, 20, RankInimigo.B, compSequencial);
-                fantasma.aprenderHabilidade(new Magia("Susto fantasmagorico", "surpreende o alvo com um susto DIMUNUINDO defesa",0,TipoDeEfeito.DEBUFF_DEFESA,20,3,TipoAlvo.TODOS_INIMIGOS,NomeEfeito.AMENDONTRAR, List.of(TagMagia.SOMBRA,TagMagia.DEBUFF,TagMagia.AREA,TagMagia.MALDIÇÃO)));
-                fantasma.aprenderHabilidade(new Magia("Toque espectral", "segura você e engole sua ESSÊNCIA vital", 0, TipoDeEfeito.DANO_POR_TURNO, 10, 4, TipoAlvo.ALVO_UNICO, NomeEfeito.DEMENTAR, List.of(TagMagia.SOMBRA,TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.MALDIÇÃO)));
-                fantasma.aprenderHabilidade(new Magia("Surto de Açao", "aumenta a AGILIDADE", 0, TipoDeEfeito.BUFF_AGILIDADE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.AGIL, List.of(TagMagia.BUFF,TagMagia.ALVO_UNICO)));
+                fantasma.aprenderHabilidade(new Magia("Susto fantasmagorico", "surpreende o alvo com um susto DIMUNUINDO defesa", 0, TipoDeEfeito.DEBUFF_DEFESA, 20, 3, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.AMENDONTRAR, List.of(TagMagia.SOMBRA, TagMagia.DEBUFF, TagMagia.AREA, TagMagia.MALDIÇÃO)));
+                fantasma.aprenderHabilidade(new Magia("Toque espectral", "segura você e engole sua ESSÊNCIA vital", 0, TipoDeEfeito.DANO_POR_TURNO, 10, 4, TipoAlvo.ALVO_UNICO, NomeEfeito.DEMENTAR, List.of(TagMagia.SOMBRA, TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.MALDIÇÃO)));
+                fantasma.aprenderHabilidade(new Magia("Surto de Açao", "aumenta a AGILIDADE", 0, TipoDeEfeito.BUFF_AGILIDADE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.AGIL, List.of(TagMagia.BUFF, TagMagia.ALVO_UNICO)));
                 return fantasma;
 
             case 1:
-                Inimigo zumbi = new Inimigo("Zumbi", 70, 0, 24, 2, 10, 0, 0 , RankInimigo.B, compSequencial);
-                zumbi.aprenderHabilidade(new Magia("Mordida infecciosa", "corre em direção ao alvo e morde, infectando-o", 0, TipoDeEfeito.DANO_POR_TURNO, 7, 5, TipoAlvo.ALVO_UNICO, NomeEfeito.INFECTADO, List.of(TagMagia.DANO,TagMagia.ALVO_UNICO,TagMagia.VENENO)));
-                zumbi.aprenderHabilidade(new Magia("Resiliencia Morto-Vivo", "recupera vida", 0, TipoDeEfeito.CURA, 30, 0, TipoAlvo.ALIADO, NomeEfeito.NENHUM, List.of(TagMagia.CURA,TagMagia.ALVO_UNICO)));
-                zumbi.aprenderHabilidade(new Magia("Vomito acido", "vomita a frente dando dano a todos os alvos", 0, TipoDeEfeito.DANO_DIRETO, 20, 0, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.INFECTADO, List.of(TagMagia.DANO,TagMagia.AREA,TagMagia.VENENO)));
+                Inimigo zumbi = new Inimigo("Zumbi", 70, 0, 24, 2, 10, 0, 0, RankInimigo.B, compSequencial);
+                zumbi.aprenderHabilidade(new Magia("Mordida infecciosa", "corre em direção ao alvo e morde, infectando-o", 0, TipoDeEfeito.DANO_POR_TURNO, 7, 5, TipoAlvo.ALVO_UNICO, NomeEfeito.INFECTADO, List.of(TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.VENENO)));
+                zumbi.aprenderHabilidade(new Magia("Resiliencia Morto-Vivo", "recupera vida", 0, TipoDeEfeito.CURA, 30, 0, TipoAlvo.ALIADO, NomeEfeito.NENHUM, List.of(TagMagia.CURA, TagMagia.ALVO_UNICO)));
+                zumbi.aprenderHabilidade(new Magia("Vomito acido", "vomita a frente dando dano a todos os alvos", 0, TipoDeEfeito.DANO_DIRETO, 20, 0, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.INFECTADO, List.of(TagMagia.DANO, TagMagia.AREA, TagMagia.VENENO)));
                 return zumbi;
             case 2:
-                Inimigo cavaleiroZumbi = new Inimigo("Cavaleiro Fantasma", 120, 0, 20, 15, 5, 10, 5, RankInimigo.B, compSequencial); 
-                cavaleiroZumbi.aprenderHabilidade(new Magia("Lâmina Espectral", "um corte sombrio que causa dano e tem chance de aplicar medo", 0, TipoDeEfeito.DANO_DIRETO, 25, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.AMENDONTRAR, List.of(TagMagia.SOMBRA,TagMagia.DANO,TagMagia.ALVO_UNICO,TagMagia.MALDIÇÃO,TagMagia.CONTROLE)));
-                cavaleiroZumbi.aprenderHabilidade(new Magia("Aura Sombria", "envolve-se em sombras, reduzindo o dano recebido por 2 turnos", 0, TipoDeEfeito.BUFF_DEFESA, 15, 2, TipoAlvo.ALIADO, NomeEfeito.RESISTENTE, List.of(TagMagia.SOMBRA, TagMagia.BUFF,TagMagia.ALVO_UNICO))); 
-                cavaleiroZumbi.aprenderHabilidade(new Magia("Chamado dos Condenados", "invoca almas perdidas que causam dano em todos os inimigos", 0, TipoDeEfeito.DANO_DIRETO, 20, 5, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM, List.of(TagMagia.SOMBRA,TagMagia.DANO,TagMagia.AREA))); 
+                Inimigo cavaleiroZumbi = new Inimigo("Cavaleiro Fantasma", 120, 0, 20, 15, 5, 10, 5, RankInimigo.B, compSequencial);
+                cavaleiroZumbi.aprenderHabilidade(new Magia("Lâmina Espectral", "um corte sombrio que causa dano e tem chance de aplicar medo", 0, TipoDeEfeito.DANO_DIRETO, 25, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.AMENDONTRAR, List.of(TagMagia.SOMBRA, TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.MALDIÇÃO, TagMagia.CONTROLE)));
+                cavaleiroZumbi.aprenderHabilidade(new Magia("Aura Sombria", "envolve-se em sombras, reduzindo o dano recebido por 2 turnos", 0, TipoDeEfeito.BUFF_DEFESA, 15, 2, TipoAlvo.ALIADO, NomeEfeito.RESISTENTE, List.of(TagMagia.SOMBRA, TagMagia.BUFF, TagMagia.ALVO_UNICO)));
+                cavaleiroZumbi.aprenderHabilidade(new Magia("Chamado dos Condenados", "invoca almas perdidas que causam dano em todos os inimigos", 0, TipoDeEfeito.DANO_DIRETO, 20, 5, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM, List.of(TagMagia.SOMBRA, TagMagia.DANO, TagMagia.AREA)));
                 return cavaleiroZumbi;
 
-                
         }
         return null;
     }
 
-    public List<Inimigo> criarChefe(int ato, int andar){
+    public List<Inimigo> criarChefe(int ato, int andar) {
         List<Inimigo> inimigo = new ArrayList<>();
-        switch (ato){
+        switch (ato) {
             case 1:
-                Inimigo chefe = new Inimigo("Durak, o Orc Superior", 200, 0, 25, 20, 12,30,0, RankInimigo.B,new ComportamentoSequencial());
-                aplicarEscalamento(chefe,andar);
+                Inimigo chefe = new Inimigo("Durak, o Orc Superior", 200, 0, 25, 20, 12, 30, 0, RankInimigo.B, new ComportamentoSequencial());
+                aplicarEscalamento(chefe, andar);
                 inimigo.add(chefe);
-                chefe.aprenderHabilidade(new Magia("Dominância do mais forte", "Emana uma aura tão forte que deixa todos paralizados", 0,  TipoDeEfeito.PARALIZANTE, 0, 1,  TipoAlvo.TODOS_INIMIGOS, NomeEfeito.PARALIZAR, List.of(TagMagia.CHEFE, TagMagia.AREA, TagMagia.CONTROLE)));
+                //chefe.aprenderHabilidade(new Magia("Dominância do mais forte", "Emana uma aura tão forte que deixa todos paralizados", 0, TipoDeEfeito.PARALIZANTE, 0, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.PARALIZAR, List.of(TagMagia.CHEFE, TagMagia.AREA, TagMagia.CONTROLE)));
                 chefe.aprenderHabilidade(new Magia("Fatiar", "Avançando contra o alvo desferindo um ataque brutal", 0, TipoDeEfeito.DANO_DIRETO, 40, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.CHEFE, TagMagia.DANO, TagMagia.ALVO_UNICO)));
                 chefe.aprenderHabilidade(new Magia("Cortar", "Avança contra o alvo tentando perfurar um ponto vital", 0, TipoDeEfeito.DANO_POR_TURNO, 20, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.SANGRAMENTO, List.of(TagMagia.CHEFE, TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.CONTROLE)));
                 chefe.aprenderHabilidade(new Magia("Esgotamento", "Cansado escolhe a postura de defesa", 0, TipoDeEfeito.DEBUFF_DEFESA, 0, 1, TipoAlvo.ALIADO, NomeEfeito.ATORDOADO, List.of(TagMagia.CHEFE, TagMagia.DEBUFF, TagMagia.ALVO_UNICO)));
+                chefe.aprenderHabilidade(new Magia("Esgotamento", "Cansado escolhe a postura de defesa", 0, TipoDeEfeito.DEBUFF_DEFESA, 0, 1, TipoAlvo.ALIADO, NomeEfeito.ATORDOADO, List.of(TagMagia.CHEFE, TagMagia.DEBUFF, TagMagia.ALVO_UNICO)));
+
                 return inimigo;
 
         }

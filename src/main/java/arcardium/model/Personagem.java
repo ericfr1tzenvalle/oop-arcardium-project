@@ -161,7 +161,11 @@ public abstract class Personagem {
             }
         }
         if(this.regeneraçaoDeMana > 0){
-            Math.min(this.regeneraçaoDeMana, this.maxMp);
+            int regeneracao = this.getRegeneraçaoDeMana();
+            this.setMp(this.mp += regeneracao);
+            if(this.mp > this.getMaxMp()){
+                this.mp = this.getMaxMp();
+            }
         }
     }
 

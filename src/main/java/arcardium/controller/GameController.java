@@ -146,7 +146,7 @@ public class GameController {
                 ConsoleUtils.limparTela();
                  bc.iniciarBatalha(jogador, grupoInimigos, magiaFactory);
                 if (jogador.getHeroi().getHp() <= 0) {
-                    String msgDerrota = "Sua visão escurece... Seu grimório cai no chão, aberto, esperando pelo próximo tolo corajoso o suficiente para tentar.";
+                    String msgDerrota = "Sua visão escurece... Seu grimório cai no chão, aberto, esperando pelo próximo tolo corajoso o suficiente para tentar.\n";
                     ConsoleUtils.digitar(msgDerrota, 120);
                     System.out.println("X===========[MORTE]==========X");
                     
