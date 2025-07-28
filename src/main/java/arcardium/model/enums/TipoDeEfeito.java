@@ -18,7 +18,11 @@ public enum TipoDeEfeito {
     DEBUFF_ATAQUE("Debuff de ataque"),  // Diminui o ataque do alvo por alguns turnos.
     DEBUFF_DEFESA("Debuff de defesa"),  // Diminui a defesa do alvo por alguns turnos.
     DEBUFF_AGILIDADE("Debuff de agilidade"),
-    DANO_POR_TURNO("Dano por turno"); // Causa dano contínuo (veneno/queimadura).
+    DEBUFF_PRECISAO("Debuff precisao"),
+    DEBUFF_EVASAO("Debuff evasao"),
+    DANO_POR_TURNO("Dano por turno"),
+    PARALIZANTE("Paralizante");
+    // Causa dano contínuo (veneno/queimadura).
     
     private final String nome;
     

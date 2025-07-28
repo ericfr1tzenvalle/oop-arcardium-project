@@ -29,6 +29,7 @@ public abstract class Personagem {
     private int precisao;
     private int evasao;
     private boolean estaDefendendo;
+    private int regeneraçaoDeMana;
     //private int chanceDeCritico;
     //private double danoCritico;
     private List<EfeitoAtivo> efeitoAtivo;
@@ -49,6 +50,21 @@ public abstract class Personagem {
         //this.danoCritico = danocrit;
         this.efeitoAtivo = new ArrayList<>();
     }
+    public Personagem(String nome, int hp, int mp, int regeneraçaoDeMana, int atk, int def, int agi, int precisao, int evasao) {
+        this.nome = nome;
+        this.maxHp = hp;
+        this.maxMp = mp;
+        this.hp = hp;
+        this.mp = mp;
+        this.atk = atk;
+        this.def = def;
+        this.agi = agi;
+        this.precisao = precisao;
+        this.evasao = evasao;
+        this.estaDefendendo = false;
+        this.efeitoAtivo = new ArrayList<>();
+        this.regeneraçaoDeMana = regeneraçaoDeMana;
+    }
 
     public String getNome() {
         return nome;
@@ -62,6 +78,14 @@ public abstract class Personagem {
         this.estaDefendendo = estaDefendendo;
     }
 
+    public int getRegeneraçaoDeMana(){
+        return regeneraçaoDeMana;
+    }
+
+    public void setRegeneraçaoDeMana(){
+        this.regeneraçaoDeMana = regeneraçaoDeMana;
+    }
+
     public int getHp() {
         return hp;
     }
@@ -69,7 +93,16 @@ public abstract class Personagem {
         return mp;
     }
     public int getPrecisao() {
-        return precisao;
+        int precisaoTotal = this.precisao;
+        for(EfeitoAtivo efeito : this.efeitoAtivo){
+            if(efeito.getTipoEfeito() == TipoDeEfeito.DEBUFF_PRECISAO){
+                precisaoTotal += efeito.getValor();
+            }
+            if(efeito.getTipoEfeito() == TipoDeEfeito.DEBUFF_PRECISAO){
+                precisaoTotal -= efeito.getValor();
+            }
+        }
+        return Math.max(0,precisaoTotal);
     }
     public int getEvasao() {
         int evasaoTotal = this.evasao;
@@ -77,8 +110,11 @@ public abstract class Personagem {
             if (efeito.getTipoEfeito() == TipoDeEfeito.BUFF_EVASAO) {
                 evasaoTotal += efeito.getValor();
             }
+            if (efeito.getTipoEfeito() == TipoDeEfeito.DEBUFF_EVASAO) {
+                evasaoTotal -= efeito.getValor();
+            }
         }
-        return evasaoTotal;
+        return Math.max(0,evasaoTotal);
     }
 
     public int getAtk() {
@@ -123,6 +159,9 @@ public abstract class Personagem {
             if (efeito.getDuracao() <= 0) {
                 iterator.remove();
             }
+        }
+        if(this.regeneraçaoDeMana > 0){
+            Math.min(this.regeneraçaoDeMana, this.maxMp);
         }
     }
 
@@ -182,6 +221,7 @@ public abstract class Personagem {
         int defesaTotal = this.getDef();
         int danoReal = (int) (dano * (100.0 / (100.0 + defesaTotal)));
         if(this.isEstaDefendendo()){
+
             danoReal = danoReal / 2;
         }
 
@@ -276,6 +316,9 @@ public abstract class Personagem {
                     case DEBUFF_ATAQUE:
                     case DEBUFF_DEFESA:
                     case DEBUFF_AGILIDADE:
+                    case DEBUFF_EVASAO:
+                    case DEBUFF_PRECISAO:
+                    case PARALIZANTE:
                         alvo.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
                         break;
                 }

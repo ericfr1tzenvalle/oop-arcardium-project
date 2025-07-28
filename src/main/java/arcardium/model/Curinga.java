@@ -15,5 +15,7 @@ public class Curinga {
     private String descricao;
     private int custo;
     private TipoCuringa tipo;
+
+
     
 }

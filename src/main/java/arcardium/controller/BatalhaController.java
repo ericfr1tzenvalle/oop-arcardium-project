@@ -44,18 +44,18 @@ public class BatalhaController {
         int recompensaXp = grupoInimigos.stream().mapToInt(Inimigo::getRecompensaXp).sum();
         int turno = 1;
         boolean fugiu = false;
-        view.exibirInimigosCombate(mago,grupoInimigos);
-        ConsoleUtils.aguardarEnter();
+        view.exibirInimigosCombate(grupoInimigos,recompensaGold,recompensaXp);
         while (mago.getHp() > 0 && !grupoInimigos.isEmpty()) {
             ConsoleUtils.limparTela();
             verificarOrdemCombate(filaDeTurnos);
             view.exbirHeaderCombate(turno, jogador);
-            if(turno == 1 && filaDeTurnos.getFirst() instanceof Inimigo){
+            if(turno == 1 && filaDeTurnos.get(0) instanceof Inimigo){
                 view.exibirOrdemDosTurnos(filaDeTurnos);
+                System.out.println("============= [ORDEM] ==============");
             }
             turno++;
             for (Personagem personagemDaVez : filaDeTurnos) {
-                if (personagemDaVez.getHp() <= 0 || personagemDaVez.verificaEfeitoAtivo(NomeEfeito.ATORDOADO)) {
+                if (personagemDaVez.getHp() <= 0 || personagemDaVez.verificaEfeitoAtivo(NomeEfeito.ATORDOADO) || personagemDaVez.verificaEfeitoAtivo(NomeEfeito.PARALIZAR)) {
                     continue;
                 }
 

@@ -4,6 +4,7 @@
  */
 package arcardium.view;
 
+import arcardium.model.Mago;
 import arcardium.utils.AnsiColors;
 import arcardium.utils.ConsoleUtils;
 import java.util.Scanner;
@@ -51,5 +52,14 @@ public class GameView {
         System.out.println("============Escolha===========");
         System.out.print("> ");
     }
-    
+
+    public void mostrarArquetipo(Mago mago, int arquetipo) {
+        switch (arquetipo) {
+            case 1:
+                ConsoleUtils.limparTela();
+                System.out.println("======= MAGO DE BATALHA =======");
+
+
+        }
+    }
 }

@@ -10,6 +10,8 @@ package arcardium.model.enums;
  */
 public enum NomeEfeito {
     NENHUM("Nenhum"),
+    VINGANCA("Vingança"),
+    ABRAÇO_SOMBRIO("Abraço Sombrio"),
     //CRITICO("CRITICO"),
     VENENO("Veneno"),
     FOGO("Queimadura"),
@@ -18,16 +20,18 @@ public enum NomeEfeito {
     FORCA_DO_URSO("Força do Urso"),
     MALDICAO("Maldição"),
     AMENDONTRAR("Amendontrado"),
-    DEMENTAR("Dementação"),
+    DEMENTAR("Dementação"), FRACO("Fraco"),
     ESQUIVOU("ESQUIVOU"),
     ASSOMBRAR("ASSOMBRAÇÃO DA DEUSA LUISA"),
     ENFURECIDO("Enfurecido"),
     PELE_DE_PEDRA("Pele de Pedra"),
-    RESISTENTE("Resistencia"),
+    RESISTENTE("Resistencia"), GELEIRA("Geleira"),
     AGIL("Agil"),
     INFECTADO("Infectado"), 
     FUGA("Fugindo"), 
-    ATORDOADO("Atordoado"), ACAO_EXTRA("Celeridade");
+    ATORDOADO("Atordoado"), ACAO_EXTRA("Celeridade"), PARALIZAR("Paralizado"), CONGELADO("Congelado"),
+    CEGUEIRA("CEGUEIRA"),
+    FURIA_GLACIAL("Furia Glacial");
     
     private final String nome;
 

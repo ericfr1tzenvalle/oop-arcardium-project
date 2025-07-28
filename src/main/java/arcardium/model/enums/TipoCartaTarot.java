@@ -11,7 +11,9 @@ package arcardium.model.enums;
 public enum TipoCartaTarot {
     SOL,
     MAGO,
-    TORRE;
+    TORRE,
+    ENFORCADO,
+    CARRO;
     
     
 }

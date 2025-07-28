@@ -79,14 +79,19 @@ public class LojaController {
         int chance = rand.nextInt(100);
 
         if (chance < 40) {
-            int numTematico = rand.nextInt(3);
+            int numTematico = rand.nextInt(5);
             switch (numTematico) {
                 case 0:
                     return new PacoteDeMagia("Pacote do Piromante", "Contém [3] magias de [FOGO]", 15 + juros, TagMagia.FOGO);
                 case 1:
                     return new PacoteDeMagia("Pacote do Criomante", "Contém [3] magias de [GELO]", 15 + juros, TagMagia.GELO);
+                case 2:
+                    return new PacoteDeMagia("Pacote do Padre", "Contem [3] magias de [CURA]", 15 + juros, TagMagia.CURA);
+                case 3:
+                    return  new PacoteDeMagia("Pacote do Xamã", "Contem [3] magias da [NATUREZA]", 15 + juros, TagMagia.NATUREZA);
                 default:
-                    return new PacoteDeMagia("Pacote do Fogo", "Contém [3] magias de [FOGO]", 15 + juros, TagMagia.FOGO);
+                    return new PacoteDeMagia("Pacote do Mago Sombrio", "Contem [3] magias de [SOMBRA]", 15 + juros, TagMagia.SOMBRA);
+
             }
         } else {
             return new PacoteDeMagia("Bolsa do Andarilho", "Contém [3] magias aleatórias", 10 + juros, null);

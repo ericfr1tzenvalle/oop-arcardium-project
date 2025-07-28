@@ -11,6 +11,9 @@ import java.util.Random;
  * @author Luísa
  */
 public enum TagMagia {
+ //  ESPECIAIS?
+    SORTE, CHEFE,
+
  //  ELEMENTOS:
     FOGO, GELO, RAIO, SOMBRA, LUZ, NATUREZA, ARCANA,
  //  TIPO DE AÇÃO:

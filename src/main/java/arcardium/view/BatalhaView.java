@@ -4,6 +4,8 @@ import arcardium.model.Mago;
 import arcardium.model.Inimigo;
 import arcardium.model.Magia;
 import arcardium.model.enums.TipoDeEfeito;
+
+import java.sql.SQLOutput;
 import java.util.List;
 import arcardium.utils.AnsiColors;
 import arcardium.utils.ConsoleUtils;
@@ -122,6 +124,7 @@ public class BatalhaView {
         for (Personagem f : fila) {
             System.out.println(c++ + ": [" + f.getNome() + "]");
         }
+
     }
 
     public void exibirAtaqueInimigo(Magia magiaEscolhida, Inimigo personagem, List<Personagem> inimigos) {
@@ -234,16 +237,20 @@ public class BatalhaView {
         System.out.println("======== [      FUGIU     ] ========");
     }
 
-    public void exibirInimigosCombate(Mago mago, List<Inimigo> grupoInimigos) {
+    public void exibirInimigosCombate(List<Inimigo> grupoInimigos,int gold,int xp) {
         System.out.println("============ [INICIO DO COMBATE] =============");
-        System.out.println("           " + mago.getNome());
-        System.out.println("                     VS");
-        for(Inimigo inimigo: grupoInimigos){
-        System.out.println("        " + inimigo.getNome());
+        System.out.println("> " + (grupoInimigos.size() > 1 ? "Inimigos!" : "Inimigo!"));
+
+        for(Inimigo inimigo : grupoInimigos) {
+            System.out.println("> [" + inimigo.getRank() + "] " + inimigo.getNome());
+
         }
+        System.out.println("=============X [ RECOMPENSAS ] X==============");
+        System.out.println("            GOLD: [" + gold + "] " +  " [" + xp + "] :XP");
+        System.out.println("             [VENÇA PARA GANHAR]              ");
         ConsoleUtils.aguardarEnter();
-        
-        
-        
     }
+
+
+
 }

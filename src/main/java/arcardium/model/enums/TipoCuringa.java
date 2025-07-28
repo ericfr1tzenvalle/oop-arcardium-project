@@ -8,6 +8,6 @@ package arcardium.model.enums;
  *
  * @author Luísa
  */
-public class TipoCuringa {
+public enum TipoCuringa {
     
 }

@@ -15,8 +15,8 @@ public class Mago extends Heroi {
     private int tamanho_max_grimorio = 4;
     private List<Magia> magias;
 
-    public Mago(String nome, int hp, int mp, int atk, int def, int agi, int pre, int eva) {
-        super(nome, hp, mp, atk, def, agi, pre, eva);
+    public Mago(String nome, int hp, int mp, int regMp, int atk, int def, int agi, int pre, int eva) {
+        super(nome, hp, mp, regMp, atk, def, agi, pre, eva);
         this.magias = new ArrayList<>();
 
     }

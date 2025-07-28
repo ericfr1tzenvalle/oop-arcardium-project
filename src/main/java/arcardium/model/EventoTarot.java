@@ -4,16 +4,12 @@
  */
 package arcardium.model;
 
-import arcardium.model.enums.NomeEfeito;
 import arcardium.model.enums.TipoCartaTarot;
-import arcardium.model.enums.TipoDeEfeito;
-import arcardium.view.EventoView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 
 /**
  *
@@ -53,7 +49,8 @@ public class EventoTarot extends Evento {
                     break;
                 case TORRE:
                     view.revelarCarta("A Torre", "Um mau presságio! Voce está DOENTE");
-                    heroi.aplicarEfeito(TipoDeEfeito.DANO_DIRETO, 20, 0, NomeEfeito.SANGRAMENTO);
+                    int reducao = (int) (heroi.getMaxHp() * 0.3);
+                    heroi.setHp(heroi.getHp() - (reducao));
                     break;
                 case MAGO:
                     view.revelarCarta("O Mago", "O cosmo te presenteia com um novo conhecimento ARCANO!\n"
@@ -63,6 +60,8 @@ public class EventoTarot extends Evento {
                         mago.setTamanho_max_grimorio(mago.getTamanho_max_grimorio() + 1);
                     }
                     break;
+                case ENFORCADO:
+                    view.revelarCarta("Enforcado", "");
 
             }
         } else {

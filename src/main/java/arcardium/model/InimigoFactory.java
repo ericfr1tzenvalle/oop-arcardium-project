@@ -165,6 +165,22 @@ public class InimigoFactory {
         return null;
     }
 
+    public List<Inimigo> criarChefe(int ato){
+        List<Inimigo> inimigo = new ArrayList<>();
+        switch (ato){
+            case 1:
+                Inimigo chefe = new Inimigo("Durak, o Orc Superior", 200, 0, 25, 20, 12,30,0, RankInimigo.B,new ComportamentoSequencial());
+                inimigo.add(chefe);
+                chefe.aprenderHabilidade(new Magia("Dominância do mais forte", "Emana uma aura tão forte que deixa todos paralizados", 0,  TipoDeEfeito.PARALIZANTE, 0, 1,  TipoAlvo.TODOS_INIMIGOS, NomeEfeito.PARALIZAR, List.of(TagMagia.CHEFE, TagMagia.AREA, TagMagia.CONTROLE)));
+                chefe.aprenderHabilidade(new Magia("Fatiar", "Avançando contra o alvo desferindo um ataque brutal", 0, TipoDeEfeito.DANO_DIRETO, 40, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.CHEFE, TagMagia.DANO, TagMagia.ALVO_UNICO)));
+                chefe.aprenderHabilidade(new Magia("Cortar", "Avança contra o alvo tentando perfurar um ponto vital", 0, TipoDeEfeito.DANO_POR_TURNO, 20, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.SANGRAMENTO, List.of(TagMagia.CHEFE, TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.CONTROLE)));
+                chefe.aprenderHabilidade(new Magia("Esgotamento", "Cansado escolhe a postura de defesa", 0, TipoDeEfeito.DEBUFF_DEFESA, 0, 1, TipoAlvo.ALIADO, NomeEfeito.ATORDOADO, List.of(TagMagia.CHEFE, TagMagia.DEBUFF, TagMagia.ALVO_UNICO)));
+                return inimigo;
+
+        }
+        return null;
+    }
+
     public List<Inimigo> criarGrupoDeInimigos(int andar) {
         List<Inimigo> grupo = new ArrayList<>();
         int numeroDeInimigos = rand.nextInt(2) + 1;
