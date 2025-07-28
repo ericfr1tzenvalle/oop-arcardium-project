@@ -40,15 +40,15 @@
 - [x] Seleção de Alvo
 - [x] Eventos (Tarô) e Salas de Repouso
 
-#### 🎯 **Foco Atual**
+#### ✅ **Concluído**
 - [X] Efeitos com Identidade (Veneno, Fogo, etc.)
 - [x] IA e Habilidades para Inimigos
 - [x] Gerenciamento do Grimório (Limite e Recompensas Únicas)
 - [x] Sistema de Agilidade (Ordem de Turno)
-- [ ] Expansão de Conteúdo (Magias e Arquétipos)
+- [x] Expansão de Conteúdo (Magias e Arquétipos)
 
 #### 🚀 **Futuro**
-- [ ] Loja e Sistema de Ouro
+- [x] Loja e Sistema de Ouro
 - [ ] Mecânica de Invocação
 - [ ] Metaprogresso e Desbloqueios
 - [ ] Novos Atos, Chefes e Eventos
