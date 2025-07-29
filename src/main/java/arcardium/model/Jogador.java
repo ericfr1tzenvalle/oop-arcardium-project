@@ -66,7 +66,7 @@ public class Jogador {
     }
 
     public void registrarUsoDeMagia(Magia magia){
-        contagemMagiasUsadas.put(magia.getNome(),contagemMagiasUsadas.get(magia.getNome()) + 1);
+        contagemMagiasUsadas.put(magia.getNome(),contagemMagiasUsadas.getOrDefault(magia.getNome(), 0) + 1);
     }
 
     public void registrarMaiorDanoCausadoEmUmGolpe(int dano){
@@ -87,10 +87,11 @@ public class Jogador {
     }
 
     public void registrarInimigosDerrotados(Inimigo inimigo){
-        contagemInimigosDerrotados.put(inimigo.getNome(), contagemInimigosDerrotados.get(inimigo.getNome()) + 1);
+        inimigosDerrotados++;
+        contagemInimigosDerrotados.put(inimigo.getNome(), contagemInimigosDerrotados.getOrDefault(inimigo.getNome(), 0) + 1);
     }
     public int getNumeroDeInimigosDerrotados(){
-        return contagemInimigosDerrotados.size();
+        return inimigosDerrotados;
     }
     public String getNomeInimigoMaisDerrotado(){
         String nomeInimigosDerrotados = "";
