@@ -10,6 +10,7 @@ import arcardium.model.ia.Comportamento;
 import arcardium.utils.AnsiColors;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -19,11 +20,14 @@ public class Inimigo extends Heroi {
 
     private int recompensaXp;
     private int recompensaOuro;
+    private int pontos;
     private List<Magia> habilidades;
     private final RankInimigo rank;
     private Comportamento comportamento;
     private List<Magia> habilidadesUsadasNestaBatalha;
     private int indiceHabilidadeSequencial;
+
+
 
     public Inimigo(String nome, int hp, int mp, int atk, int def, int agi, int pre, int eva, RankInimigo rank, Comportamento comportamento) {
         super(nome, hp, mp, atk, def, agi, pre, eva);
@@ -33,11 +37,21 @@ public class Inimigo extends Heroi {
         this.habilidadesUsadasNestaBatalha = new ArrayList<>();
         this.indiceHabilidadeSequencial = 0;
 
+
+
     }
 
     public void setRecompensaXp(int valor) {
         this.recompensaXp = valor;
 
+    }
+
+    public void setPontos(int valor) {
+        this.pontos = valor;
+    }
+
+    public int getPontos() {
+        return pontos;
     }
 
     public void setRecompensaOuro(int valor) {

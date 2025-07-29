@@ -43,6 +43,30 @@ public class BatalhaView {
         }
 
     }
+    public void exibirHeaderJogador(Jogador jogador, Mago mago){
+        System.out.println("========= [ JOGADOR ] ==========");
+        String header = String.format("[Nvl.%d] %s   \nHP:[%s] %d/%d \nMP:[%s] %d/%d", jogador.getNivel(), mago.getNome(), criarBarra(mago.getHp(), mago.getMaxHp(), 14), mago.getHp(), mago.getMaxHp(),
+                criarBarra(mago.getMp(), mago.getMaxMp(), 14), mago.getMp(), mago.getMaxMp());
+        System.out.println(header);
+    }
+    public void exibirHeaderAmbosSemStatus(Jogador jogador, Mago mago, List<Inimigo> grupoInimigos) {
+        System.out.println("============[ JOGADOR ]=============");
+        String header = String.format("[Nvl.%d] %s   \nHP:[%s] %d/%d \nMP:[%s] %d/%d", jogador.getNivel(), mago.getNome(), criarBarra(mago.getHp(), mago.getMaxHp(), 14), mago.getHp(), mago.getMaxHp(),
+                criarBarra(mago.getMp(), mago.getMaxMp(), 14), mago.getMp(), mago.getMaxMp());
+        System.out.println(header);
+
+        System.out.println("===========[ INIMIGO(S) ]===========");
+        for (Inimigo inimigo : grupoInimigos) {
+            String headerInimigo = String.format("[Rank.%s] %s   \nHP:[%s] %d/%d", inimigo.getRank(), inimigo.getNome(), criarBarra(inimigo.getHp(), inimigo.getMaxHp(), 12), inimigo.getHp(), inimigo.getMaxHp());
+            System.out.println(headerInimigo);
+
+            exibirEfeitosDePersonagem(inimigo);
+        }
+        System.out.println("============ [ TURNO ] =============");
+
+    }
+
+
 
     private String criarBarra(int atual, int maximo, int tamanho) {
         if (maximo <= 0) {
@@ -59,15 +83,16 @@ public class BatalhaView {
             System.out.println("============ [EFEITOS] =============");
             System.out.print("[ATIVOS]: ");
             for (EfeitoAtivo efeito : personagem.getEfeitosAtivos()) {
+                String tipoEfeito = efeito.getTipoEfeito().toString();
                 String nomeEfeito = efeito.getNomeEfeito().toString();
                 int valor = efeito.getValor();
                 int duracao = efeito.getDuracao();
-                if (nomeEfeito.startsWith("BUFF")) {
-                    System.out.print("[" + nomeEfeito + " +" + valor + " | " + duracao + "T] ");
-                } else if (nomeEfeito.startsWith("DEBUFF") || nomeEfeito.startsWith("DANO")) {
-                    System.out.print("[" + nomeEfeito + " -" + valor + " | " + duracao + "T] ");
+                if (tipoEfeito.startsWith("BUFF")) {
+                    System.out.print("[" + nomeEfeito + " +" + valor + "  " + duracao + " TURNOS] ");
+                } else if (tipoEfeito.startsWith("DEBUFF") || tipoEfeito.startsWith("DANO")) {
+                    System.out.print("[" + nomeEfeito + " -" + valor + "  " + duracao + " TURNOS] ");
                 } else {
-                    System.out.print("[" + nomeEfeito + " +" + valor + " | " + duracao + "T] ");
+                    System.out.print("[" + nomeEfeito+ " +" + valor + "  " + duracao + " TURNOS] ");
                 }
             }
             System.out.println();
@@ -149,7 +174,7 @@ public class BatalhaView {
         }
     }
 
-    public void exibirAtaque(Magia magiaEscolhida, Mago personagem, List<Inimigo> inimigos) {
+    public void exibirAtaque(Magia magiaEscolhida, Mago personagem, List<Inimigo> inimigos, Jogador jogador) {
         System.out.print("-> " + personagem.getNome() + " LANÇA SUA MAGIA ");
         System.out.print("[" + AnsiColors.magenta(magiaEscolhida.getNome().toUpperCase()) + "]\n");
         System.out.print(" " + magiaEscolhida.getDescricao() + " \n");
@@ -161,6 +186,7 @@ public class BatalhaView {
             } else {
                 if (magiaEscolhida.getTipoEfeito() == TipoDeEfeito.DANO_DIRETO || magiaEscolhida.getTipoEfeito() == TipoDeEfeito.DANO_POR_TURNO) {
                     int dano = MathUtils.calculaDano(alvo, magiaEscolhida);
+                    jogador.registrarMaiorDanoCausadoEmUmGolpe(dano);
                     System.out.print("> Causando " + "[" + AnsiColors.red(dano) + "]" + " de DANO no " + "[" + AnsiColors.red(alvo.getNome()) + "]\n");
                 } else {
                     System.out.println("[" + magiaEscolhida.getTipoEfeito() + "] de " + magiaEscolhida.getValorEfeito());
@@ -179,17 +205,17 @@ public class BatalhaView {
 
     public void exibirInimigoDerrotado(String nome) {
         System.out.println("[" + nome + "] foi DERROTADO!");
-        ConsoleUtils.aguardarEnter();
+
     }
 
     public void exibirFimDeBatalha(String nomeVencedor, boolean heroiVenceu) {
         System.out.println("======== [ FIM DO COMBATE ] ========");
         if (heroiVenceu) {
             System.out.println("> [" + nomeVencedor + "] é o vencedor!");
-            ConsoleUtils.aguardarEnter();
+
         } else {
             System.out.println(nomeVencedor + " venceu. Você foi derrotado.");
-            ConsoleUtils.aguardarEnter();
+
         }
     }
 
@@ -228,7 +254,7 @@ public class BatalhaView {
         System.out.println("> " + mago.getNome() + " ganhou " + xp + " XP!");
         System.out.println("> " + mago.getNome() + " ganhou " + ouro + " OURO!");
         System.out.println("====================================");
-        ConsoleUtils.aguardarEnter();
+
     }
 
     public void exibirFuga() {
@@ -248,7 +274,7 @@ public class BatalhaView {
         System.out.println("=============X [ RECOMPENSAS ] X==============");
         System.out.println("            GOLD: [" + gold + "] " +  " [" + xp + "] :XP");
         System.out.println("             [VENÇA PARA GANHAR]              ");
-        ConsoleUtils.aguardarEnter();
+
     }
 
 

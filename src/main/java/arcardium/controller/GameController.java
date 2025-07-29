@@ -15,6 +15,7 @@ import arcardium.model.ia.Comportamento;
 import arcardium.model.ia.ComportamentoAleatorio;
 import arcardium.model.ia.ComportamentoSequencial;
 import arcardium.utils.ConsoleUtils;
+import arcardium.view.BatalhaView;
 import arcardium.view.GameView;
 import java.util.List;
 import java.util.Scanner;
@@ -105,13 +106,14 @@ public class GameController {
 
     public void executarRun(Jogador jogador) {
         BatalhaController bc = new BatalhaController();
+        BatalhaView bv = new BatalhaView();
         MapaController mapaController = new MapaController();
         LojaController lojaController = new LojaController();
         MagiaFactory magiaFactory = new MagiaFactory();
         int ato = 1;
         List<List<Sala>> mapaGerado = mapaController.gerarMapa(5 * ato);
         Mago mago = (Mago) jogador.getHeroi();
-        String mensagem = "Os portões se fecharam atrás de você, " + mago.getNome() + ". O único caminho é em frente. Sobreviva.";
+        String mensagem = "Os portões se fecharam atrás de você, " + mago.getNome() + ". O único caminho é em frente. Sobreviva.\n";
         ConsoleUtils.digitar(mensagem, 70);
         ConsoleUtils.pausar(1000);
 
@@ -127,7 +129,8 @@ public class GameController {
 
             lojaController.executarFaseDeLoja(jogador, magiaFactory);    
             }
-            
+
+            bv.exibirHeaderJogador(jogador, (Mago) jogador.getHeroi());
             System.out.println("=========Arcardium[RPG]=========");
             System.out.println("            ANDAR [" + (i + 1) + "]");
             System.out.println("==========  MASMORRA  ==========");
@@ -149,6 +152,7 @@ public class GameController {
                     String msgDerrota = "Sua visão escurece... Seu grimório cai no chão, aberto, esperando pelo próximo tolo corajoso o suficiente para tentar.\n";
                     ConsoleUtils.digitar(msgDerrota, 120);
                     System.out.println("X===========[MORTE]==========X");
+                    view.exibirResumoDaRun(jogador, mago);
                     
                     break;
                 }
@@ -162,14 +166,16 @@ public class GameController {
                 e.executar(jogador, magiaFactory);
             }
             andar++;
+            jogador.setAndarAtual(andar);
 
 
         }
 
         
         }
-
-        System.out.println("\n--- A run terminou. Retornando ao menu principal. ---\n");
+        view.exibirResumoDaRun(jogador, mago);
+        ConsoleUtils.aguardarEnter();
+        System.out.println("\nRetornando ao menu principal. ---\n");
     }
 
 }

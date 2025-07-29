@@ -5,6 +5,7 @@
 package arcardium.model;
 
 import arcardium.model.enums.TipoCartaTarot;
+import arcardium.utils.ConsoleUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,6 +67,7 @@ public class EventoTarot extends Evento {
             }
         } else {
             view.pularEvento();
+            ConsoleUtils.aguardarEnter();
         }
 
     }

@@ -96,6 +96,6 @@ public class EventoView {
 
     public void pularEvento() {
         System.out.println("X==== [ ABANDONOU O EVENTO ] ======X");
-        ConsoleUtils.aguardarEnter();
+
     }
 }

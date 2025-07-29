@@ -12,7 +12,7 @@ public class MagoFactory {
     public MagoFactory() {}
 
     public Mago criarMagoDeBatalha(String nomeMago){
-        mago = new Mago(nomeMago, 120, 70, 10, 8, 10, 12, 10, 5);
+        mago = new Mago(nomeMago, 120, 70, 4, 8, 10, 12, 10, 5);
         mago.aprenderMagia(new Magia("Força do Urso", "Aumenta o ATAQUE", 10, TipoDeEfeito.BUFF_ATAQUE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.FORCA_DO_URSO, List.of(TagMagia.NATUREZA, TagMagia.BUFF)));
         mago.aprenderMagia(new Magia("Impacto Sísmico", "Dano em TODOS os inimigos", 15, TipoDeEfeito.DANO_DIRETO, 15, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM, List.of(TagMagia.DANO, TagMagia.AREA)));
         return mago;

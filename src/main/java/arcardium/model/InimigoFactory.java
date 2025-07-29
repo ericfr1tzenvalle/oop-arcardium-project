@@ -44,23 +44,28 @@ public class InimigoFactory {
             case S:
                 inimigo.setRecompensaXp(200);
                 inimigo.setRecompensaOuro(60);
+                inimigo.setPontos(5200 + inimigo.getHp());
                 break;
             case A:
                 inimigo.setRecompensaXp(140);
                 inimigo.setRecompensaOuro(40);
+                inimigo.setPontos(1200 + inimigo.getHp());
                 break;
             case B:
                 inimigo.setRecompensaXp(100);
                 inimigo.setRecompensaOuro(25);
+                inimigo.setPontos(400 + inimigo.getHp());
                 break;
             case C:
                 inimigo.setRecompensaXp(75);
                 inimigo.setRecompensaOuro(15);
+                inimigo.setPontos(200 + inimigo.getHp());
                 break;
             case D:
             default:
                 inimigo.setRecompensaXp(50);
                 inimigo.setRecompensaOuro(10);
+                inimigo.setPontos(120 + inimigo.getHp());
                 break;
         }
     }

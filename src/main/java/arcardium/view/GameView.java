@@ -4,9 +4,13 @@
  */
 package arcardium.view;
 
+
+import arcardium.model.Jogador;
 import arcardium.model.Mago;
 import arcardium.utils.AnsiColors;
 import arcardium.utils.ConsoleUtils;
+
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 /**
@@ -61,5 +65,23 @@ public class GameView {
 
 
         }
+    }
+
+
+    public void exibirResumoDaRun(Jogador jogador, Mago mago) {
+        System.out.println("======= [RESUMO DA RUN] =======");
+        System.out.println(" PONTUAÇÃO");
+        System.out.println("[" + jogador.calcularPontuacaoFinal() + "]");
+        System.out.println("> Mago: " + mago.getNome());
+        System.out.println("> Andar: " + jogador.getAndarAtual());
+        System.out.println("> Nivel: " + jogador.getNivel());
+        System.out.println("> Inimigos derrotados:  " + jogador.getNumeroDeInimigosDerrotados());
+        System.out.println("> Inimigo mais odiado: " + jogador.getNomeInimigoMaisDerrotado());
+        System.out.println("> Magia preferida: " + jogador.getNomeMagiaMaisUsada());
+        System.out.println("> Maior dano: " + jogador.getMaiorDanoCausadoEmUmGolpe());
+        System.out.println("======= [ FIM DA RUN ] =======");
+
+
+
     }
 }
