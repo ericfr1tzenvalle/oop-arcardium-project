@@ -1,29 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package arcardium.controller;
 
 import arcardium.model.*;
-import arcardium.model.enums.TagMagia;
-import arcardium.model.enums.NomeEfeito;
-import arcardium.model.enums.RankInimigo;
-import arcardium.model.enums.TipoAlvo;
-import arcardium.model.enums.TipoDeEfeito;
 import arcardium.model.enums.TipoSala;
-import arcardium.model.ia.Comportamento;
-import arcardium.model.ia.ComportamentoAleatorio;
-import arcardium.model.ia.ComportamentoSequencial;
 import arcardium.utils.ConsoleUtils;
 import arcardium.view.BatalhaView;
 import arcardium.view.GameView;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- *
- * @author Éric
- */
 public class GameController {
 
     Scanner sc = new Scanner(System.in);
@@ -37,7 +22,6 @@ public class GameController {
 
     public void iniciarJogo() {
         menuPrincipal();
-
     }
 
     public void menuPrincipal() {
@@ -55,128 +39,173 @@ public class GameController {
                         Jogador jogador = new Jogador(magoEscolhido);
                         executarRun(jogador);
                         break;
-                    case 2: case 3: case 4:
+                    case 2:
+                    case 3:
+                    case 4:
                         System.out.println("> Não implementado.");
+                        ConsoleUtils.aguardarEnter();
                         break;
                     case 0:
                         ConsoleUtils.digitar("Saindo de Arcardium...", 70);
                         break;
                     default:
                         view.exibirMensagem("> Opção inválida.");
+                        ConsoleUtils.aguardarEnter();
                         break;
                 }
-            } catch (Exception e) {
-                view.exibirMensagem("> Entrada inválida, por favor digite um número.");
+            } catch (InputMismatchException e) {
+                view.exibirMensagem("> Entrada inválida! Digite apenas números.");
                 sc.nextLine();
             }
         }
     }
 
     public Mago criarMagoPorArquetipo(String nomeMago) {
-        Mago mago;
+        Mago mago = new Mago("No one", 10, 10, 10, 10, 10, 10, 10, 10);
+
         while (true) {
             view.mostrarTelaArquetipos();
-            int arquetipo = sc.nextInt();
-            sc.nextLine();
+            int arquetipo = -1;
+
+            try {
+                arquetipo = sc.nextInt();
+                sc.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("> Entrada inválida! Digite apenas números.");
+                sc.nextLine();
+                continue;
+            }
 
             switch (arquetipo) {
                 case 1:
-                   //String nomeArquetipo = "Mago de Batalha";
                     mago = MagoFactory.criarMagoDeBatalha(nomeMago);
-                    return mago;
+                    break;
                 case 2:
-                    //String nomeArquetipo = "Mago Arcano";
                     mago = MagoFactory.criarMagoArcano(nomeMago);
-                    return mago;
-
+                    break;
                 case 3:
-                   // String nomeArquetipo = "O escolhido";
                     mago = MagoFactory.criarEscolhido(nomeMago);
-                    return mago;
-
-
+                    break;
+                case 4:
+                    mago = MagoFactory.criarPadre(nomeMago);
+                    break;
                 default:
                     System.out.println("====404===== [ERRO] =====404====");
                     System.out.println("> ARQUÉTIPO INEXISTENTE. Escolha uma opção válida.");
                     ConsoleUtils.aguardarEnter();
-                    
+                    continue;
+            }
+
+            ConsoleUtils.limparTela();
+            view.mostrarArquetipo(mago, arquetipo);
+
+            try {
+                int confirmar = sc.nextInt();
+                sc.nextLine();
+                if (confirmar == 1) {
+                    return mago;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("> Entrada inválida! Voltando ao menu de arquetipos...");
+                sc.nextLine();
             }
         }
     }
 
     public void executarRun(Jogador jogador) {
-        BatalhaController bc = new BatalhaController();
-        BatalhaView bv = new BatalhaView();
-        MapaController mapaController = new MapaController();
-        LojaController lojaController = new LojaController();
-        MagiaFactory magiaFactory = new MagiaFactory();
-        int ato = 1;
-        List<List<Sala>> mapaGerado = mapaController.gerarMapa(5 * ato);
-        Mago mago = (Mago) jogador.getHeroi();
-        String mensagem = "Os portões se fecharam atrás de você, " + mago.getNome() + ". O único caminho é em frente. Sobreviva.\n";
-        ConsoleUtils.digitar(mensagem, 70);
-        ConsoleUtils.pausar(1000);
+        try {
+            BatalhaController bc = new BatalhaController();
+            BatalhaView bv = new BatalhaView();
+            MapaController mapaController = new MapaController();
+            LojaController lojaController = new LojaController();
+            MagiaFactory magiaFactory = new MagiaFactory();
 
-        int andar = 1;
-        while(mago.getHp() > 0){
-        for (int i = 0; i < mapaGerado.size(); i++) {
-            List<Sala> andarAtual = mapaGerado.get(i);
-            ConsoleUtils.limparTela();
-            Sala salaAtual = andarAtual.get(0);
-            if(salaAtual.getTipo() == TipoSala.CHEFE){
-            System.out.println("======= CHEFE A CAMINHO ========");
-            System.out.println("> Acesso a loja liberado.");
+            int ato = 1;
+            List<List<Sala>> mapaGerado = mapaController.gerarMapa(5 * ato);
+            Mago mago = (Mago) jogador.getHeroi();
+            String mensagem = "Os portões se fecharam atrás de você, " + mago.getNome()
+                    + ". O único caminho é em frente. Sobreviva.\n";
+            ConsoleUtils.digitar(mensagem, 70);
+            ConsoleUtils.pausar(1000);
 
-            lojaController.executarFaseDeLoja(jogador, magiaFactory);    
-            }
+            int andar = 1;
+            while (mago.getHp() > 0) {
+                for (int i = 0; i < mapaGerado.size(); i++) {
+                    List<Sala> andarAtual = mapaGerado.get(i);
+                    ConsoleUtils.limparTela();
+                    Sala salaAtual = andarAtual.get(0);
 
-            bv.exibirHeaderJogador(jogador, (Mago) jogador.getHeroi());
-            System.out.println("=========Arcardium[RPG]=========");
-            System.out.println("            ANDAR [" + (i + 1) + "]");
-            System.out.println("==========  MASMORRA  ==========");
-            System.out.println("        Salas disponíveis");
-            System.out.println("  >" + andarAtual + "<");
-            System.out.println("===== 1 ======= 2 ====== 3 =====");
-            System.out.print("> ");
-            jogador.getHeroi().resetarEfeitos();
+                    if (salaAtual.getTipo() == TipoSala.CHEFE) {
+                        System.out.println("======= CHEFE A CAMINHO ========");
+                        System.out.println("> Acesso a loja liberado.");
+                        lojaController.executarFaseDeLoja(jogador, magiaFactory);
+                    }
 
-            int escolha = sc.nextInt();
-            sc.nextLine();
-            Sala salaEscolhida = andarAtual.get(escolha - 1);
+                    bv.exibirHeaderJogador(jogador, (Mago) jogador.getHeroi());
+                    System.out.println("=========Arcardium[RPG]=========");
+                    System.out.println("            ANDAR [" + (i + 1) + "]");
+                    System.out.println("==========  MASMORRA  ==========");
+                    System.out.println("        Salas disponíveis");
+                    System.out.println("  >" + andarAtual + "<");
+                    System.out.println("===== 1 ======= 2 ====== 3 =====");
+                    System.out.print("> ");
+                    jogador.getHeroi().resetarEfeitos();
 
-            if (salaEscolhida.getTipo() == TipoSala.COMBATE) {
-                 List<Inimigo> grupoInimigos = inimigoFactory.criarGrupoDeInimigos(andar);
-                ConsoleUtils.limparTela();
-                 bc.iniciarBatalha(jogador, grupoInimigos, magiaFactory);
-                if (jogador.getHeroi().getHp() <= 0) {
-                    String msgDerrota = "Sua visão escurece... Seu grimório cai no chão, aberto, esperando pelo próximo tolo corajoso o suficiente para tentar.\n";
-                    ConsoleUtils.digitar(msgDerrota, 120);
-                    System.out.println("X===========[MORTE]==========X");
-                    view.exibirResumoDaRun(jogador, mago);
-                    
-                    break;
+                    int escolha = -1;
+                    while (true) {
+                        try {
+                            escolha = sc.nextInt();
+                            sc.nextLine();
+
+                            if (escolha < 1 || escolha > andarAtual.size()) {
+                                System.out.println("> Sala inválida! Escolha entre 1 e " + andarAtual.size() + ":");
+                                System.out.print("> ");
+                            } else {
+                                break;
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("> Entrada inválida! Digite apenas números:");
+                            System.out.print("> ");
+                            sc.nextLine();
+                        }
+                    }
+
+                    Sala salaEscolhida = andarAtual.get(escolha - 1);
+
+                    if (salaEscolhida.getTipo() == TipoSala.COMBATE) {
+                        List<Inimigo> grupoInimigos = inimigoFactory.criarGrupoDeInimigos(andar);
+                        ConsoleUtils.limparTela();
+                        bc.iniciarBatalha(jogador, grupoInimigos, magiaFactory);
+
+                        if (jogador.getHeroi().getHp() <= 0) {
+                            String msgDerrota = "Sua visão escurece... Seu grimório cai no chão, aberto, esperando pelo próximo tolo corajoso o suficiente para tentar.\n";
+                            ConsoleUtils.digitar(msgDerrota, 60);
+                            System.out.println("-X===========[MORTE]==========X-");
+                            ConsoleUtils.pausar(1000);
+                            break;
+                        }
+                    } else if (salaEscolhida.getTipo() == TipoSala.CHEFE) {
+                        List<Inimigo> chefe = inimigoFactory.criarChefe(ato, andar);
+                        bc.iniciarBatalha(jogador, chefe, magiaFactory);
+                    } else if (salaEscolhida.getTipo() == TipoSala.EVENTO) {
+                        EventoFactory fc = new EventoFactory();
+                        Evento e = fc.criarEventoAleatorio();
+                        e.executar(jogador, magiaFactory);
+                    }
+
+                    andar++;
+                    jogador.setAndarAtual(andar);
                 }
-            } else if (salaEscolhida.getTipo() == TipoSala.CHEFE) {
-                Comportamento a = new ComportamentoAleatorio();
-                List<Inimigo> chefe = inimigoFactory.criarChefe(ato, andar);
-                bc.iniciarBatalha(jogador, chefe, magiaFactory);
-            } else if (salaEscolhida.getTipo() == TipoSala.EVENTO) {
-                EventoFactory fc = new EventoFactory();
-                Evento e = fc.criarEventoAleatorio();
-                e.executar(jogador, magiaFactory);
             }
-            andar++;
-            jogador.setAndarAtual(andar);
+            ConsoleUtils.limparTela();
+            view.exibirResumoDaRun(jogador, mago);
+            ConsoleUtils.aguardarEnter();
+            System.out.println("\nRetornando ao menu principal. ---\n");
 
-
+        } catch (Exception e) {
+            System.out.println("> ERRO inesperado na run: " + e.getMessage());
+            System.out.println("> Voltando ao menu principal...");
+            ConsoleUtils.aguardarEnter();
         }
-
-        
-        }
-        view.exibirResumoDaRun(jogador, mago);
-        ConsoleUtils.aguardarEnter();
-        System.out.println("\nRetornando ao menu principal. ---\n");
     }
-
 }
-;

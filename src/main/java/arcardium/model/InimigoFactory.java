@@ -6,10 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Responsável por criar e configurar todos os inimigos do jogo. Age como um
- * "painel de controle" central para o balanceamento dos monstros.
- */
 public class InimigoFactory {
 
     private final Comportamento compAleatorio = new ComportamentoAleatorio();
@@ -17,182 +13,176 @@ public class InimigoFactory {
     private final Comportamento compSequencial = new ComportamentoSequencial();
     private final Random rand = new Random();
 
+    // Multiplicadores por rank (ajustados)
+    private final double MULT_HP_S = 2.5, MULT_ATK_S = 2.0;
+    private final double MULT_HP_A = 2.0, MULT_ATK_A = 1.7;
+    private final double MULT_HP_B = 1.5, MULT_ATK_B = 1.3;
+    private final double MULT_HP_C = 1.2, MULT_ATK_C = 1.1;
+    private final double MULT_HP_D = 1.0, MULT_ATK_D = 1.0;
+
     public Inimigo criarInimigoAleatorio(int andar) {
         RankInimigo rankSorteado = sortearRank(andar);
-        Inimigo inimigo = null;
-        switch (rankSorteado) {
-            case D:
-                inimigo = criarMonstroRankD();
-                break;
-            case C:
-                inimigo = criarMonstroRankC();
-                break;
-            case B:
-                inimigo = criarMonstroRankB();
-                break;
+        Inimigo inimigo;
 
+        switch (rankSorteado) {
+            case D -> inimigo = criarMonstroRankD();
+            case C -> inimigo = criarMonstroRankC();
+            case B -> inimigo = criarMonstroRankB();
+            default -> inimigo = criarMonstroRankD();
         }
-        definirRecompensas(inimigo);
+
         aplicarEscalamento(inimigo, andar);
+        definirRecompensas(inimigo, andar);
 
         return inimigo;
-
     }
 
-    private void definirRecompensas(Inimigo inimigo) {
+    // XP, ouro e pontos agora são escalados
+    private void definirRecompensas(Inimigo inimigo, int andar) {
+        int baseXp;
+        int baseGold;
+        int basePontos;
+
         switch (inimigo.getRank()) {
-            case S:
-                inimigo.setRecompensaXp(200);
-                inimigo.setRecompensaOuro(60);
-                inimigo.setPontos(5200 + inimigo.getHp());
-                break;
-            case A:
-                inimigo.setRecompensaXp(140);
-                inimigo.setRecompensaOuro(40);
-                inimigo.setPontos(1200 + inimigo.getHp());
-                break;
-            case B:
-                inimigo.setRecompensaXp(100);
-                inimigo.setRecompensaOuro(25);
-                inimigo.setPontos(400 + inimigo.getHp());
-                break;
-            case C:
-                inimigo.setRecompensaXp(75);
-                inimigo.setRecompensaOuro(15);
-                inimigo.setPontos(200 + inimigo.getHp());
-                break;
-            case D:
-            default:
-                inimigo.setRecompensaXp(50);
-                inimigo.setRecompensaOuro(10);
-                inimigo.setPontos(120 + inimigo.getHp());
-                break;
+            case S -> { baseXp = 200; baseGold = 60; basePontos = 1000; }
+            case A -> { baseXp = 140; baseGold = 40; basePontos = 700; }
+            case B -> { baseXp = 100; baseGold = 25; basePontos = 400; }
+            case C -> { baseXp = 75;  baseGold = 15; basePontos = 250; }
+            default -> { baseXp = 50; baseGold = 10; basePontos = 120; }
         }
+
+        int xpEscalado = baseXp + (int) (andar * baseXp * 0.15);
+        int ouroEscalado = baseGold + (int) (andar * baseGold * 0.12);
+        int pontosEscalados = basePontos 
+                            + (int) (andar * basePontos * 0.20) 
+                            + inimigo.getMaxHp() / 2 
+                            + inimigo.getAtk() * 5;
+
+        inimigo.setRecompensaXp(xpEscalado);
+        inimigo.setRecompensaOuro(ouroEscalado);
+        inimigo.setPontos(pontosEscalados);
     }
 
     private void aplicarEscalamento(Inimigo inimigo, int andar) {
-        double fatorEscalaHp;
-        double fatorEscalaAtk;
+        double multHp;
+        double multAtk;
+
         switch (inimigo.getRank()) {
-            case C:
-                fatorEscalaHp = 1.3;
-                fatorEscalaAtk = 1.1;
-                break;
-            case D:
-            default:
-                fatorEscalaHp = 0.8;
-                fatorEscalaAtk = 1.0;
-                break;
+            case S -> { multHp = MULT_HP_S; multAtk = MULT_ATK_S; }
+            case A -> { multHp = MULT_HP_A; multAtk = MULT_ATK_A; }
+            case B -> { multHp = MULT_HP_B; multAtk = MULT_ATK_B; }
+            case C -> { multHp = MULT_HP_C; multAtk = MULT_ATK_C; }
+            default -> { multHp = MULT_HP_D; multAtk = MULT_ATK_D; }
         }
 
-        int hpBonus = (int) (andar * 5 * fatorEscalaHp);
-        int atkBonus = (int) (andar * 2 * fatorEscalaAtk);
+        // Identifica chefes para ajustar escalonamento
+        boolean isChefe = inimigo.getNome().contains("Durak");
 
-        inimigo.setMaxHp(inimigo.getMaxHp() + hpBonus);
-        inimigo.setHp(inimigo.getMaxHp());
-        inimigo.setAtk(inimigo.getAtk() + atkBonus);
+        double fatorAndar = isChefe ? 0.04 : 0.08;   // chefes escalam mais devagar
+        double fatorAtk = isChefe ? 0.035 : 0.07;
+
+        int hpEscalado = (int) (inimigo.getMaxHp() * (1 + (andar * fatorAndar)) * multHp);
+        int atkEscalado = (int) (inimigo.getAtk() * (1 + (andar * fatorAtk)) * multAtk);
+
+        // Limita chefes em andares baixos para não explodir status
+        if (isChefe && hpEscalado > 350) {
+            hpEscalado = 350;
+        }
+
+        inimigo.setMaxHp(hpEscalado);
+        inimigo.setHp(hpEscalado);
+        inimigo.setAtk(atkEscalado);
     }
 
     private RankInimigo sortearRank(int andar) {
         int chance = rand.nextInt(100);
-        if (andar < 3) {
-            return RankInimigo.D;
-        } else if (andar < 5) {
-            return (chance < 70) ? RankInimigo.D : RankInimigo.C;
-        } else if (andar < 10) {
-            return (chance < 40) ? RankInimigo.D : RankInimigo.C;
-        } else if (andar < 12) {
-            return (chance < 20) ? RankInimigo.D : RankInimigo.C;
-        } else if (andar < 15) {
-            return (chance < 70) ? RankInimigo.C : RankInimigo.B;
-        } else if (andar < 27) {
-            return (chance < 40) ? RankInimigo.C : RankInimigo.B;
-        } else if (andar < 30) {
-            return (chance < 20) ? RankInimigo.C : RankInimigo.B;
-        } else {
-            return (chance < 70) ? RankInimigo.B : RankInimigo.A;
-        }
 
+        if (andar < 3) return RankInimigo.D;
+        if (andar < 5) return (chance < 70) ? RankInimigo.D : RankInimigo.C;
+        if (andar < 10) return (chance < 40) ? RankInimigo.D : RankInimigo.C;
+        if (andar < 15) return (chance < 70) ? RankInimigo.C : RankInimigo.B;
+        if (andar < 27) return (chance < 50) ? RankInimigo.C : RankInimigo.B;
+        if (andar < 35) return (chance < 20) ? RankInimigo.C : RankInimigo.B;
+        return (chance < 70) ? RankInimigo.B : RankInimigo.A;
     }
 
+    // ===================== Inimigos Rank D =====================
     private Inimigo criarMonstroRankD() {
-        int numMonstro = rand.nextInt(2) + 1;
+        int numMonstro = rand.nextInt(3);
         switch (numMonstro) {
-            case 1:
+            case 0 -> {
                 Inimigo slime = new Inimigo("Slime Ácido", 50, 0, 10, 8, 5, 5, 0, RankInimigo.D, compAleatorio);
-                slime.aprenderHabilidade(new Magia("Cuspe Ácido", "cospe um ácido que corrói", 0, TipoDeEfeito.DANO_DIRETO, 10, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.DANO, TagMagia.ALVO_UNICO)));
+                slime.aprenderHabilidade(new Magia("Cuspe Ácido", "cospe ácido corrosivo", 0, TipoDeEfeito.DANO_DIRETO, 10, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.DANO)));
                 return slime;
-            case 2:
+            }
+            case 1 -> {
                 Inimigo morcego = new Inimigo("Morcego da Caverna", 25, 0, 12, 3, 18, 10, 20, RankInimigo.D, compAleatorio);
-                morcego.aprenderHabilidade(new Magia("Mordida", "morde o alvo", 0, TipoDeEfeito.DANO_DIRETO, 12, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.DANO, TagMagia.ALVO_UNICO)));
+                morcego.aprenderHabilidade(new Magia("Mordida", "morde o alvo", 0, TipoDeEfeito.DANO_DIRETO, 12, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.DANO)));
                 return morcego;
-            default:
-                Inimigo aranhaPequena = new Inimigo("Aranha da Cripta", 22, 0, 10, 4, 16, 10, 20, RankInimigo.D, compAleatorio);
-                aranhaPequena.aprenderHabilidade(new Magia("Picada Venenosa", "Uma picada que injeta veneno", 0, TipoDeEfeito.DANO_POR_TURNO, 4, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.VENENO, List.of(TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.VENENO)));
-                return aranhaPequena;
+            }
+            default -> {
+                Inimigo aranha = new Inimigo("Aranha da Cripta", 22, 0, 10, 4, 16, 10, 20, RankInimigo.D, compAleatorio);
+                aranha.aprenderHabilidade(new Magia("Picada Venenosa", "injeta veneno no alvo", 0, TipoDeEfeito.DANO_POR_TURNO, 4, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.VENENO, List.of(TagMagia.DANO, TagMagia.VENENO)));
+                return aranha;
+            }
         }
-
     }
 
+    // ===================== Inimigos Rank C =====================
     private Inimigo criarMonstroRankC() {
         Inimigo lobo = new Inimigo("Lobo das Sombras", 40, 0, 15, 4, 15, 15, 25, RankInimigo.C, compBerserker);
-        lobo.aprenderHabilidade(new Magia("Garra Dilacerante", "golpe com as garras que causa sangramento", 0, TipoDeEfeito.DANO_POR_TURNO, 5, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.SANGRAMENTO, List.of(TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.SANGRAMENTO)));
-        lobo.aprenderHabilidade(new Magia("Enfurecer", "se enfurece e aumenta o ATK", 0, TipoDeEfeito.BUFF_ATAQUE, 10, 3, TipoAlvo.ALIADO, NomeEfeito.ENFURECIDO, List.of(TagMagia.BUFF, TagMagia.ALVO_UNICO)));
+        lobo.aprenderHabilidade(new Magia("Garra Dilacerante", "golpe com sangramento", 0, TipoDeEfeito.DANO_POR_TURNO, 5, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.SANGRAMENTO, List.of(TagMagia.DANO)));
+        lobo.aprenderHabilidade(new Magia("Enfurecer", "aumenta o ATK", 0, TipoDeEfeito.BUFF_ATAQUE, 10, 3, TipoAlvo.ALIADO, NomeEfeito.ENFURECIDO, List.of(TagMagia.BUFF)));
         return lobo;
-
     }
 
+    // ===================== Inimigos Rank B =====================
     private Inimigo criarMonstroRankB() {
         int numMonstro = rand.nextInt(3);
         switch (numMonstro) {
-            case 0:
+            case 0 -> {
                 Inimigo fantasma = new Inimigo("Fantasma", 80, 0, 22, 12, 8, 5, 20, RankInimigo.B, compSequencial);
-                fantasma.aprenderHabilidade(new Magia("Susto fantasmagorico", "surpreende o alvo com um susto DIMUNUINDO defesa", 0, TipoDeEfeito.DEBUFF_DEFESA, 20, 3, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.AMENDONTRAR, List.of(TagMagia.SOMBRA, TagMagia.DEBUFF, TagMagia.AREA, TagMagia.MALDIÇÃO)));
-                fantasma.aprenderHabilidade(new Magia("Toque espectral", "segura você e engole sua ESSÊNCIA vital", 0, TipoDeEfeito.DANO_POR_TURNO, 10, 4, TipoAlvo.ALVO_UNICO, NomeEfeito.DEMENTAR, List.of(TagMagia.SOMBRA, TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.MALDIÇÃO)));
-                fantasma.aprenderHabilidade(new Magia("Surto de Açao", "aumenta a AGILIDADE", 0, TipoDeEfeito.BUFF_AGILIDADE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.AGIL, List.of(TagMagia.BUFF, TagMagia.ALVO_UNICO)));
+                fantasma.aprenderHabilidade(new Magia("Susto Fantasmagórico", "diminui DEF dos inimigos", 0, TipoDeEfeito.DEBUFF_DEFESA, 20, 3, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.AMENDONTRAR, List.of(TagMagia.DEBUFF)));
+                fantasma.aprenderHabilidade(new Magia("Toque Espectral", "drena vida por turno", 0, TipoDeEfeito.DANO_POR_TURNO, 10, 4, TipoAlvo.ALVO_UNICO, NomeEfeito.DEMENTAR, List.of(TagMagia.DANO)));
                 return fantasma;
-
-            case 1:
+            }
+            case 1 -> {
                 Inimigo zumbi = new Inimigo("Zumbi", 70, 0, 24, 2, 10, 0, 0, RankInimigo.B, compSequencial);
-                zumbi.aprenderHabilidade(new Magia("Mordida infecciosa", "corre em direção ao alvo e morde, infectando-o", 0, TipoDeEfeito.DANO_POR_TURNO, 7, 5, TipoAlvo.ALVO_UNICO, NomeEfeito.INFECTADO, List.of(TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.VENENO)));
-                zumbi.aprenderHabilidade(new Magia("Resiliencia Morto-Vivo", "recupera vida", 0, TipoDeEfeito.CURA, 30, 0, TipoAlvo.ALIADO, NomeEfeito.NENHUM, List.of(TagMagia.CURA, TagMagia.ALVO_UNICO)));
-                zumbi.aprenderHabilidade(new Magia("Vomito acido", "vomita a frente dando dano a todos os alvos", 0, TipoDeEfeito.DANO_DIRETO, 20, 0, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.INFECTADO, List.of(TagMagia.DANO, TagMagia.AREA, TagMagia.VENENO)));
+                zumbi.aprenderHabilidade(new Magia("Mordida Infecciosa", "causa veneno", 0, TipoDeEfeito.DANO_POR_TURNO, 7, 5, TipoAlvo.ALVO_UNICO, NomeEfeito.INFECTADO, List.of(TagMagia.VENENO)));
+                zumbi.aprenderHabilidade(new Magia("Vômito Ácido", "dano em área", 0, TipoDeEfeito.DANO_DIRETO, 20, 0, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM, List.of(TagMagia.AREA, TagMagia.DANO)));
                 return zumbi;
-            case 2:
-                Inimigo cavaleiroZumbi = new Inimigo("Cavaleiro Fantasma", 120, 0, 20, 15, 5, 10, 5, RankInimigo.B, compSequencial);
-                cavaleiroZumbi.aprenderHabilidade(new Magia("Lâmina Espectral", "um corte sombrio que causa dano e tem chance de aplicar medo", 0, TipoDeEfeito.DANO_DIRETO, 25, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.AMENDONTRAR, List.of(TagMagia.SOMBRA, TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.MALDIÇÃO, TagMagia.CONTROLE)));
-                cavaleiroZumbi.aprenderHabilidade(new Magia("Aura Sombria", "envolve-se em sombras, reduzindo o dano recebido por 2 turnos", 0, TipoDeEfeito.BUFF_DEFESA, 15, 2, TipoAlvo.ALIADO, NomeEfeito.RESISTENTE, List.of(TagMagia.SOMBRA, TagMagia.BUFF, TagMagia.ALVO_UNICO)));
-                cavaleiroZumbi.aprenderHabilidade(new Magia("Chamado dos Condenados", "invoca almas perdidas que causam dano em todos os inimigos", 0, TipoDeEfeito.DANO_DIRETO, 20, 5, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM, List.of(TagMagia.SOMBRA, TagMagia.DANO, TagMagia.AREA)));
-                return cavaleiroZumbi;
-
+            }
+            default -> {
+                Inimigo cavaleiro = new Inimigo("Cavaleiro Fantasma", 120, 0, 20, 15, 5, 10, 5, RankInimigo.B, compSequencial);
+                cavaleiro.aprenderHabilidade(new Magia("Lâmina Espectral", "corte sombrio", 0, TipoDeEfeito.DANO_DIRETO, 25, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.AMENDONTRAR, List.of(TagMagia.DANO)));
+                cavaleiro.aprenderHabilidade(new Magia("Aura Sombria", "aumenta DEF", 0, TipoDeEfeito.BUFF_DEFESA, 15, 2, TipoAlvo.ALIADO, NomeEfeito.RESISTENTE, List.of(TagMagia.BUFF)));
+                return cavaleiro;
+            }
         }
-        return null;
     }
 
+    // ===================== Chefe =====================
     public List<Inimigo> criarChefe(int ato, int andar) {
-        List<Inimigo> inimigo = new ArrayList<>();
-        switch (ato) {
-            case 1:
-                Inimigo chefe = new Inimigo("Durak, o Orc Superior", 200, 0, 25, 20, 12, 30, 0, RankInimigo.B, new ComportamentoSequencial());
-                aplicarEscalamento(chefe, andar);
-                inimigo.add(chefe);
-                //chefe.aprenderHabilidade(new Magia("Dominância do mais forte", "Emana uma aura tão forte que deixa todos paralizados", 0, TipoDeEfeito.PARALIZANTE, 0, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.PARALIZAR, List.of(TagMagia.CHEFE, TagMagia.AREA, TagMagia.CONTROLE)));
-                chefe.aprenderHabilidade(new Magia("Fatiar", "Avançando contra o alvo desferindo um ataque brutal", 0, TipoDeEfeito.DANO_DIRETO, 40, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.CHEFE, TagMagia.DANO, TagMagia.ALVO_UNICO)));
-                chefe.aprenderHabilidade(new Magia("Cortar", "Avança contra o alvo tentando perfurar um ponto vital", 0, TipoDeEfeito.DANO_POR_TURNO, 20, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.SANGRAMENTO, List.of(TagMagia.CHEFE, TagMagia.DANO, TagMagia.ALVO_UNICO, TagMagia.CONTROLE)));
-                chefe.aprenderHabilidade(new Magia("Esgotamento", "Cansado escolhe a postura de defesa", 0, TipoDeEfeito.DEBUFF_DEFESA, 0, 1, TipoAlvo.ALIADO, NomeEfeito.ATORDOADO, List.of(TagMagia.CHEFE, TagMagia.DEBUFF, TagMagia.ALVO_UNICO)));
-                chefe.aprenderHabilidade(new Magia("Esgotamento", "Cansado escolhe a postura de defesa", 0, TipoDeEfeito.DEBUFF_DEFESA, 0, 1, TipoAlvo.ALIADO, NomeEfeito.ATORDOADO, List.of(TagMagia.CHEFE, TagMagia.DEBUFF, TagMagia.ALVO_UNICO)));
+        List<Inimigo> inimigos = new ArrayList<>();
+        if (ato == 1) {
+            Inimigo chefe = new Inimigo("Durak, o Orc Superior", 200, 0, 25, 20, 12, 30, 0, RankInimigo.B, compSequencial);
+            aplicarEscalamento(chefe, andar);
+            definirRecompensas(chefe, andar);
 
-                return inimigo;
+            chefe.aprenderHabilidade(new Magia("Fatiar", "ataque brutal", 0, TipoDeEfeito.DANO_DIRETO, 40, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.CHEFE, TagMagia.DANO)));
+            chefe.aprenderHabilidade(new Magia("Cortar", "sangramento", 0, TipoDeEfeito.DANO_POR_TURNO, 20, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.SANGRAMENTO, List.of(TagMagia.CHEFE, TagMagia.DANO)));
+            chefe.aprenderHabilidade(new Magia("Esgotamento", "defende-se", 0, TipoDeEfeito.BUFF_DEFESA, 0, 1, TipoAlvo.ALIADO, NomeEfeito.RESISTENTE, List.of(TagMagia.CHEFE, TagMagia.BUFF)));
 
+            inimigos.add(chefe);
         }
-        return null;
+        return inimigos;
     }
 
+    // ===================== Grupo =====================
     public List<Inimigo> criarGrupoDeInimigos(int andar) {
         List<Inimigo> grupo = new ArrayList<>();
         int numeroDeInimigos = rand.nextInt(2) + 1;
-        for (int i
-                = 0; i < numeroDeInimigos; i++) {
+        for (int i = 0; i < numeroDeInimigos; i++) {
             grupo.add(criarInimigoAleatorio(andar));
         }
         return grupo;

@@ -13,9 +13,9 @@ import arcardium.model.Personagem;
  */
 public class MathUtils {
 
-    public static int calculaDano(Personagem alvo, Magia magiaEscolhida) {
+    public static int calculaDano(Personagem alvo, int valor) {
         int defesa = alvo.getDef();
-        int danoBruto = magiaEscolhida.getValorEfeito();
+        int danoBruto = valor;
         int dano = (int) (danoBruto * (100.0 / (100.0 + defesa)));
         if (alvo.isEstaDefendendo()) {
             dano = dano / 2;

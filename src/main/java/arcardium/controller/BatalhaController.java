@@ -55,7 +55,7 @@ public class BatalhaController {
             }
             turno++;
             for (Personagem personagemDaVez : filaDeTurnos) {
-                if (personagemDaVez.getHp() <= 0 || personagemDaVez.verificaEfeitoAtivo(NomeEfeito.ATORDOADO) || personagemDaVez.verificaEfeitoAtivo(NomeEfeito.PARALIZAR)) {
+                if (personagemDaVez.getHp() <= 0) {
                     continue;
                 }
 
@@ -65,6 +65,12 @@ public class BatalhaController {
 
                 personagemDaVez.setEstaDefendendo(false);
                 personagemDaVez.processarEfeitosPorTurno();
+                if(personagemDaVez.verificaSeEstaSobCC()){
+                  continue;
+                }
+                
+                
+                
 
                 if (personagemDaVez.getHp() <= 0) {
                     continue;

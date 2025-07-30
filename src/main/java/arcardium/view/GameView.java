@@ -4,7 +4,6 @@
  */
 package arcardium.view;
 
-
 import arcardium.model.Jogador;
 import arcardium.model.Mago;
 import arcardium.utils.AnsiColors;
@@ -21,7 +20,7 @@ public class GameView {
 
     Scanner sc = new Scanner(System.in);
 
-    public void mostrarMenu() {       
+    public void mostrarMenu() {
         System.out.println("=========Arcardium[RPG]=========");
         System.out.println("[1] Startar run");
         System.out.println("[2] Estatistica");
@@ -40,7 +39,8 @@ public class GameView {
         ConsoleUtils.digitar("\nDigite o nome do seu [MAGO]\n", 100);
         System.out.print("> ");
     }
-     public void exibirMensagem(String mensagem) {
+
+    public void exibirMensagem(String mensagem) {
         System.out.println(mensagem);
     }
 
@@ -53,25 +53,34 @@ public class GameView {
         System.out.println("  x Magia pura");
         System.out.println("[3] O escolhido");
         System.out.println("  x Que a sorte lhe ajude");
+        System.out.println("[4] O padre");
+        System.out.println("  x Poder da fé");
         System.out.println("============Escolha===========");
         System.out.print("> ");
     }
 
     public void mostrarArquetipo(Mago mago, int arquetipo) {
-        switch (arquetipo) {
-            case 1:
-                ConsoleUtils.limparTela();
-                System.out.println("======= MAGO DE BATALHA =======");
+        System.out.println("=========== [ARQUÉTIPO] ===========");
+        System.out.println("Nome: " + mago.getNome());
+        System.out.println("HP: " + mago.getHp() + " | MP: " + mago.getMp());
+        System.out.println("ATK: " + mago.getAtk() + " | DEF: " + mago.getDef());
+        System.out.println("AGI: " + mago.getAgi() + " | PRE: " + mago.getPrecisao() + " | EVA: " + mago.getEvasao());
+        System.out.println("Recuperação MP por turno: " + mago.getRegeneraçaoDeMana());
 
+        System.out.println("\n>>> Magias iniciais:");
+        mago.getMagias().forEach(magia -> {
+            System.out.println(" > " + magia.getNome() + ": " + magia.getDescricao());
+        });
 
-        }
+        System.out.println("\nDeseja escolher este arquétipo?");
+        System.out.println("[1] Sim   [2] Não");
+        System.out.print("> ");
     }
-
 
     public void exibirResumoDaRun(Jogador jogador, Mago mago) {
         System.out.println("======= [RESUMO DA RUN] =======");
-        System.out.println(" PONTUAÇÃO");
-        System.out.println("[" + jogador.calcularPontuacaoFinal() + "]");
+        System.out.println("> PONTUAÇÃO");
+        System.out.print(" [" + jogador.calcularPontuacaoFinal() + "]\n");
         System.out.println("> Mago: " + mago.getNome());
         System.out.println("> Andar: " + jogador.getAndarAtual());
         System.out.println("> Nivel: " + jogador.getNivel());
@@ -80,8 +89,6 @@ public class GameView {
         System.out.println("> Magia preferida: " + jogador.getNomeMagiaMaisUsada());
         System.out.println("> Maior dano: " + jogador.getMaiorDanoCausadoEmUmGolpe());
         System.out.println("======= [ FIM DA RUN ] =======");
-
-
 
     }
 }

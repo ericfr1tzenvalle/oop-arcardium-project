@@ -11,10 +11,12 @@ public class MagoFactory {
     private Mago mago;
     public MagoFactory() {}
 
-    public Mago criarMagoDeBatalha(String nomeMago){
-        mago = new Mago(nomeMago, 120, 70, 4, 8, 10, 12, 10, 5);
+    public Mago criarMagoDeBatalha(String nome){
+        mago = new Mago(nome, 120, 70, 4, 8, 10, 12, 10, 5);
         mago.aprenderMagia(new Magia("Força do Urso", "Aumenta o ATAQUE", 10, TipoDeEfeito.BUFF_ATAQUE, 10, 2, TipoAlvo.ALIADO, NomeEfeito.FORCA_DO_URSO, List.of(TagMagia.NATUREZA, TagMagia.BUFF)));
         mago.aprenderMagia(new Magia("Impacto Sísmico", "Dano em TODOS os inimigos", 15, TipoDeEfeito.DANO_DIRETO, 15, 1, TipoAlvo.TODOS_INIMIGOS, NomeEfeito.NENHUM, List.of(TagMagia.DANO, TagMagia.AREA)));
+        mago.setChanceDeCritico(100);
+        mago.setDanoCritico(1.3);
         return mago;
     }
 
@@ -25,11 +27,19 @@ public class MagoFactory {
         return mago;
     }
 
-    public Mago criarEscolhido(String nomeEscolhido){
-        mago = new Mago(nomeEscolhido, 100, 80, 5,10, 7, 12, 20, 15);
+    public Mago criarEscolhido(String nome){
+        mago = new Mago(nome, 100, 80, 5,10, 7, 12, 12, 10);
         mago.aprenderMagia(new Magia("Golpe de Sorte", "Golpeando o alvo em um ponto critico", 10, TipoDeEfeito.DANO_DIRETO, 28, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.SORTE, TagMagia.ALVO_UNICO)));
         mago.aprenderMagia(new Magia("Sorte Sorte Sorte!", "Ganha temporariamente maior chance de esquivar", 15, TipoDeEfeito.BUFF_EVASAO, 30, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.AGIL, List.of(TagMagia.SORTE, TagMagia.BUFF, TagMagia.ALVO_UNICO)));
         return mago;
+    }
+    
+    public Mago criarPadre(String nome){
+        mago = new Mago(nome, 90, 90, 6, 5,8, 10, 12, 12);
+        mago.aprenderMagia(new Magia("Divine Smite", "Lança um golpe divino no alvo", 10, TipoDeEfeito.DANO_DIRETO, 35, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM, List.of(TagMagia.LUZ, TagMagia.DANO, TagMagia.ALVO_UNICO)));
+        mago.aprenderMagia(new Magia("Benção do pai", "Faz uma prece para o pai", 20, TipoDeEfeito.CURA, 20, 3, TipoAlvo.ALIADO, NomeEfeito.CURA_REGENERATIVA, List.of(TagMagia.LUZ,TagMagia.CURA, TagMagia.ALVO_UNICO)));
+        return mago;
+        
     }
 
 }

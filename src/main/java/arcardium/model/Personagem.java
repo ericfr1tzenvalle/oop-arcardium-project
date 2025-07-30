@@ -7,6 +7,7 @@ package arcardium.model;
 import arcardium.model.enums.NomeEfeito;
 import arcardium.model.enums.TipoAlvo;
 import arcardium.model.enums.TipoDeEfeito;
+import arcardium.utils.MathUtils;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,8 +31,8 @@ public abstract class Personagem {
     private int evasao;
     private boolean estaDefendendo;
     private int regeneraçaoDeMana;
-    //private int chanceDeCritico;
-    //private double danoCritico;
+    private int chanceDeCritico;
+    private double danoCritico;
     private List<EfeitoAtivo> efeitoAtivo;
 
     public Personagem(String nome, int hp, int mp, int atk, int def, int agi, int precisao, int evasao) {
@@ -46,10 +47,11 @@ public abstract class Personagem {
         this.precisao = precisao;
         this.evasao = evasao;
         this.estaDefendendo = false;
-        //this.chanceDeCritico = chanceDeCrit;
-        //this.danoCritico = danocrit;
+        this.chanceDeCritico = 5;
+        this.danoCritico = 1.2;
         this.efeitoAtivo = new ArrayList<>();
     }
+
     public Personagem(String nome, int hp, int mp, int regeneraçaoDeMana, int atk, int def, int agi, int precisao, int evasao) {
         this.nome = nome;
         this.maxHp = hp;
@@ -66,6 +68,22 @@ public abstract class Personagem {
         this.regeneraçaoDeMana = regeneraçaoDeMana;
     }
 
+    public int getChanceDeCritico() {
+        return chanceDeCritico;
+    }
+
+    public void setChanceDeCritico(int chanceDeCritico) {
+        this.chanceDeCritico = chanceDeCritico;
+    }
+
+    public double getDanoCritico() {
+        return danoCritico;
+    }
+
+    public void setDanoCritico(double danoCritico) {
+        this.danoCritico = danoCritico;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -78,32 +96,35 @@ public abstract class Personagem {
         this.estaDefendendo = estaDefendendo;
     }
 
-    public int getRegeneraçaoDeMana(){
+    public int getRegeneraçaoDeMana() {
         return regeneraçaoDeMana;
     }
 
-    public void setRegeneraçaoDeMana(){
+    public void setRegeneraçaoDeMana() {
         this.regeneraçaoDeMana = regeneraçaoDeMana;
     }
 
     public int getHp() {
         return hp;
     }
+
     public int getMp() {
         return mp;
     }
+
     public int getPrecisao() {
         int precisaoTotal = this.precisao;
-        for(EfeitoAtivo efeito : this.efeitoAtivo){
-            if(efeito.getTipoEfeito() == TipoDeEfeito.DEBUFF_PRECISAO){
+        for (EfeitoAtivo efeito : this.efeitoAtivo) {
+            if (efeito.getTipoEfeito() == TipoDeEfeito.DEBUFF_PRECISAO) {
                 precisaoTotal += efeito.getValor();
             }
-            if(efeito.getTipoEfeito() == TipoDeEfeito.DEBUFF_PRECISAO){
+            if (efeito.getTipoEfeito() == TipoDeEfeito.DEBUFF_PRECISAO) {
                 precisaoTotal -= efeito.getValor();
             }
         }
-        return Math.max(0,precisaoTotal);
+        return Math.max(0, precisaoTotal);
     }
+
     public int getEvasao() {
         int evasaoTotal = this.evasao;
         for (EfeitoAtivo efeito : this.efeitoAtivo) {
@@ -114,7 +135,7 @@ public abstract class Personagem {
                 evasaoTotal -= efeito.getValor();
             }
         }
-        return Math.max(0,evasaoTotal);
+        return Math.max(0, evasaoTotal);
     }
 
     public int getAtk() {
@@ -146,25 +167,50 @@ public abstract class Personagem {
 
     public void processarEfeitosPorTurno() {
         Iterator<EfeitoAtivo> iterator = this.efeitoAtivo.iterator();
+        boolean headerExibido = false;
+
         while (iterator.hasNext()) {
             EfeitoAtivo efeito = iterator.next();
+
+            if (!headerExibido) {
+                System.out.println("===&  [EFEITOS POR TURNO]  %====");
+                headerExibido = true;
+            }
+
             if (efeito.getTipoEfeito() == TipoDeEfeito.DANO_POR_TURNO) {
-                System.out.println(this.nome + " sofreu [" + efeito.getValor() + "]" + " de dano [DANO POR TURNO]");
+                int dano = MathUtils.calculaDano(this, efeito.getValor());
+                System.out.println(this.nome + " sofreu [" + dano + "] de dano [DANO POR TURNO]");
                 this.tomarDano(efeito.getValor());
+
             } else if (efeito.getTipoEfeito() == TipoDeEfeito.CURA) {
-                System.out.println(this.nome + " curou [" + efeito.getValor() + "]" + " [CURA POR TURNO]");
+                System.out.println(this.nome + " curou [" + efeito.getValor() + "] [CURA POR TURNO]");
                 this.receberCura(efeito.getValor());
             }
+
             efeito.setDuracao(efeito.getDuracao() - 1);
             if (efeito.getDuracao() <= 0) {
                 iterator.remove();
             }
         }
-        if(this.regeneraçaoDeMana > 0){
+
+        if (this.regeneraçaoDeMana > 0) {
             int regeneracao = this.getRegeneraçaoDeMana();
             this.setMp(this.mp += regeneracao);
-            if(this.mp > this.getMaxMp()){
+            if (this.mp > this.getMaxMp()) {
                 this.mp = this.getMaxMp();
+            }
+        }
+    }
+
+    public void diminuirDuracaoEfeitoCC() {
+        Iterator<EfeitoAtivo> iterator = this.efeitoAtivo.iterator();
+        while (iterator.hasNext()) {
+            EfeitoAtivo efeito = iterator.next();
+            if (efeito.getTipoEfeito() == TipoDeEfeito.CONTROLE) {
+                efeito.setDuracao(efeito.getDuracao() - 1);
+                if (efeito.getDuracao() <= 0) {
+                    iterator.remove();
+                }
             }
         }
     }
@@ -181,6 +227,7 @@ public abstract class Personagem {
         }
         return Math.max(0, agiTotal);
     }
+
     protected void setNome(String nome) {
         this.nome = nome;
     }
@@ -212,7 +259,7 @@ public abstract class Personagem {
     public int getMaxMp() {
         return maxMp;
     }
-    
+
     public void setMaxHp(int maxHp) {
         this.maxHp = maxHp;
     }
@@ -224,7 +271,7 @@ public abstract class Personagem {
     public void tomarDano(int dano) {
         int defesaTotal = this.getDef();
         int danoReal = (int) (dano * (100.0 / (100.0 + defesaTotal)));
-        if(this.isEstaDefendendo()){
+        if (this.isEstaDefendendo()) {
 
             danoReal = danoReal / 2;
         }
@@ -245,6 +292,9 @@ public abstract class Personagem {
     }
 
     public boolean verificaEfeitoAtivo(NomeEfeito nome) {
+        if (efeitoAtivo.isEmpty()) {
+            return false;
+        }
         for (EfeitoAtivo e : efeitoAtivo) {
             if (e.getNomeEfeito() == nome) {
                 return true;
@@ -253,8 +303,23 @@ public abstract class Personagem {
         return false;
     }
 
+    public boolean verificaSeEstaSobCC() {
+        if (efeitoAtivo.isEmpty()) {
+            return false;
+        }
+        for (EfeitoAtivo e : efeitoAtivo) {
+            if (e.getTipoEfeito() == TipoDeEfeito.CONTROLE) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void resetarEfeitos() {
-        this.efeitoAtivo.clear();
+        if (!this.efeitoAtivo.isEmpty()) {
+            this.efeitoAtivo.clear();
+        }
+
     }
 
     protected void receberCura(int valor) {
@@ -263,10 +328,11 @@ public abstract class Personagem {
             this.hp = this.maxHp;
         }
     }
-    public void removerEfeito(NomeEfeito efeito){
+
+    public void removerEfeito(NomeEfeito efeito) {
         Iterator<EfeitoAtivo> iterator = this.efeitoAtivo.iterator();
-        while(iterator.hasNext()){
-            if(iterator.next().getNomeEfeito() == efeito){
+        while (iterator.hasNext()) {
+            if (iterator.next().getNomeEfeito() == efeito) {
                 iterator.remove();
             }
         }
@@ -310,10 +376,10 @@ public abstract class Personagem {
                 switch (efeito) {
                     case DANO_DIRETO:
                         int danoFinal = valor;
-                        //if (new Random().nextInt(100) < this.getChanceDeCritico()) {
-                           // danoFinal = (int) (valor * this.getDanoCritico());
-                           // System.out.println(">>> DANO CRÍTICO! <<<");
-                        //}
+                        if (new Random().nextInt(100) < this.getChanceDeCritico()) {
+                            danoFinal = (int) (valor * this.getDanoCritico());
+                            alvo.aplicarEfeito(TipoDeEfeito.CONTROLE, 0, 1, nomeEfeito.SOFREUCRITICO);
+                        }
                         alvo.tomarDano(danoFinal);
                         break;
                     case DANO_POR_TURNO:
@@ -323,6 +389,7 @@ public abstract class Personagem {
                     case DEBUFF_EVASAO:
                     case DEBUFF_PRECISAO:
                     case PARALIZANTE:
+                    case CONTROLE:
                         alvo.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
                         break;
                 }
@@ -330,7 +397,8 @@ public abstract class Personagem {
         }
         return true;
     }
-    public String toStringStatus(){
+
+    public String toStringStatus() {
         return "ATK: " + atk + "|DEF: " + def + "|AGI: " + agi + "|EVA: " + evasao + "|PRE: " + precisao;
     }
 }

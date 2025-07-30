@@ -9,7 +9,7 @@ package arcardium.model.enums;
  * @author Luísa
  */
 public enum NomeEfeito {
-    NENHUM("Nenhum"),
+    NENHUM(""),
     VINGANCA("Vingança"),
     ABRAÇO_SOMBRIO("Abraço Sombrio"),
     //CRITICO("CRITICO"),
@@ -26,7 +26,8 @@ public enum NomeEfeito {
     ENFURECIDO("Enfurecido"),
     PELE_DE_PEDRA("Pele de Pedra"),
     RESISTENTE("Resistencia"), GELEIRA("Geleira"),
-    AGIL("Agil"),
+    AGIL("Agil"), LENTIDAO("Lentidão"),
+    SOFREUCRITICO("Tomou dano critico"),
     INFECTADO("Infectado"), 
     FUGA("Fugindo"), 
     ATORDOADO("Atordoado"), ACAO_EXTRA("Celeridade"), PARALIZAR("Paralizado"), CONGELADO("Congelado"),
