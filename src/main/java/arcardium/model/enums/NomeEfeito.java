@@ -27,6 +27,7 @@ public enum NomeEfeito {
     
     // Efeitos de buff ou status positivos
     CURA_REGENERATIVA("Regeneração"),
+    BANQUETE("Banquete"), // Drenagem do vampiro.
     FORCA_DO_URSO("Força do Urso"),
     PELE_DE_PEDRA("Pele de Pedra"),
     RESISTENTE("Resistência"),

@@ -1,12 +1,8 @@
 package arcardium.model;
 
-import arcardium.model.enums.NomeEfeito;
 import arcardium.model.enums.TagMagia;
-import arcardium.model.enums.TipoAlvo;
-import arcardium.model.enums.TipoDeEfeito;
 import arcardium.utils.AnsiColors;
-
-import java.util.ArrayList;
+import arcardium.model.Efeito;
 import java.util.List;
 
 /**
@@ -21,23 +17,15 @@ public class Magia {
     private String descricao;
     private int nivel;
     private int custoMana;
-    private final TipoDeEfeito tipoEfeito;
-    private int valorEfeito;
-    private int duracaoEfeito;
-    private TipoAlvo tipoAlvo;
-    private NomeEfeito efeito;
+    private List<Efeito> efeitos;
     private List<TagMagia> tags;
 
-    public Magia(String nome, String descricao, int custoMana, TipoDeEfeito tipoEfeito, int valorEfeito, int duracaoEfeito, TipoAlvo tipoAlvo, NomeEfeito efeito, List<TagMagia> tags) {
+    public Magia(String nome, String descricao, int custoMana, List<Efeito> efeitos, List<TagMagia> tags) {
         this.nome = nome;
         this.nivel = 1;
         this.descricao = descricao;
         this.custoMana = custoMana;
-        this.tipoEfeito = tipoEfeito;
-        this.valorEfeito = valorEfeito;
-        this.duracaoEfeito = duracaoEfeito;
-        this.tipoAlvo = tipoAlvo;
-        this.efeito = efeito;
+        this.efeitos = efeitos;
         this.tags = tags;
     }
 
@@ -48,6 +36,14 @@ public class Magia {
     public List<TagMagia> getTags() {
         return tags;
     }
+
+    public List<Efeito> getEfeitos() {
+        return efeitos;
+    }
+
+    public void setEfeitos(List<Efeito> efeitos) {
+        this.efeitos = efeitos;
+    }
     
     
 
@@ -57,22 +53,6 @@ public class Magia {
 
     public int getCustoMana() {
         return custoMana;
-    }
-
-    public TipoDeEfeito getTipoEfeito() {
-        return tipoEfeito;
-    }
-
-    public int getValorEfeito() {
-        return valorEfeito;
-    }
-
-    public void setValorEfeito(int valorEfeito) {
-        this.valorEfeito = valorEfeito;
-    }
-
-    public int getDuracaoEfeito() {
-        return duracaoEfeito;
     }
 
     private void setNome(String nome) {
@@ -91,18 +71,9 @@ public class Magia {
         return nivel;
     }
 
-    public TipoAlvo getTipoAlvo() {
-        return tipoAlvo;
-    }
-
-    public NomeEfeito getNomeEfeito() {
-        return efeito;
-    }
-
     public void aprimorarMagia() {
         this.nivel++;
         this.custoMana -= 2;
-        this.valorEfeito += 5;
 
         if (this.custoMana < 0) {
             this.custoMana = 0;
@@ -111,65 +82,71 @@ public class Magia {
 
     @Override
     public String toString() {
-        // Usamos um StringBuilder para construir nosso texto de forma eficiente.
         StringBuilder sb = new StringBuilder();
 
-
+        // --- Linha 1: O Cabeçalho (não muda) ---
         String nomeColorido = AnsiColors.red(String.format("[Lv.%d] %s", nivel, nome));
         String custoColorido = AnsiColors.red(String.format("[Custo: %d MP]", custoMana));
-        sb.append(String.format("%-45s %s%n", nomeColorido, custoColorido)); // %-45s alinha à esquerda
+        sb.append(String.format("%-45s %s%n", nomeColorido, custoColorido));
 
+        // --- Linha 2: A Descrição (Sabor) ---
+        sb.append(" > " + (descricao));
 
-        String alvoInfo = ("Alvo: " + this.tipoAlvo.toString());
-        sb.append(String.format(" > %-30s", alvoInfo));
-
-
-        sb.append(formatarEfeito());
-
-
-        sb.append("\n > Tags: ");
-        if (tags == null || tags.isEmpty()) {
-            sb.append(AnsiColors.red("Nenhuma"));
-        } else {
-            for(TagMagia tag : tags) {
-                sb.append(AnsiColors.red("[" + tag.name() + "] "));
+        // --- Linha 3: Os Efeitos (A GRANDE MUDANÇA) ---
+        // Agora, nós percorremos a lista de efeitos.
+        if (efeitos != null && !efeitos.isEmpty()) {
+            sb.append("\n > Efeitos:");
+            for (Efeito efeito : efeitos) {
+                // Para cada efeito na lista, chamamos o formatador.
+                sb.append("\n   - ").append(formatarEfeito(efeito));
             }
         }
 
-
-        sb.append("\n > " + ('"' + descricao + '"'));
+        // --- Linha 4: As Tags (não muda) ---
+        sb.append("\n > Tags: ");
+        if (tags != null && !tags.isEmpty()) {
+            for (TagMagia tag : tags) {
+                sb.append(AnsiColors.red("[" + tag.name() + "] "));
+            }
+        } else {
+            sb.append("Nenhuma");
+        }
 
         return sb.toString();
     }
 
     /**
-     * Método ajudante privado para formatar a linha de efeito da magia
-     * de forma inteligente, mostrando apenas o que é relevante.
+     * Método ajudante que agora recebe um objeto Efeito e formata sua
+     * descrição.
+     *
+     * @param efeito O objeto Efeito a ser formatado.
+     * @return Uma String com a descrição formatada do efeito.
      */
-    private String formatarEfeito() {
-        String efeitoDesc = "Efeito: ";
-        String valorColorido = (String.valueOf(this.valorEfeito));
-        String nomeEfeitoColorido = (this.efeito.toString());
+    private String formatarEfeito(Efeito efeito) {
+        String valorColorido = AnsiColors.yellow(String.valueOf(efeito.getValor()));
+        String nomeEfeitoColorido = AnsiColors.yellow(efeito.getNomeEfeito().toString());
+        String alvoColorido = AnsiColors.cyan(efeito.getTipoAlvo().toString());
 
-        switch (this.tipoEfeito) {
+        String base = String.format("Em [%s]: ", alvoColorido);
+
+        switch (efeito.getTipoEfeito()) {
             case DANO_DIRETO:
-                return efeitoDesc + "Causa " + valorColorido + " de dano " + nomeEfeitoColorido + ".";
+                return base + "Causa " + valorColorido + " de dano " + nomeEfeitoColorido + ".";
             case DANO_POR_TURNO:
-                return efeitoDesc + "Aplica " + valorColorido + " de dano de " + nomeEfeitoColorido + " por " + this.duracaoEfeito + " turnos.";
+                return base + "Aplica " + valorColorido + " de dano de " + nomeEfeitoColorido + " por " + efeito.getDuracao() + " turnos.";
             case CURA:
-                return efeitoDesc + "Recupera " + (valorEfeito + " de VIDA") + ".";
+                return base + "Recupera " + AnsiColors.green(efeito.getValor() + " de VIDA") + ".";
             case BUFF_ATAQUE:
             case BUFF_DEFESA:
             case BUFF_AGILIDADE:
             case BUFF_EVASAO:
-                return efeitoDesc + "Concede " + ("+" + valorEfeito + " de " + nomeEfeitoColorido) + " por " + this.duracaoEfeito + " turnos.";
+                return base + "Concede " + AnsiColors.green("+" + efeito.getValor() + " de " + nomeEfeitoColorido) + " por " + efeito.getDuracao() + " turnos.";
             case DEBUFF_ATAQUE:
             case DEBUFF_DEFESA:
             case DEBUFF_AGILIDADE:
-                return efeitoDesc + "Aplica " + ("-" + valorEfeito + " de " + nomeEfeitoColorido) + " por " + this.duracaoEfeito + " turnos.";
+                return base + "Aplica " + AnsiColors.red("-" + efeito.getValor() + " de " + nomeEfeitoColorido) + " por " + efeito.getDuracao() + " turnos.";
             default:
-                return efeitoDesc + AnsiColors.black("Especial.");
+                return base + AnsiColors.yellow("Especial.");
         }
     }
-
 }

@@ -10,7 +10,7 @@ import arcardium.model.ia.Comportamento;
 import arcardium.utils.AnsiColors;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 /**
  *
@@ -99,15 +99,7 @@ public class Inimigo extends Heroi {
         return rank;
     }
 
-    public boolean verificaMagiaUsada(NomeEfeito nome) {
-        for (Magia magia : habilidadesUsadasNestaBatalha) {
-            if (magia.getNomeEfeito() == nome) {
-                return true;
-            }
-        }
-        return false;
-    }
-
+    
     public Magia escolherAcao(Inimigo inimigo, List<Personagem> alvo) {
         return this.comportamento.escolherAcao(this, alvo);
     }

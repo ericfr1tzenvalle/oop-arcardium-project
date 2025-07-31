@@ -348,19 +348,20 @@ public abstract class Personagem {
         if (this instanceof Mago) {
             this.setMp(this.getMp() - custo);
         }
+        //Aqui que acontece a magia dessa nova atualização agora fazemos isso para cada efeito da magia
+        for(Efeito efeitos: magia.getEfeitos()){
+        TipoDeEfeito tipoEfeito = efeitos.getTipoEfeito();
+        int valor = efeitos.getValor();
+        int duracao = efeitos.getDuracao();
+        NomeEfeito nomeEfeito = efeitos.getNomeEfeito();
 
-        TipoDeEfeito efeito = magia.getTipoEfeito();
-        int valor = magia.getValorEfeito();
-        int duracao = magia.getDuracaoEfeito();
-        NomeEfeito nomeEfeito = magia.getNomeEfeito();
-
-        if (magia.getTipoAlvo() == TipoAlvo.ALIADO) {
-            switch (efeito) {
+        if (efeitos.getTipoAlvo() == TipoAlvo.ALIADO) {
+            switch (tipoEfeito) {
                 case BUFF_EVASAO:
                 case BUFF_DEFESA:
                 case BUFF_AGILIDADE:
                 case BUFF_ATAQUE:
-                    this.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
+                    this.aplicarEfeito(tipoEfeito, valor, duracao, nomeEfeito);
                     break;
                 case CURA:
                     this.receberCura(valor);
@@ -368,12 +369,13 @@ public abstract class Personagem {
             }
         } else {
             for (Personagem alvo : alvos) {
-                int chanceDeAcerto = 85 + (this.getPrecisao() - alvo.getEvasao());
+                // Alteração que faz com que fique de 5% até 95% previnindo erros e 100% de critico.
+                int chanceDeAcerto =  Math.max(5, Math.min(95, 85 + (this.getPrecisao() - alvo.getEvasao())));
                 if (new Random().nextInt(100) >= chanceDeAcerto) {
                     alvo.aplicarEfeito(TipoDeEfeito.BUFF_DEFESA, 0, 0, NomeEfeito.ESQUIVOU);
                     continue;
                 }
-                switch (efeito) {
+                switch (tipoEfeito) {
                     case DANO_DIRETO:
                         int danoFinal = valor;
                         if (new Random().nextInt(100) < this.getChanceDeCritico()) {
@@ -390,10 +392,11 @@ public abstract class Personagem {
                     case DEBUFF_PRECISAO:
                     case PARALIZANTE:
                     case CONTROLE:
-                        alvo.aplicarEfeito(efeito, valor, duracao, nomeEfeito);
+                        alvo.aplicarEfeito(tipoEfeito, valor, duracao, nomeEfeito);
                         break;
                 }
             }
+        }
         }
         return true;
     }

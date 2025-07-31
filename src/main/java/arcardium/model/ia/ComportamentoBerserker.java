@@ -4,6 +4,7 @@
  */
 package arcardium.model.ia;
 
+import arcardium.model.Efeito;
 import arcardium.model.Inimigo;
 import arcardium.model.Magia;
 import arcardium.model.Personagem;
@@ -23,15 +24,18 @@ public class ComportamentoBerserker implements Comportamento {
         Random rand = new Random();
         List<Magia> habilidades = inimigo.getHabilidades();
         List<Magia> habilidadesUsadas = inimigo.getHabilidadesUsadasNestaBatalha();
-        if(inimigo.getHp() < inimigo.getMaxHp() / 2 && !inimigo.verificaEfeitoAtivo(NomeEfeito.ENFURECIDO)){
+        if(inimigo.getHp() <= inimigo.getMaxHp() / 2 && !inimigo.verificaEfeitoAtivo(NomeEfeito.ENFURECIDO)){
             for(Magia habilidade: habilidades){
-                if(habilidade.getNomeEfeito() == NomeEfeito.ENFURECIDO){
+                for(Efeito e: habilidade.getEfeitos()){
+                   if(e.getNomeEfeito() == NomeEfeito.ENFURECIDO){
                     return habilidade;
+                    } 
                 }
+                
             }
         }else{
             int hab = rand.nextInt(habilidades.size());
-            while(habilidades.get(hab).getNomeEfeito() == NomeEfeito.ENFURECIDO){
+            while(habilidades.get(hab).getEfeitos().stream().anyMatch(e -> e.getNomeEfeito() == NomeEfeito.ENFURECIDO)){
                 hab = rand.nextInt(habilidades.size());
             }
             return habilidades.get(hab);

@@ -48,7 +48,7 @@ public class BatalhaController {
         while (mago.getHp() > 0 && !grupoInimigos.isEmpty()) {
             ConsoleUtils.limparTela();
             verificarOrdemCombate(filaDeTurnos);
-            view.exbirHeaderCombate(turno, jogador);
+            view.exibirHeaderCombate(turno, jogador);
             if(turno == 1 && filaDeTurnos.get(0) instanceof Inimigo){
                 view.exibirOrdemDosTurnos(filaDeTurnos);
                 System.out.println("============= [ORDEM] ==============");
@@ -226,8 +226,9 @@ public class BatalhaController {
                             break;
                         }
                         Magia magia = mago.getMagias().get(escolha - 1);
+                        
 
-                        switch (magia.getTipoAlvo()) {
+                        switch (magia.getEfeitos().get(0).getTipoAlvo()) {
                             case ALVO_UNICO -> {
                                 if (inimigos.size() > 1) {
                                     view.exibirOpcoesAlvos(inimigos);
