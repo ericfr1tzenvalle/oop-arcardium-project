@@ -64,10 +64,12 @@ public class BatalhaController {
                 }
 
                 personagemDaVez.setEstaDefendendo(false);
-                personagemDaVez.processarEfeitosPorTurno();
                 if(personagemDaVez.verificaSeEstaSobCC()){
+                  personagemDaVez.processarEfeitosPorTurno();
                   continue;
                 }
+                personagemDaVez.processarEfeitosPorTurno();
+                
                 
                 
                 
@@ -103,6 +105,9 @@ public class BatalhaController {
 
                     if (inimigo.lancarHabilidade(magia, List.of(mago))) {
                         view.exibirAtaqueInimigo(magia, inimigo, List.of(mago));
+                        if(mago.getHp() <= 0){
+                            jogador.setNemesis(inimigo);
+                        }
                         ConsoleUtils.aguardarEnter();
                     }
                 }
