@@ -9,30 +9,42 @@ package arcardium.model.enums;
  * @author Luísa
  */
 public enum NomeEfeito {
+    // Nenhum
     NENHUM(""),
-    VINGANCA("Vingança"),
-    ABRAÇO_SOMBRIO("Abraço Sombrio"),
-    //CRITICO("CRITICO"),
+    
+    // Efeitos de dano ou status negativos
     VENENO("Veneno"),
     FOGO("Queimadura"),
     SANGRAMENTO("Sangrando"),
+    MALDICAO("Maldição"),
+    INFECTADO("Infectado"),
+    CEGUEIRA("Cegueira"),
+    ATORDOADO("Atordoado"),
+    PARALIZAR("Paralisado"),
+    CONGELADO("Congelado"),
+    SOFREUCRITICO("Tomou dano crítico"),
+    FUGA("Fugindo"),
+    
+    // Efeitos de buff ou status positivos
     CURA_REGENERATIVA("Regeneração"),
     FORCA_DO_URSO("Força do Urso"),
-    MALDICAO("Maldição"),
-    AMENDONTRAR("Amendontrado"),
-    DEMENTAR("Dementação"), FRACO("Fraco"),
-    ESQUIVOU("ESQUIVOU"),
-    ASSOMBRAR("ASSOMBRAÇÃO DA DEUSA LUISA"),
-    ENFURECIDO("Enfurecido"),
     PELE_DE_PEDRA("Pele de Pedra"),
-    RESISTENTE("Resistencia"), GELEIRA("Geleira"),
-    AGIL("Agil"), LENTIDAO("Lentidão"),
-    SOFREUCRITICO("Tomou dano critico"),
-    INFECTADO("Infectado"), 
-    FUGA("Fugindo"), 
-    ATORDOADO("Atordoado"), ACAO_EXTRA("Celeridade"), PARALIZAR("Paralizado"), CONGELADO("Congelado"),
-    CEGUEIRA("CEGUEIRA"),
-    FURIA_GLACIAL("Furia Glacial");
+    RESISTENTE("Resistência"),
+    AGIL("Ágil"),
+    ACAO_EXTRA("Celeridade"),
+    FURIA_GLACIAL("Fúria Glacial"),
+    
+    // Outros/Especiais
+    VINGANCA("Vingança"),
+    ABRACO_SOMBRIO("Abraço Sombrio"),
+    AMENDONTRAR("Amendontrado"),
+    DEMENTAR("Dementação"),
+    FRACO("Fraco"),
+    ESQUIVOU("Esquivou"),
+    ASSOMBRAR("Assombração da Deusa Luísa"),
+    ENFURECIDO("Enfurecido"),
+    GELEIRA("Geleira"),
+    LENTIDAO("Lentidão");
     
     private final String nome;
 
@@ -41,11 +53,8 @@ public enum NomeEfeito {
     }
     
     @Override
-    public String toString(){
+    public String toString() {
         return nome;
     }
-    
-    
-    
-    
 }
+

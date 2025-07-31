@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package arcardium.model.enums;
 
 /**
@@ -9,32 +5,49 @@ package arcardium.model.enums;
  * @author Éric
  */
 public enum TipoDeEfeito {
-    DANO_DIRETO("Dano"),    // O que já temos: causa dano puro.
-    CURA("Cura"),
+    DANO_DIRETO("Dano"), // Causa dano puro.
+    CURA("Cura"), // Recupera HP do alvo.
     ELEMENTAL("Elemental"),
-    CONTROLE("Controle"),           // Recupera o HP do alvo.
-    BUFF_ATAQUE("Buff de Ataque"),    // Aumenta o ataque do alvo por alguns turnos.
-    BUFF_DEFESA("Buff de Defesa"),  
-    BUFF_EVASAO("Buff de Evasao"), // Aumenta a defesa do alvo por alguns turnos.
-    BUFF_AGILIDADE("Buff de Agilidade"), // Aumenta a agilidade do alvo
-    DEBUFF_ATAQUE("Debuff de ataque"),  // Diminui o ataque do alvo por alguns turnos.
-    DEBUFF_DEFESA("Debuff de defesa"),  // Diminui a defesa do alvo por alguns turnos.
-    DEBUFF_AGILIDADE("Debuff de agilidade"),
-    DEBUFF_PRECISAO("Debuff precisao"),
-    DEBUFF_EVASAO("Debuff evasao"),
-    DANO_POR_TURNO("Dano por turno"),
+    CONTROLE("Controle"), // Exemplo: stun, freeze, silenciar.
+
+    // Buffs (aumentos temporários)
+    BUFF_ATAQUE("Buff de Ataque"),
+    BUFF_DEFESA("Buff de Defesa"),
+    BUFF_EVASAO("Buff de Evasão"),
+    BUFF_AGILIDADE("Buff de Agilidade"),
+    // Debuffs (reduções temporárias)
+    DEBUFF_ATAQUE("Debuff de Ataque"),
+    DEBUFF_DEFESA("Debuff de Defesa"),
+    DEBUFF_AGILIDADE("Debuff de Agilidade"),
+    DEBUFF_PRECISAO("Debuff de Precisão"),
+    DEBUFF_EVASAO("Debuff de Evasão"),
+    DANO_POR_TURNO("Dano por Turno"), // Dano contínuo (veneno, queimadura).
     PARALIZANTE("Paralizante");
-    // Causa dano contínuo (veneno/queimadura).
-    
+
     private final String nome;
-    
-    TipoDeEfeito(String nome){
+
+    TipoDeEfeito(String nome) {
         this.nome = nome;
     }
-    
-    @Override
-    public String toString(){
+
+    public String getNome() {
         return nome;
     }
-    
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+
+    public boolean isBuff() {
+        return this.name().startsWith("BUFF_");
+    }
+
+    public boolean isDebuff() {
+        return this.name().startsWith("DEBUFF_");
+    }
+
+    public boolean isDanoContinuo() {
+        return this == DANO_POR_TURNO;
+    }
 }
