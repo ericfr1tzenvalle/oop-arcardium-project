@@ -61,6 +61,7 @@ public class EventoTarot extends Evento {
                         mago.setTamanho_max_grimorio(mago.getTamanho_max_grimorio() + 1);
                     }
                     break;
+                //TODO: Implementar o enforcado e mais duas cartas.
                 case ENFORCADO:
                     view.revelarCarta("Enforcado", "");
 

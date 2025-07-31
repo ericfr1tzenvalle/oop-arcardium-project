@@ -14,13 +14,13 @@ public class PacoteDeMagia {
     private String nome;
     private String descricao;
     private int custo;
-    private TagMagia tags;
+    private TagMagia tag;
 
-    public PacoteDeMagia(String nome, String descricao, int custo, TagMagia tags) {
+    public PacoteDeMagia(String nome, String descricao, int custo, TagMagia tag) {
         this.nome = nome;
         this.descricao = descricao;
         this.custo = custo;
-        this.tags = tags;
+        this.tag = tag;
     }
 
     public String getNome() {
@@ -47,16 +47,11 @@ public class PacoteDeMagia {
         this.custo = custo;
     }
 
-    public TagMagia getTagDoPacote() {
-        return tags;
+    public TagMagia getTag() {
+        return tag;
     }
 
-    public void setTags(TagMagia tags) {
-        this.tags = tags;
+    public void setTag(TagMagia tag) {
+        this.tag = tag;
     }
-    
-    
-    
-    
-    
 }

@@ -26,6 +26,7 @@ public class Jogador {
     private Map<String, Integer> contagemMagiasUsadas; // <Nome da Magia, Quantidade>
     private Map<String, Integer> contagemInimigosDerrotados;
     private int andarAtual;// <Nome do Inimigo, Quantidade>
+    private Inimigo nemesis;
 
     public Jogador(Heroi heroi) {
         this.heroi = heroi;
@@ -45,6 +46,16 @@ public class Jogador {
     public Heroi getHeroi() {
         return heroi;
     }
+
+    public Inimigo getNemesis() {
+        return nemesis;
+    }
+
+    public void setNemesis(Inimigo nemesis) {
+        this.nemesis = nemesis;
+    }
+    
+    
 
     public int getPontuacao() {
         return pontuacao;
