@@ -134,7 +134,7 @@ public class GameController {
                     List<Sala> andarAtual = mapaGerado.get(i);
                     ConsoleUtils.limparTela();
                     Sala salaAtual = andarAtual.get(0);
-
+                    
                     if (salaAtual.getTipo() == TipoSala.CHEFE) {
                         System.out.println("======= CHEFE A CAMINHO ========");
                         System.out.println("> Acesso a loja liberado.");

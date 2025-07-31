@@ -108,10 +108,10 @@ public class LojaController {
 
             for (int i = 0; i < 3; i++) {
                 Magia nova;
-                if (pacote.getTagDoPacote() == null) {
+                if (pacote.getTag() == null) {
                     nova = magiaFactory.criarMagiaUnica(magiasParaEvitar);
                 } else {
-                    nova = magiaFactory.criarMagiaUnicaPorTag(magiasParaEvitar, pacote.getTagDoPacote());
+                    nova = magiaFactory.criarMagiaUnicaPorTag(magiasParaEvitar, pacote.getTag());
                 }
 
                 if (nova != null) {
