@@ -47,9 +47,9 @@
 - [x] Sistema de Agilidade (Ordem de Turno)
 - [x] Expansão de Conteúdo (Magias e Arquétipos)
 
-#### 🚀 **Futuro**
+#### 😎 **Foco atual**
 - [x] Loja e Sistema de Ouro
-- [ ] Mecânica de Invocação
+- [x] Mecânica de Invocação
 - [ ] Metaprogresso e Desbloqueios
 - [ ] Novos Atos, Chefes e Eventos
 - [ ] Melhorias de Interface e Polimento Visual
