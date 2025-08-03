@@ -84,29 +84,31 @@ public class Magia {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        // --- Linha 1: O Cabeçalho (não muda) ---
-        String nomeColorido = AnsiColors.red(String.format("[Lv.%d] %s", nivel, nome));
-        String custoColorido = AnsiColors.red(String.format("[Custo: %d MP]", custoMana));
+        
+        String nomeColorido = AnsiColors.cyan(String.format("[Lv.%d] %s", nivel, nome));
+        String custoColorido = AnsiColors.cyan(String.format("[Custo: %d MP]", custoMana));
         sb.append(String.format("%-45s %s%n", nomeColorido, custoColorido));
 
-        // --- Linha 2: A Descrição (Sabor) ---
-        sb.append(" > " + (descricao));
+        
+        
 
-        // --- Linha 3: Os Efeitos (A GRANDE MUDANÇA) ---
+        // --- Linha 2: Os Efeitos (A GRANDE MUDANÇA) ---
         // Agora, nós percorremos a lista de efeitos.
         if (efeitos != null && !efeitos.isEmpty()) {
             sb.append("\n > Efeitos:");
             for (Efeito efeito : efeitos) {
                 // Para cada efeito na lista, chamamos o formatador.
-                sb.append("\n   - ").append(formatarEfeito(efeito));
+                sb.append("\n   >> ").append(formatarEfeito(efeito));
             }
         }
+        // --- Linha 3: A Descrição (Sabor) ---
+        sb.append(" > " + (descricao));
 
-        // --- Linha 4: As Tags (não muda) ---
+        
         sb.append("\n > Tags: ");
         if (tags != null && !tags.isEmpty()) {
             for (TagMagia tag : tags) {
-                sb.append(AnsiColors.red("[" + tag.name() + "] "));
+                sb.append(AnsiColors.yellow("[" + tag.name() + "] "));
             }
         } else {
             sb.append("Nenhuma");
@@ -123,11 +125,11 @@ public class Magia {
      * @return Uma String com a descrição formatada do efeito.
      */
     private String formatarEfeito(Efeito efeito) {
-        String valorColorido = AnsiColors.yellow(String.valueOf(efeito.getValor()));
-        String nomeEfeitoColorido = AnsiColors.yellow(efeito.getNomeEfeito().toString());
+        String valorColorido = String.valueOf(efeito.getValor());
+        String nomeEfeitoColorido = efeito.getNomeEfeito().toString();
         String alvoColorido = AnsiColors.cyan(efeito.getTipoAlvo().toString());
 
-        String base = String.format("Em [%s]: ", alvoColorido);
+        String base = String.format("[%s]: ", alvoColorido);
 
         switch (efeito.getTipoEfeito()) {
             case DANO_DIRETO:
@@ -135,12 +137,12 @@ public class Magia {
             case DANO_POR_TURNO:
                 return base + "Aplica " + valorColorido + " de dano de " + nomeEfeitoColorido + " por " + efeito.getDuracao() + " turnos.";
             case CURA:
-                return base + "Recupera " + AnsiColors.green(efeito.getValor() + " de VIDA") + ".";
+                return base + "Recupera " + efeito.getValor() + " de VIDA" + ".";
             case BUFF_ATAQUE:
             case BUFF_DEFESA:
             case BUFF_AGILIDADE:
             case BUFF_EVASAO:
-                return base + "Concede " + AnsiColors.green("+" + efeito.getValor() + " de " + nomeEfeitoColorido) + " por " + efeito.getDuracao() + " turnos.";
+                return base + "Concede " + "+" + efeito.getValor() + " de " + nomeEfeitoColorido + " por " + efeito.getDuracao() + " turnos.";
             case DEBUFF_ATAQUE:
             case DEBUFF_DEFESA:
             case DEBUFF_AGILIDADE:

@@ -5,6 +5,7 @@
 package arcardium.model;
 
 import arcardium.model.enums.NomeEfeito;
+import arcardium.model.enums.RankInimigo;
 import arcardium.model.enums.TipoAlvo;
 import arcardium.model.enums.TipoDeEfeito;
 import arcardium.utils.MathUtils;
@@ -34,6 +35,7 @@ public abstract class Personagem {
     private int chanceDeCritico;
     private double danoCritico;
     private List<EfeitoAtivo> efeitoAtivo;
+    private List<Personagem> aliadosInvocados;
 
     public Personagem(String nome, int hp, int mp, int atk, int def, int agi, int precisao, int evasao) {
         this.nome = nome;
@@ -50,6 +52,7 @@ public abstract class Personagem {
         this.chanceDeCritico = 5;
         this.danoCritico = 1.2;
         this.efeitoAtivo = new ArrayList<>();
+        this.aliadosInvocados = new ArrayList<>();
     }
 
     public Personagem(String nome, int hp, int mp, int regeneraçaoDeMana, int atk, int def, int agi, int precisao, int evasao) {
@@ -65,7 +68,44 @@ public abstract class Personagem {
         this.evasao = evasao;
         this.estaDefendendo = false;
         this.efeitoAtivo = new ArrayList<>();
+        this.aliadosInvocados = new ArrayList<>();
         this.regeneraçaoDeMana = regeneraçaoDeMana;
+    }
+
+    public List<Personagem> getAliadosInvocados() {
+        return aliadosInvocados;
+    }
+
+    public void setAliadosInvocados(List<Personagem> aliadosInvocados) {
+        this.aliadosInvocados = aliadosInvocados;
+    }
+    
+    public void resetarAliadosInvocados(){
+        this.aliadosInvocados.clear();
+    }
+
+    public boolean adicionarAliados(Inimigo aliado) {
+        // Continua a invocar até ter no maximo 3 invocações
+        if (aliadosInvocados.size() < 3) {
+            aliadosInvocados.add(aliado);
+            return true;
+        } else {
+            
+            Personagem inimigoComMenorHp = aliadosInvocados.get(0);
+
+            for (Personagem i : aliadosInvocados) {
+                if (i.getHp() < inimigoComMenorHp.getHp()) {
+                    inimigoComMenorHp = i;
+                }
+            }
+
+            // Remove o que tem menor HP e invoca um novo
+            aliadosInvocados.remove(inimigoComMenorHp);
+
+            // Adiciona o novo aliado
+            aliadosInvocados.add(aliado);
+            return true;
+        }
     }
 
     public int getChanceDeCritico() {
@@ -173,7 +213,7 @@ public abstract class Personagem {
             EfeitoAtivo efeito = iterator.next();
 
             if (!headerExibido) {
-                System.out.println("===&  [EFEITOS POR TURNO]  %====");
+                System.out.println("=====&  [EFEITOS POR TURNO]  %======");
                 headerExibido = true;
             }
 
@@ -339,6 +379,7 @@ public abstract class Personagem {
     }
 
     public boolean lancarHabilidade(Magia magia, List<Personagem> alvos) {
+        InimigoFactory inimigoFactory = new InimigoFactory();
         int custo = magia.getCustoMana();
         if (this.getMp() < custo) {
             System.out.println("MP insuficiente para lançar " + magia.getNome());
@@ -349,54 +390,60 @@ public abstract class Personagem {
             this.setMp(this.getMp() - custo);
         }
         //Aqui que acontece a magia dessa nova atualização agora fazemos isso para cada efeito da magia
-        for(Efeito efeitos: magia.getEfeitos()){
-        TipoDeEfeito tipoEfeito = efeitos.getTipoEfeito();
-        int valor = efeitos.getValor();
-        int duracao = efeitos.getDuracao();
-        NomeEfeito nomeEfeito = efeitos.getNomeEfeito();
+        for (Efeito efeitos : magia.getEfeitos()) {
+            TipoDeEfeito tipoEfeito = efeitos.getTipoEfeito();
+            int valor = efeitos.getValor();
+            int duracao = efeitos.getDuracao();
+            NomeEfeito nomeEfeito = efeitos.getNomeEfeito();
 
-        if (efeitos.getTipoAlvo() == TipoAlvo.ALIADO) {
-            switch (tipoEfeito) {
-                case BUFF_EVASAO:
-                case BUFF_DEFESA:
-                case BUFF_AGILIDADE:
-                case BUFF_ATAQUE:
-                    this.aplicarEfeito(tipoEfeito, valor, duracao, nomeEfeito);
-                    break;
-                case CURA:
-                    this.receberCura(valor);
-                    break;
-            }
-        } else {
-            for (Personagem alvo : alvos) {
-                // Alteração que faz com que fique de 5% até 95% previnindo erros e 100% de critico.
-                int chanceDeAcerto =  Math.max(5, Math.min(95, 85 + (this.getPrecisao() - alvo.getEvasao())));
-                if (new Random().nextInt(100) >= chanceDeAcerto) {
-                    alvo.aplicarEfeito(TipoDeEfeito.BUFF_DEFESA, 0, 0, NomeEfeito.ESQUIVOU);
-                    continue;
-                }
+            if (efeitos.getTipoAlvo() == TipoAlvo.ALIADO) {
                 switch (tipoEfeito) {
-                    case DANO_DIRETO:
-                        int danoFinal = valor;
-                        if (new Random().nextInt(100) < this.getChanceDeCritico()) {
-                            danoFinal = (int) (valor * this.getDanoCritico());
-                            alvo.aplicarEfeito(TipoDeEfeito.CONTROLE, 0, 1, nomeEfeito.SOFREUCRITICO);
-                        }
-                        alvo.tomarDano(danoFinal);
+                    case INVOCACAO:
+                        Inimigo inimigo = inimigoFactory.criaInvocacao(this, nomeEfeito);
+                        this.adicionarAliados(inimigo);
                         break;
-                    case DANO_POR_TURNO:
-                    case DEBUFF_ATAQUE:
-                    case DEBUFF_DEFESA:
-                    case DEBUFF_AGILIDADE:
-                    case DEBUFF_EVASAO:
-                    case DEBUFF_PRECISAO:
-                    case PARALIZANTE:
-                    case CONTROLE:
-                        alvo.aplicarEfeito(tipoEfeito, valor, duracao, nomeEfeito);
+
+                    case BUFF_EVASAO:
+                    case BUFF_DEFESA:
+                    case BUFF_AGILIDADE:
+                    case BUFF_ATAQUE:
+                        this.aplicarEfeito(tipoEfeito, valor, duracao, nomeEfeito);
+                        break;
+                    case CURA:
+                        this.receberCura(valor);
                         break;
                 }
+            } else {
+                for (Personagem alvo : alvos) {
+                    // Alteração que faz com que fique de 5% até 95% previnindo erros e 100% de critico.
+                    int chanceDeAcerto = Math.max(5, Math.min(95, 85 + (this.getPrecisao() - alvo.getEvasao())));
+                    if (new Random().nextInt(100) >= chanceDeAcerto) {
+                        alvo.aplicarEfeito(TipoDeEfeito.BUFF_DEFESA, 0, 0, NomeEfeito.ESQUIVOU);
+                        continue;
+                    }
+                    switch (tipoEfeito) {
+                        //Agora dano por turno ja proca de inicio tambem.  
+                        case DANO_POR_TURNO:
+                        case DANO_DIRETO:
+                            int danoFinal = valor;
+                            if (new Random().nextInt(100) < this.getChanceDeCritico()) {
+                                danoFinal = (int) (valor * this.getDanoCritico());
+                                alvo.aplicarEfeito(TipoDeEfeito.CONTROLE, 0, 1, nomeEfeito.SOFREUCRITICO);
+                            }
+                            alvo.tomarDano(danoFinal);
+                            break;
+                        case DEBUFF_ATAQUE:
+                        case DEBUFF_DEFESA:
+                        case DEBUFF_AGILIDADE:
+                        case DEBUFF_EVASAO:
+                        case DEBUFF_PRECISAO:
+                        case PARALIZANTE:
+                        case CONTROLE:
+                            alvo.aplicarEfeito(tipoEfeito, valor, duracao, nomeEfeito);
+                            break;
+                    }
+                }
             }
-        }
         }
         return true;
     }

@@ -14,6 +14,7 @@ public enum NomeEfeito {
     
     // Efeitos de dano ou status negativos
     VENENO("Veneno"),
+    DEFESA_BAIXA("Defesa Baixa"),
     FOGO("Queimadura"),
     SANGRAMENTO("Sangrando"),
     MALDICAO("Maldição"),
@@ -45,7 +46,13 @@ public enum NomeEfeito {
     ASSOMBRAR("Assombração da Deusa Luísa"),
     ENFURECIDO("Enfurecido"),
     GELEIRA("Geleira"),
-    LENTIDAO("Lentidão");
+    LENTIDAO("Lentidão"),
+    
+    //Transformações
+    MORCEGO("Forma: Morcego"),
+    
+    //Invocação
+    INVOCAR_MORTO_VIVO("Invocação: Morto Vivo");
     
     private final String nome;
 

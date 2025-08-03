@@ -28,6 +28,7 @@ public class BatalhaView {
         System.out.println("ATK: " + mago.getAtk() + "   DEF: " + mago.getDef() + "   SOR: " + mago.getDef());
         System.out.println("AGI: " + mago.getAgi() + "  PRE: " + mago.getPrecisao() + "  EVA: " + mago.getEvasao());
         exibirEfeitosDePersonagem(mago);
+        exibirAliados(mago);
         System.out.println("===========[ INIMIGO(S) ]===========");
         for (Inimigo inimigo : grupoInimigos) {
             System.out.println(gerarHeaderInimigo(inimigo));
@@ -38,6 +39,7 @@ public class BatalhaView {
     public void exibirHeaderJogador(Jogador jogador, Mago mago) {
         System.out.println("========= [ JOGADOR ] ==========");
         System.out.println(gerarHeaderJogador(jogador, mago));
+        exibirAliados(mago);
     }
 
     public void exibirHeaderAmbosSemStatus(Jogador jogador, Mago mago, List<Inimigo> grupoInimigos) {
@@ -181,7 +183,7 @@ public class BatalhaView {
                     System.out.println("> [" + alvo.getNome() + "] afetado por " + efeito.getNomeEfeito()
                             + " [" + efeito.getValor() + "] por " + efeito.getDuracao() + " turno(s).");
                 } else if (tipo == TipoDeEfeito.CURA) {
-                    System.out.println("> [" + alvo.getNome() + "] recupera ["
+                    System.out.println("> [" + personagem.getNome() + "] recupera ["
                             + AnsiColors.green(valorBase) + "] de HP.");
                 } else if (tipo == TipoDeEfeito.CONTROLE || tipo == TipoDeEfeito.PARALIZANTE) {
                     System.out.println("> [" + alvo.getNome() + "] está sob efeito de "
@@ -227,7 +229,7 @@ public class BatalhaView {
                     System.out.println("> [" + alvo.getNome() + "] afetado por " + efeito.getNomeEfeito()
                             + " [" + efeito.getValor() + "] por " + efeito.getDuracao() + " turno(s).");
                 } else if (tipo == TipoDeEfeito.CURA) {
-                    System.out.println("> [" + alvo.getNome() + "] recupera ["
+                    System.out.println("> [" + mago.getNome() + "] recupera ["
                             + AnsiColors.green(valorBase) + "] de HP.");
                 } else if (tipo == TipoDeEfeito.CONTROLE || tipo == TipoDeEfeito.PARALIZANTE) {
                     System.out.println("> [" + alvo.getNome() + "] está sob efeito de "
@@ -248,8 +250,14 @@ public class BatalhaView {
     public void exibirMagiaAliado(Magia magiaEscolhida, Mago mago) {
         System.out.print("-> " + mago.getNome() + " LANÇA SUA MAGIA ");
         System.out.print("[" + AnsiColors.magenta(magiaEscolhida.getNome().toUpperCase()) + "]");
+
         for (Efeito efeitos : magiaEscolhida.getEfeitos()) {
-            System.out.println("> " + efeitos.getTipoEfeito() + " de [" + efeitos.getValor() + "] por [" + efeitos.getDuracao() + "] TURNOS");
+            if (efeitos.getTipoEfeito() == TipoDeEfeito.INVOCACAO) {
+                System.out.println("> " + efeitos.getTipoEfeito() + " " + magiaEscolhida.getDescricao());
+            } else {
+                System.out.println("> " + efeitos.getTipoEfeito() + " de [" + efeitos.getValor() + "] por [" + efeitos.getDuracao() + "] TURNOS");
+
+            }
         }
 
     }
@@ -313,5 +321,19 @@ public class BatalhaView {
         System.out.println("=============X [ RECOMPENSAS ] X==============");
         System.out.println("            GOLD: [" + gold + "] " + " [" + xp + "] :XP");
         System.out.println("             [VENÇA PARA GANHAR]              ");
+    }
+    
+   
+
+    private void exibirAliados(Mago mago) {
+        if(!mago.getAliadosInvocados().isEmpty()){
+            System.out.println("=========== [ALIADOS] =============");
+            for (Personagem invocacao : mago.getAliadosInvocados()) {
+            Inimigo aliado = (Inimigo) invocacao;
+            System.out.println(gerarHeaderInimigo(aliado));
+            exibirEfeitosDePersonagem(aliado);
+            }
+            
+        }
     }
 }

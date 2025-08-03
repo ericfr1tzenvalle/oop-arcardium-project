@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public enum TagMagia {
  //  ESPECIAIS?
-    SORTE, CHEFE,
+    SORTE, CHEFE, TRANSFORMACAO, INVOCACAO,
 
  //  ELEMENTOS:
     FOGO, GELO, RAIO, SOMBRA, LUZ, NATUREZA, ARCANA,

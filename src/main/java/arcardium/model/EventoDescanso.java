@@ -4,6 +4,7 @@
  */
 package arcardium.model;
 
+import arcardium.utils.ConsoleUtils;
 import java.util.List;
 
 
@@ -19,6 +20,7 @@ public class EventoDescanso extends Evento{
 
     
     public void executar(Jogador jogador, MagiaFactory magiaFactory) {
+        ConsoleUtils.limparTela();
         view.mostrarEvento("DESCANSO");
         Heroi heroi = jogador.getHeroi();
         int escolha = sc.nextInt();

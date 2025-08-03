@@ -122,7 +122,7 @@ public class MagiaFactory {
 
     // ==================== SOMBRA ====================
     new Magia("Toque Sombrio", "Drenando a vida do inimigo lentamente", 18,
-        List.of(new Efeito(TipoDeEfeito.DANO_POR_TURNO, 24, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.SANGRAMENTO)),
+        List.of(new Efeito(TipoDeEfeito.DANO_POR_TURNO, 24, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.MALDICAO)),
         List.of(TagMagia.SOMBRA, TagMagia.DANO)
     ),
 
@@ -252,7 +252,10 @@ public class MagiaFactory {
     new Magia("Benção do Pai", "Curando lentamente um aliado", 20,
         List.of(new Efeito(TipoDeEfeito.CURA, 30, 3, TipoAlvo.ALIADO, NomeEfeito.CURA_REGENERATIVA)),
         List.of(TagMagia.LUZ, TagMagia.CURA)
-    )
+    ),
+           
+    // ==================== INVOCAÇÕES ====================
+    new Magia("Invocar Morto-vivo","Trazendo os mortos para lutar ao seu favor", 40, List.of(new Efeito(TipoDeEfeito.INVOCACAO, 0, 1, TipoAlvo.ALIADO, NomeEfeito.INVOCAR_MORTO_VIVO)), List.of(TagMagia.SOMBRA, TagMagia.INVOCACAO))
 );
 
     /**

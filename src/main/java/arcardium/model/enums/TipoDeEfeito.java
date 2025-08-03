@@ -22,7 +22,8 @@ public enum TipoDeEfeito {
     DEBUFF_PRECISAO("Debuff de Precisão"),
     DEBUFF_EVASAO("Debuff de Evasão"),
     DANO_POR_TURNO("Dano por Turno"), // Dano contínuo (veneno, queimadura).
-    PARALIZANTE("Paralizante");
+    PARALIZANTE("Paralizante"),
+    INVOCACAO("Invocação");
 
     private final String nome;
 

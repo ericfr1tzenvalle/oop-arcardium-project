@@ -56,9 +56,9 @@ public class GameView {
         System.out.println("[4] O padre");
         System.out.println("   x Poder da fé");
         // Arquétipos extras bloqueados // Apenas testes
-        System.out.println("[5] Piromante [Bloqueado]");
-        System.out.println("   x Dominando o fogo com poder ofensivo");
-        System.out.println("[6] Criomante [Bloqueado]");
+        System.out.println("[5] Vampiro [Desbloqueado]");
+        System.out.println("   x Magias de sangue e drenagem");
+        System.out.println("[6] Necromante [Desbloqueado]");
         System.out.println("   x Manipulando o gelo para controle e defesa");
         System.out.println("[7] Umbramante [Bloqueado]"); // Posteriormente pode ser vampiro.
         System.out.println("   x Conjurando magias sombrias e drenando inimigos");
@@ -90,9 +90,9 @@ public class GameView {
             case 4 ->
                 System.out.println("Um mago devoto que usa o poder da fé para curar e atacar.");
             case 5 ->
-                System.out.println("Mestre do fogo, focado em dano explosivo.");
+                System.out.println("O filho(a) das trevas, usa magias de sangue para matar seus inimigos.");
             case 6 ->
-                System.out.println("Manipula o gelo, congelando inimigos.");
+                System.out.println("Manipula os mortos, trazendo caos e terror.");
             case 7 ->
                 System.out.println("Usa magias sombrias e roubo de vida.");
             case 8 ->

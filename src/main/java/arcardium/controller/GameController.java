@@ -5,6 +5,7 @@ import arcardium.model.enums.TipoSala;
 import arcardium.utils.ConsoleUtils;
 import arcardium.view.BatalhaView;
 import arcardium.view.GameView;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -89,6 +90,12 @@ public class GameController {
                 case 4:
                     mago = MagoFactory.criarPadre(nomeMago);
                     break;
+                case 5:
+                    mago = MagoFactory.criarVampiro(nomeMago);
+                    break;
+                case 6:
+                    mago = MagoFactory.criarNecromante(nomeMago);
+                    break;
                 default:
                     System.out.println("====404===== [ERRO] =====404====");
                     System.out.println("> ARQUÉTIPO INEXISTENTE. Escolha uma opção válida.");
@@ -171,7 +178,7 @@ public class GameController {
                     }
 
                     Sala salaEscolhida = andarAtual.get(escolha - 1);
-
+                    
                     if (salaEscolhida.getTipo() == TipoSala.COMBATE) {
                         List<Inimigo> grupoInimigos = inimigoFactory.criarGrupoDeInimigos(andar);
                         ConsoleUtils.limparTela();

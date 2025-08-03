@@ -88,11 +88,21 @@ public class MagoFactory {
                 List.of(TagMagia.LUZ, TagMagia.CURA, TagMagia.ALVO_UNICO)));
         return mago;
     }
-    
-    public Mago criarVampiro(String nome){
+
+    public Mago criarVampiro(String nome) {
         mago = new Mago(nome, 80, 60, 10, 10, 2, 12, 10, 8);
-        mago.aprenderMagia(new Magia("Drenar Sangue", "Drenando o sangue do alvo temporariamete", 12, List.of(new Efeito(TipoDeEfeito.DANO_DIRETO, 20,1,TipoAlvo.ALVO_UNICO,NomeEfeito.NENHUM), new Efeito(TipoDeEfeito.CURA, 10, 2, TipoAlvo.ALIADO, NomeEfeito.BANQUETE)),List.of(TagMagia.SOMBRA, TagMagia.DANO, TagMagia.CURA, TagMagia.ALVO_UNICO, TagMagia.SANGRAMENTO)));
-//        mago.aprenderMagia(new Magia("Trasformar em Morcego", "Se transforma em morcego aumentando muito a evasão mas em custo de [DEFESA]", 15, List.of(new Efeito(TipoDeEfeito.BUFF_EVASAO, 30,6,TipoAlvo.ALIADO)) ))
+        mago.aprenderMagia(new Magia("Drenar Sangue", "Drenando o sangue do alvo temporariamete", 12, List.of(new Efeito(TipoDeEfeito.DANO_DIRETO, 20, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM), new Efeito(TipoDeEfeito.CURA, 10, 2, TipoAlvo.ALIADO, NomeEfeito.BANQUETE)), List.of(TagMagia.SOMBRA, TagMagia.DANO, TagMagia.CURA, TagMagia.ALVO_UNICO, TagMagia.SANGRAMENTO)));
+        mago.aprenderMagia(new Magia("Trasformar em Morcego", "Se transforma em morcego aumentando muito a evasão mas em custo de [DEFESA]", 15, List.of(new Efeito(TipoDeEfeito.BUFF_EVASAO, 40, 6, TipoAlvo.ALIADO, NomeEfeito.MORCEGO), new Efeito(TipoDeEfeito.DEBUFF_DEFESA, 20, 6, TipoAlvo.ALIADO, NomeEfeito.DEFESA_BAIXA)), List.of(TagMagia.SOMBRA, TagMagia.TRANSFORMACAO)));
+        return mago;
+    }
+
+    public Mago criarNecromante(String nome) {
+        mago = new Mago(nome, 60, 100, 8, 4, 4, 6, 6, 6);
+        mago.aprenderMagia(new Magia("Invocar Morto-vivo", "Trazendo os mortos para lutar ao seu favor", 40, List.of(new Efeito(TipoDeEfeito.INVOCACAO, 0, 1, TipoAlvo.ALIADO, NomeEfeito.INVOCAR_MORTO_VIVO)), List.of(TagMagia.SOMBRA, TagMagia.INVOCACAO)));
+        mago.aprenderMagia(new Magia("Toque Sombrio", "Drenando a vida do inimigo lentamente", 18,
+                List.of(new Efeito(TipoDeEfeito.DANO_POR_TURNO, 24, 3, TipoAlvo.ALVO_UNICO, NomeEfeito.MALDICAO)),
+                List.of(TagMagia.SOMBRA, TagMagia.DANO)
+        ));
         return mago;
     }
 

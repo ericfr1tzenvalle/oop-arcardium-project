@@ -23,6 +23,7 @@ public class Inimigo extends Heroi {
     private int pontos;
     private List<Magia> habilidades;
     private final RankInimigo rank;
+    private boolean isAliado;
     private Comportamento comportamento;
     private List<Magia> habilidadesUsadasNestaBatalha;
     private int indiceHabilidadeSequencial;
@@ -36,11 +37,20 @@ public class Inimigo extends Heroi {
         this.comportamento = comportamento;
         this.habilidadesUsadasNestaBatalha = new ArrayList<>();
         this.indiceHabilidadeSequencial = 0;
+        this.isAliado = false;
 
 
 
     }
-
+    
+    public void setIsAliado(boolean aliado){
+        this.isAliado = aliado;
+    }
+    
+    public boolean getIsAliado(){
+        return isAliado;
+    }
+    
     public void setRecompensaXp(int valor) {
         this.recompensaXp = valor;
 
