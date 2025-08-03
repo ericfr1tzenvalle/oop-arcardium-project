@@ -10,6 +10,8 @@ import arcardium.model.enums.TipoCuringa;
  *
  * @author Luísa
  */
+
+//Todo: atualização futura para Curingas que serviram como modificadores passivos
 public class Curinga {
     private String nome;
     private String descricao;

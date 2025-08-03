@@ -39,6 +39,7 @@ public class BatalhaView {
     public void exibirHeaderJogador(Jogador jogador, Mago mago) {
         System.out.println("========= [ JOGADOR ] ==========");
         System.out.println(gerarHeaderJogador(jogador, mago));
+        exibirEfeitosDePersonagem(mago);
         exibirAliados(mago);
     }
 
@@ -115,6 +116,7 @@ public class BatalhaView {
     public void exibirMenuJogador(String nomeMago) {
         System.out.println("Escolha o que deseja fazer: ");
         System.out.println("[1] Lançar Magias" + " [2] Defender" + " [0] Fugir");
+        System.out.println("[3] Ataque Básico" + " [4] Inventario" + " [5] Analisar");
         System.out.print("> ");
     }
 
@@ -249,7 +251,7 @@ public class BatalhaView {
 
     public void exibirMagiaAliado(Magia magiaEscolhida, Mago mago) {
         System.out.print("-> " + mago.getNome() + " LANÇA SUA MAGIA ");
-        System.out.print("[" + AnsiColors.magenta(magiaEscolhida.getNome().toUpperCase()) + "]");
+        System.out.print("[" + AnsiColors.magenta(magiaEscolhida.getNome().toUpperCase()) + "]\n");
 
         for (Efeito efeitos : magiaEscolhida.getEfeitos()) {
             if (efeitos.getTipoEfeito() == TipoDeEfeito.INVOCACAO) {

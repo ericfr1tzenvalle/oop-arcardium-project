@@ -3,8 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package arcardium.model;
+import arcardium.model.enums.NomeEfeito;
+import arcardium.model.enums.TipoDeEfeito;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -61,7 +64,16 @@ public class Mago extends Heroi {
         magias.remove(indiceAtual);
         magias.add(indiceAtual, nova);
     }
-
+    public boolean ataqueBasico(Inimigo alvo){
+        int chanceDeAcerto = Math.max(5, Math.min(95, 85 + (this.getPrecisao() - alvo.getEvasao())));
+        if (new Random().nextInt(100) >= chanceDeAcerto) {
+                        alvo.aplicarEfeito(TipoDeEfeito.BUFF_DEFESA, 0, 0, NomeEfeito.ESQUIVOU);
+                        return false;
+                    }
+        int dano = this.getAtk();
+        alvo.tomarDano(dano);
+        return true;
+    }
     public void aprimorarMagia(Magia m) {
         m.aprimorarMagia();
     }

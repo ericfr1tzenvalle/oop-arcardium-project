@@ -13,6 +13,7 @@ import arcardium.model.enums.NomeEfeito;
 import arcardium.model.enums.TipoAlvo;
 import arcardium.model.enums.TipoDeEfeito;
 import arcardium.utils.AnsiColors;
+import arcardium.utils.MathUtils;
 import arcardium.view.BatalhaView;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -273,6 +274,36 @@ public class BatalhaController {
                         view.exibirMensagem("> " + mago.getNome() + " usou seu [TURNO] para [DEFENDER]");
                         mago.setEstaDefendendo(true);
                         opcao = 0;
+                    }
+                    case 3 -> {
+                        if(inimigos.size() > 1){
+                            view.exibirOpcoesAlvos(inimigos);
+                                    int idx = sc.nextInt();
+                                    if (idx < 1 || idx > inimigos.size()) {
+                                        break;
+                                    }
+                                    Inimigo alvo = inimigos.get(idx - 1);
+                                    view.exibirMensagem("> " + mago.getNome() + " usa o [Ataque Basico]");
+                                    if(mago.ataqueBasico(alvo)){
+                                      view.exibirMensagem("> Causando [" + MathUtils.calculaDano(alvo, mago.getAtk()) + "] de dano" );   
+                                    }else{
+                                      view.exibirMensagem(">> " + alvo.getNome() + " ESQUIVOU!");
+                                      alvo.removerEfeito(NomeEfeito.ESQUIVOU);
+                                    }
+                                   
+                        }else{
+                            Inimigo alvo = inimigos.get(0);
+                            if(mago.ataqueBasico(alvo)){
+                                      view.exibirMensagem("> Causando [" + MathUtils.calculaDano(alvo, mago.getAtk()) + "] de dano" );   
+                                    }else{
+                                      view.exibirMensagem(">> " + alvo.getNome() + " ESQUIVOU!");
+                                      alvo.removerEfeito(NomeEfeito.ESQUIVOU);
+                                    }
+                        }
+                        opcao = 0;
+                        
+                        
+                        
                     }
 
                     case 0 -> {
