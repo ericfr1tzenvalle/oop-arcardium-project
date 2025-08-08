@@ -70,6 +70,9 @@ public class Magia {
     public int getNivel() {
         return nivel;
     }
+     public boolean verificaPodeAprimorar(){
+        return this.getNivel() < 5;
+    }
 
     public void aprimorarMagia() {
         this.nivel++;

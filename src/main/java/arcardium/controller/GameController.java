@@ -147,7 +147,7 @@ public class GameController {
                         System.out.println("> Acesso a loja liberado.");
                         lojaController.executarFaseDeLoja(jogador, magiaFactory);
                     }
-
+                    mago.resetarEfeitos();
                     bv.exibirHeaderJogador(jogador, (Mago) jogador.getHeroi());
                     System.out.println("=========Arcardium[RPG]=========");
                     System.out.println("            ANDAR [" + (i + 1) + "]");
@@ -156,7 +156,7 @@ public class GameController {
                     System.out.println("  >" + andarAtual + "<");
                     System.out.println("===== 1 ======= 2 ====== 3 =====");
                     System.out.print("> ");
-                    jogador.getHeroi().resetarEfeitos();
+                    
 
                     int escolha = -1;
                     while (true) {

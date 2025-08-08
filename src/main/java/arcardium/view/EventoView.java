@@ -48,10 +48,12 @@ public class EventoView {
                 break;
             case "SANTUARIO":
                 System.out.println("========== [ SANTUARIO ] ===========");
-                System.out.println(">  Uma sala silenciosa com um altar antigo no centro. \n"
-                        + "> Você pode fazer uma oferenda em troca de uma bênção.");
+                System.out.println("> Você vê uma sala silenciosa com um altar antigo no centro. \n"
+                        + "> Você pode fazer uma oferenda em troca de uma bênção < ");
+                System.out.println("[1] SIM ");
+                System.out.println("[2] NÃO ");
                 System.out.println("========== [ SANTUARIO ] ===========");
-                ConsoleUtils.aguardarEnter();
+                System.out.println("> ");
                 break;
 
         }
@@ -108,10 +110,10 @@ public class EventoView {
 
     }
 
-    public void mostrarOpcoesSantuario(Jogador jogador, MagiaFactory magiaFactory) {
+    public void mostrarOpcoesSantuario() {
         System.out.println("========== [ SANTUARIO ] ===========");
         System.out.println("[1] Perder 10% de vida > +10 ATK");
-        System.out.println("[2] Gastar ouro para aprimoramento [ALEATORIO]");
+        System.out.println("[2] Gastar [" + 100 + "] de ouro para aprimoramento [ALEATORIO]");
         System.out.println("[3] Esquecer MAGIA em troca de [XP]");
         System.out.println("========== [ SANTUARIO ] ===========");
         System.out.print("> ");
