@@ -4,7 +4,9 @@
  */
 package arcardium.view;
 
+import arcardium.model.Jogador;
 import arcardium.model.Magia;
+import arcardium.model.MagiaFactory;
 import arcardium.utils.AnsiColors;
 import arcardium.utils.ConsoleUtils;
 import java.util.List;
@@ -44,33 +46,40 @@ public class EventoView {
             case "LOJA":
                 System.out.println("[LOJA]");
                 break;
-                
+            case "SANTUARIO":
+                System.out.println("========== [ SANTUARIO ] ===========");
+                System.out.println(">  Uma sala silenciosa com um altar antigo no centro. \n"
+                        + "> Você pode fazer uma oferenda em troca de uma bênção.");
+                System.out.println("========== [ SANTUARIO ] ===========");
+                ConsoleUtils.aguardarEnter();
+                break;
+
         }
 
     }
 
-    public void mostrarOpcoesMagias(List<Magia> magias){
+    public void mostrarOpcoesMagias(List<Magia> magias) {
         System.out.println("======= [ APRIMORAR MAGIA ] ========");
         int i = 1;
         System.out.println("Suas magias:");
-        for(Magia m: magias){
+        for (Magia m : magias) {
             System.out.println(i++ + ": " + m.toString());
         }
         System.out.println("=========== [ ESCOLHA ] ============");
         System.out.print("> ");
-        
+
     }
-    
-    public void mostrarMagiaAprimorada(Magia magia){
-        if(magia.getNivel() < 3){
-        System.out.println("======== [ SUBIU DE NIVEL ] =========");
-        System.out.println("> Magia [" + magia.getNome() + "]" + " foi aprimorada " + AnsiColors.yellow("[" +magia.getNivel() + "]"));
-        ConsoleUtils.pausar(2000);
-        }else{
-        System.out.println("> Magia [" + magia.getNome() + "]" + " chegou ao "+ AnsiColors.yellow("[NIVEL MAXIMO]"));
-        ConsoleUtils.pausar(2000);
+
+    public void mostrarMagiaAprimorada(Magia magia) {
+        if (magia.getNivel() < 3) {
+            System.out.println("======== [ SUBIU DE NIVEL ] =========");
+            System.out.println("> Magia [" + magia.getNome() + "]" + " foi aprimorada " + AnsiColors.yellow("[" + magia.getNivel() + "]"));
+            ConsoleUtils.pausar(2000);
+        } else {
+            System.out.println("> Magia [" + magia.getNome() + "]" + " chegou ao " + AnsiColors.yellow("[NIVEL MAXIMO]"));
+            ConsoleUtils.pausar(2000);
         }
-        
+
     }
 
     public void mostrarOpcoesTarot() {
@@ -97,5 +106,14 @@ public class EventoView {
     public void pularEvento() {
         System.out.println("X==== [ ABANDONOU O EVENTO ] ======X");
 
+    }
+
+    public void mostrarOpcoesSantuario(Jogador jogador, MagiaFactory magiaFactory) {
+        System.out.println("========== [ SANTUARIO ] ===========");
+        System.out.println("[1] Perder 10% de vida > +10 ATK");
+        System.out.println("[2] Gastar ouro para aprimoramento [ALEATORIO]");
+        System.out.println("[3] Esquecer MAGIA em troca de [XP]");
+        System.out.println("========== [ SANTUARIO ] ===========");
+        System.out.print("> ");
     }
 }

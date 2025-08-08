@@ -422,8 +422,6 @@ public abstract class Personagem {
                         continue;
                     }
                     switch (tipoEfeito) {
-                        //Agora dano por turno ja proca de inicio tambem.  
-                        case DANO_POR_TURNO:
                         case DANO_DIRETO:
                             int danoFinal = valor;
                             if (new Random().nextInt(100) < this.getChanceDeCritico()) {
@@ -439,6 +437,7 @@ public abstract class Personagem {
                         case DEBUFF_PRECISAO:
                         case PARALIZANTE:
                         case CONTROLE:
+                        case DANO_POR_TURNO:
                             alvo.aplicarEfeito(tipoEfeito, valor, duracao, nomeEfeito);
                             break;
                     }

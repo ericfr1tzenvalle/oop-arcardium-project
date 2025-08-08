@@ -45,10 +45,22 @@ public class MapaController {
         Random random = new Random();
         int chance = random.nextInt(100);
 
-        if (chance < 70) {
-            chance = random.nextInt(100);
+        int chanceSala = random.nextInt(100);
+
+        if (chanceSala < 40) {
+            // 40% → Combate
             return TipoSala.COMBATE;
+
+        } else if (chanceSala < 60) {
+            // 20% → Descanso
+            return TipoSala.DESCANSO;
+
+        } else if (chanceSala < 80) {
+            // 20% → Evento
+            return TipoSala.EVENTO;
+
         } else {
+            // 20% → Loja
             return TipoSala.EVENTO;
         }
 

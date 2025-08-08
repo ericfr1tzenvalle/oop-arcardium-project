@@ -308,8 +308,6 @@ public class InimigoFactory {
                 // Morto-vivo, invocação base do necromante, é lento com precisão razoavel e resistente
                 invocacao = new Inimigo("Morto-vivo [Aliado]", 50, 0, 10, 12, 5, 10, 5, RankInimigo.D, compAleatorio);
                 invocacao.setIsAliado(true);
-
-                //Duas magias e uma passiva que fica no battle-controller caso morra volta com 1 hp 
                 invocacao.aprenderHabilidade(new Magia("Toque Pútrido", "Enfraquecendo a defesa do alvo", 0, List.of(new Efeito(TipoDeEfeito.DANO_DIRETO, 8, 1, TipoAlvo.ALVO_UNICO, NomeEfeito.NENHUM), new Efeito(TipoDeEfeito.DEBUFF_DEFESA, 5, 2, TipoAlvo.ALVO_UNICO, NomeEfeito.FRACO)), List.of(TagMagia.SOMBRA, TagMagia.DANO, TagMagia.DEBUFF)));
                 return invocacao;
         }

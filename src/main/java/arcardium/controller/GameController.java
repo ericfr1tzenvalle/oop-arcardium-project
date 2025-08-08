@@ -198,6 +198,9 @@ public class GameController {
                         EventoFactory fc = new EventoFactory();
                         Evento e = fc.criarEventoAleatorio();
                         e.executar(jogador, magiaFactory);
+                    } else if(salaEscolhida.getTipo() == TipoSala.DESCANSO){
+                       EventoDescanso descanso = new EventoDescanso();
+                       descanso.executar(jogador, magiaFactory);
                     }
 
                     andar++;

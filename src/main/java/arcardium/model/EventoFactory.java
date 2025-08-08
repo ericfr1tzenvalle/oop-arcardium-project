@@ -23,7 +23,7 @@ public class EventoFactory {
         int chance = random.nextInt(100);
         
         if(chance < 70){
-            return new EventoDescanso();
+            return new EventoSantuario();
         }else{
             return new EventoTarot();
         }
